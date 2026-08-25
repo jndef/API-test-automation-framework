@@ -33,7 +33,7 @@ class PostsAPI(BaseAPI):
         response =  self.request()\
             .set_url(self.endpoints.create_post) \
             .set_headers(self.headers.basic) \
-            .set_request_body(payload if payload else {})\
+            .set_request_body(payload.model_dump(exclude_none=True))\
             .send("POST")
 
         return self.validate_response(response, ResponseCreatePostModel, status_code=status_code, expected_success=expected_success)

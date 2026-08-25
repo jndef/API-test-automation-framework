@@ -82,19 +82,19 @@ class TestPosts(BaseTest):
     @allure.description("Create post - valid payload")
     @pytest.mark.parametrize("case", [
         pytest.param(CreatePostByRoleTestCase(role="user_bob",
-            payload=CreatePostBodyParams(content="A", visibility="public", image_url=None)),
+            payload=CreatePostBodyParams(content="A", visibility="public")),
             id="Valid minimal boundary + default visibility and image None"),
         pytest.param(CreatePostByRoleTestCase(role="user_eve",
-            payload=CreatePostBodyParams(content="A" * 2000, visibility="public", image_url=None)),
+            payload=CreatePostBodyParams(content="A" * 2000, visibility="public")),
             id="valid max boundary + image"),
         pytest.param(CreatePostByRoleTestCase(role="user_bob",
-            payload=CreatePostBodyParams(content=f"Another valid post", visibility="followers_only", image_url=None)),
+            payload=CreatePostBodyParams(content=f"Another valid post", visibility="followers_only")),
             id="valid followers_only without image"),
         pytest.param(CreatePostByRoleTestCase(role="user_eve",
-            payload=CreatePostBodyParams(content=f"Image post", visibility="public", image_url="test_data/image.jpg")),
+            payload=CreatePostBodyParams(content=f"Image post", visibility="public", image_url="/test_data/image.jpg")),
             id="valid public with image"),
         pytest.param(CreatePostByRoleTestCase(role="user_bob",
-            payload=CreatePostBodyParams(content=f"Default visibility post", visibility="public", image_url=None)),
+            payload=CreatePostBodyParams(content=f"Default visibility post", visibility="public")),
             id="optional image_url omitted + default visibility"),
     ])
     def test_create_post(self, case, post_cleaner):
@@ -111,11 +111,11 @@ class TestPosts(BaseTest):
     @allure.story("User can create post at platform")
     @allure.description("Create post - depending on role {role}")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreatePostByRoleTestCase(role="admin", payload=CreatePostBodyParams()),
+        pytest.param(CreatePostByRoleTestCase(role="admin", payload=CreatePostBodyParams(content="B")),
                      id="Create post as admin"),
-        pytest.param(CreatePostByRoleTestCase(role="moderator", payload=CreatePostBodyParams()),
+        pytest.param(CreatePostByRoleTestCase(role="moderator", payload=CreatePostBodyParams(content="C")),
                      id="Create post as moderator"),
-        pytest.param(CreatePostByRoleTestCase(role="user_bob", payload=CreatePostBodyParams()),
+        pytest.param(CreatePostByRoleTestCase(role="user_bob", payload=CreatePostBodyParams(content="D")),
                      id="Create post as user"),
     ])
     def test_create_posts_depends_on_role(self, case, post_cleaner):
@@ -130,13 +130,13 @@ class TestPosts(BaseTest):
     @allure.description("Create post -  invalid payload")
     @pytest.mark.parametrize("case", [
         pytest.param(CreatePostByRoleTestCase(role="admin",
-            payload=CreatePostBodyParams(content="", visibility="public", image_url=None)),
+            payload=CreatePostBodyParams(content="", visibility="public")),
             id="invalid content, below min boundary"),
         pytest.param(CreatePostByRoleTestCase(role="admin",
-            payload=CreatePostBodyParams(content="A" * 2001, visibility="public", image_url=None)),
+            payload=CreatePostBodyParams(content="A" * 2001, visibility="public")),
             id="invalid content, above max boundary"),
         pytest.param(CreatePostByRoleTestCase(role="admin",
-            payload=CreatePostBodyParams(content="Valid post content", visibility="private", image_url=None)),
+            payload=CreatePostBodyParams(content="Valid post content", visibility="private")),
             id="valid followers_only without image"),
     ])
     def test_create_post_invalid_payload(self, case):
@@ -219,7 +219,7 @@ class TestPosts(BaseTest):
     def test_get_post_not_existed_post(self, get_not_existed_uuid, case_user):
         prepared_post_id = get_not_existed_uuid
         post_service = self.get_actor(case_user).posts_api
-        post_service.posts_api.get_post(post_id=prepared_post_id,
+        post_service.get_post(post_id=prepared_post_id,
                                 expected_success=False,
                                 status_code=404)
 
@@ -260,7 +260,7 @@ class TestPosts(BaseTest):
     def test_update_removed_post(self, get_removed_post, case):
         prepared_post_id = get_removed_post(case.role)
         post_service = self.get_actor(case.role).posts_api
-        post_service.posts_api.update_post(post_id=prepared_post_id,
+        post_service.update_post(post_id=prepared_post_id,
                                             payload=case.payload,
                                             expected_success=case.expected_success,
                                             status_code=case.status_code)
@@ -294,7 +294,7 @@ class TestPosts(BaseTest):
     def test_update_post_created_by_another_user(self, post_builder_user, build_post_remove, case):
         post_service = self.get_actor(case.role).posts_api
         prepared_post_id = build_post_remove(post_builder_user)
-        post_service.posts_api.update_post(post_id=prepared_post_id,
+        post_service.update_post(post_id=prepared_post_id,
                                             payload=case.payload,
                                             expected_success=case.expected_success,
                                             status_code=case.status_code)

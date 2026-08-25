@@ -3,6 +3,8 @@ from dataclasses import dataclass
 import faker
 import pytest
 from faker import Faker
+
+from services.posts.payloads import CreatePostBodyParams
 from utils.data_helper import DataHelper as data_helper
 from auth.role_factory import MultiRoleServiceFactory, ServiceContainer
 from utils.data_helper import find_other_authors_post
@@ -22,38 +24,36 @@ def get_not_existed_uuid():
     return fake.uuid4()
 
 def _get_posts_list_for_user(get_service_by_role, services_for_role:str):
-    user_api_services = get_service_by_role(services_for_role)
-    post_service = user_api_services.posts_api
+    post_service = get_service_by_role(services_for_role).posts_api
     posts_list_response = post_service.get_list_posts()
     return posts_list_response.items
 
 
 def _get_username_by_role(get_service_by_role, services_for_role:str):
-    user_api_services = get_service_by_role(services_for_role)
-    auth_service = user_api_services.auth_api
-    get_me_response = auth_service.get_me()
+    user_auth_service = get_service_by_role(services_for_role).auth_api
+    get_me_response = user_auth_service.get_me()
     return get_me_response.username
 
 
 @pytest.fixture()
 def create_remove_post_by_user(request, get_service_by_role):
     create_post_by:str = request.param
-    user = get_service_by_role(create_post_by)
-    body = data_helper().get_random_post_payload()
+    post_service = get_service_by_role(create_post_by).posts_api
+    payload=CreatePostBodyParams(content="B")
 
-    post = user.posts_api.create_post(payload=body)
+    post = post_service.create_post(payload)
     yield post.id
-    user.posts_api.delete_post(post.id)
+    post_service.delete_post(post.id)
 
 @pytest.fixture()
 def build_post_remove(get_service_by_role):
     created_posts:list[tuple] = []
 
     def _build(role:str):
-        user = get_service_by_role(role)
-        body = data_helper().get_random_post_payload()
+        post_service = get_service_by_role(role).posts_api
+        payload = CreatePostBodyParams(content="B")
 
-        post = user.posts_api.create_post(payload=body)
+        post = post_service.create_post(payload)
         created_posts.append((role, post.id))
         return post.id
     yield _build  # тест получает функцию регистрации
@@ -66,11 +66,11 @@ def build_post_pin_remove(get_service_by_role):
     created_posts:list[tuple] = []
 
     def _build(role:str):
-        user = get_service_by_role(role)
-        body = data_helper().get_random_post_payload()
+        post_service = get_service_by_role(role).posts_api
+        payload = CreatePostBodyParams(content="B")
 
-        post = user.posts_api.create_post(payload=body)
-        user.posts_api.pin_post(post.id)
+        post = post_service.create_post(payload)
+        post_service.pin_post(post.id)
         created_posts.append((role, post.id))
         return post.id
     yield _build  # тест получает функцию регистрации
@@ -82,11 +82,10 @@ def build_post_pin_remove(get_service_by_role):
 def get_removed_post(get_service_by_role):
 
     def _remove_post_by(role):
-        user_api_client = get_service_by_role(role)
-        body = data_helper().get_random_post_payload()
-        post_service = user_api_client.posts_api
+        post_service = get_service_by_role(role).posts_api
+        payload = CreatePostBodyParams(content="B")
 
-        post = post_service.create_post(payload=body)
+        post = post_service.create_post(payload)
         post_service.delete_post(post.id)
         return post.id
 
@@ -95,9 +94,10 @@ def get_removed_post(get_service_by_role):
 @pytest.fixture()
 def create_and_get_post(get_service_by_role):
     def _create(role:str):
-        user_api_client = get_service_by_role(role)
-        rand_post_body = data_helper().get_random_post_payload()
-        post = user_api_client.posts_api.create_post(payload=rand_post_body)
+        post_service = get_service_by_role(role).posts_api
+        payload = CreatePostBodyParams(content="B")
+
+        post = post_service.create_post(payload)
         return post.id
     yield _create
 
@@ -105,8 +105,8 @@ def create_and_get_post(get_service_by_role):
 def create_pin_and_get_post(get_service_by_role, create_and_get_post):
     def _pin(role):
         created_post = create_and_get_post(role)
-        user_api_client = get_service_by_role(role)
-        user_api_client.posts_api.pin_post(created_post)
+        post_service = get_service_by_role(role).posts_api
+        post_service.pin_post(created_post)
         return created_post
     yield _pin
 
