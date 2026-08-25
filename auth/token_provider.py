@@ -16,18 +16,19 @@ class  TokenProvider:
 
     def get_token_for_role(self, role:str):
         if role in self._token_cache:
+            print(f"\nAuthenticated as: {role} (cashed)")
             return self._token_cache[role]
-
-        auth = AuthAPI()
         creds = credentials.get_user(role)
-        response = requests.post(
-            url=auth.endpoints.login_account,
-            headers={"Content-Type": "application/json"},
-            json=auth.payloads.login_account(creds.email, creds.password)
-        )
+        auth_api_client = AuthAPI()
+        response =  auth_api_client.request()\
+            .set_url(auth_api_client.endpoints.login_account)\
+            .set_headers({"Content-Type": "application/json"})\
+            .set_request_body(auth_api_client.payloads.login_account(creds.email,creds.password))\
+            .send("POST")
         if response.status_code == 200:
             token = response.json()["access_token"]
             self._token_cache[role] = token
+            print(f"\nAuthenticated as: {role}")
             return token
         else:
-            raise Exception(f"BE returns {response.status_code} code while auth test preparation. Info:\n{response.request.method}. {response.request.url}\nRequest body:{response.request.body if response.request.method == "POST" else None}\nResponse text: {response.text}")
+            raise Exception(f"Failed authentication attempt ({response.status_code}\nError: {response.text}")

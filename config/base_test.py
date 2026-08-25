@@ -18,7 +18,8 @@ class BaseTest:
     def get_actor(self, role: str):
         return self._service_by_role(role)
 
-    def get_user_info(self, alias: str) -> UserProfile:
+    @staticmethod
+    def get_user_info(alias: str) -> UserProfile:
         return Credentials().get_user(alias)
 
     @property

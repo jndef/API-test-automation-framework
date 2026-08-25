@@ -1,4 +1,5 @@
-FROM python:3.12-alpine3.20
+#FROM python:3.13-alpine3.20
+FROM python:3.14.6-slim-trixie
 
 # Установка Allure
 RUN apk update && \

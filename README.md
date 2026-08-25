@@ -23,13 +23,19 @@ https://github.com/jndef/API-test-automation-framework/tree/refactor/architectur
 - `config/` — base test db configuration,headers configuration, stages configuration
 - pytest.ini - pytest run configuration
 
+## Environments
+Local: http://localhost:8000
+Staging: configure STAGE in .env. default - local
+
 ## How to run
 
 ### Local
+Check specified pytest options at pytest.ini
 ```bash
 clone repository
 pip install -r requirements.txt
-pytest --alluredir=allure-results
+pytest
+
 ```
 
 ### Docker
