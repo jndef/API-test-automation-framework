@@ -48,17 +48,17 @@ class TestBookmarks(BaseTest):
     @allure.suite("Bookmark post")
     @allure.story("User is able to bookmark existed post")
     @allure.description("Bookmark post")
-    @pytest.mark.parametrize("create_post_remove, test_data", [
+    @pytest.mark.parametrize("create_remove_post_by_user, test_data", [
         pytest.param({"create_by": "admin"}, {"user": "admin"},
                      id="Bookmark post as admin"),
         pytest.param({"create_by": "user_eve"}, {"user": "user_eve"},
                      id="Bookmark post as user"),
         pytest.param({"create_by": "moderator"}, {"user": "moderator"},
                      id="Bookmark post as moderator"),
-    ], indirect=["create_post_remove"])
-    def test_bookmark_post(self, create_post_remove, test_data):
+    ], indirect=["create_remove_post_by_user"])
+    def test_bookmark_post(self, create_remove_post_by_user, test_data):
         user = self.get_actor(test_data["user"])
-        prepared_post_id = create_post_remove
+        prepared_post_id = create_remove_post_by_user
         user.bookmarks_api.bookmark_post(post_id=prepared_post_id)
         bookmarks = user.bookmarks_api.get_bookmarks(params={})
         assert any(prepared_post_id == bookmark.id and bookmark.is_bookmarked for bookmark in

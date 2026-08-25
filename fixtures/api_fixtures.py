@@ -5,15 +5,131 @@ import pytest
 from faker import Faker
 from utils.data_helper import DataHelper as data_helper
 from auth.role_factory import MultiRoleServiceFactory, ServiceContainer
-from utils.data_helper import find_other_authors_post, find_not_recent_post
+from utils.data_helper import find_other_authors_post
 
 fake = Faker()
+
+
+
 
 @pytest.fixture(scope="session")
 def get_service_by_role():
     factory = MultiRoleServiceFactory()
     return factory.get_services
 
+@pytest.fixture()
+def get_not_existed_uuid():
+    return fake.uuid4()
+
+def _get_posts_list_for_user(get_service_by_role, services_for_role:str):
+    user_api_services = get_service_by_role(services_for_role)
+    post_service = user_api_services.posts_api
+    posts_list_response = post_service.get_list_posts()
+    return posts_list_response.items
+
+
+def _get_username_by_role(get_service_by_role, services_for_role:str):
+    user_api_services = get_service_by_role(services_for_role)
+    auth_service = user_api_services.auth_api
+    get_me_response = auth_service.get_me()
+    return get_me_response.username
+
+
+@pytest.fixture()
+def create_remove_post_by_user(request, get_service_by_role):
+    create_post_by:str = request.param
+    user = get_service_by_role(create_post_by)
+    body = data_helper().get_random_post_payload()
+
+    post = user.posts_api.create_post(payload=body)
+    yield post.id
+    user.posts_api.delete_post(post.id)
+
+@pytest.fixture()
+def build_post_remove(get_service_by_role):
+    created_posts:list[tuple] = []
+
+    def _build(role:str):
+        user = get_service_by_role(role)
+        body = data_helper().get_random_post_payload()
+
+        post = user.posts_api.create_post(payload=body)
+        created_posts.append((role, post.id))
+        return post.id
+    yield _build  # тест получает функцию регистрации
+
+    for role, post_id in reversed(created_posts):
+        get_service_by_role(role).posts_api.delete_post(post_id)
+
+@pytest.fixture()
+def build_post_pin_remove(get_service_by_role):
+    created_posts:list[tuple] = []
+
+    def _build(role:str):
+        user = get_service_by_role(role)
+        body = data_helper().get_random_post_payload()
+
+        post = user.posts_api.create_post(payload=body)
+        user.posts_api.pin_post(post.id)
+        created_posts.append((role, post.id))
+        return post.id
+    yield _build  # тест получает функцию регистрации
+
+    for role, post_id in reversed(created_posts):
+        get_service_by_role(role).posts_api.delete_post(post_id)
+
+@pytest.fixture()
+def get_removed_post(get_service_by_role):
+
+    def _remove_post_by(role):
+        user_api_client = get_service_by_role(role)
+        body = data_helper().get_random_post_payload()
+        post_service = user_api_client.posts_api
+
+        post = post_service.create_post(payload=body)
+        post_service.delete_post(post.id)
+        return post.id
+
+    yield _remove_post_by
+
+@pytest.fixture()
+def create_and_get_post(get_service_by_role):
+    def _create(role:str):
+        user_api_client = get_service_by_role(role)
+        rand_post_body = data_helper().get_random_post_payload()
+        post = user_api_client.posts_api.create_post(payload=rand_post_body)
+        return post.id
+    yield _create
+
+@pytest.fixture()
+def create_pin_and_get_post(get_service_by_role, create_and_get_post):
+    def _pin(role):
+        created_post = create_and_get_post(role)
+        user_api_client = get_service_by_role(role)
+        user_api_client.posts_api.pin_post(created_post)
+        return created_post
+    yield _pin
+
+
+
+@pytest.fixture()
+def get_expired_to_edit_post(get_service_by_role):
+    def _get_expired_post(role:str):
+        json_posts = _get_posts_list_for_user(get_service_by_role, role)
+        own_username = _get_username_by_role(get_service_by_role, role)
+        post_id = data_helper.find_not_recent_post(json_posts, own_username)
+        assert post_id is not None, f"Precondition error. Failed to find post matched to requirements for user: {role}"
+        return post_id
+    yield _get_expired_post
+
+@pytest.fixture()
+def post_cleaner(get_service_by_role):
+    created_ids = []
+    def register(post_id, role:str):
+        created_ids.append((post_id, role))
+    yield register  # тест получает функцию регистрации
+    for post_id, role in created_ids:  # cleanup всего что зарегистрировано
+        get_service_by_role(role).posts_api.delete_post(post_id)
 
 @pytest.fixture()
 def follow_unfollow(request, get_service_by_role):
@@ -40,30 +156,10 @@ def follow_unfollow(request, get_service_by_role):
     yield
 
 
-@pytest.fixture()
-def create_post_remove(request, get_service_by_role):
-    post_info = request.param
-    user = get_service_by_role(post_info["create_by"])
-    body = data_helper().get_random_post_payload()
-    if post_info.get("post_case") is not None:
-        if post_info["post_case"] == "following":
-            body["visibility"] = "followers_only"
-        elif post_info["post_case"] == "public":
-            body["visibility"] = "public"
 
-    post = user.posts_api.create_post(payload=body)
-    if post_info.get("post_case") is not None:
-       if post_info["post_case"] == "pinned":
-           user.posts_api.pin_post(post.id)
 
-    yield post.id
-    user.posts_api.delete_post(post.id)
 
-@pytest.fixture()
-def create_post_only(request, get_service_by_role):
-    user = get_service_by_role(request.param["create_by"])
-    post = user.posts_api.create_post(payload=data_helper().get_random_post_payload(), expected_success=True)
-    yield post.id
+
 
 @pytest.fixture()
 def like_post_only(request, get_service_by_role):
@@ -91,15 +187,15 @@ def create_comment_remove_after(request, get_service_by_role):
     yield comment.id
     user.comments_api.delete_comment(comment.id)
 
-@pytest.fixture()
-def R(get_service_by_role):
-    def _action_perform_by(role_alias:str):
-        user = get_service_by_role(role_alias)
-        post = user.posts_api.get_list_posts().items[0]
-        comment = user.comments_api.create_comment(post_id=post.id,
-                                                   payload=data_helper().get_random_comment_payload())
-        return comment.id
-    yield _action_perform_by
+# @pytest.fixture()
+# def R(get_service_by_role):
+#     def _action_perform_by(role_alias:str):
+#         user = get_service_by_role(role_alias)
+#         post = user.posts_api.get_list_posts().items[0]
+#         comment = user.comments_api.create_comment(post_id=post.id,
+#                                                    payload=data_helper().get_random_comment_payload())
+#         return comment.id
+#     yield _action_perform_by
 
 
 @pytest.fixture()
@@ -117,16 +213,6 @@ def get_liked_comment(get_service_by_role):
     yield _action_perform_by
 
 
-@pytest.fixture()
-def get_removed_post(get_service_by_role):
-    def _action_perform_by(role_alias:str):
-
-        user = get_service_by_role(role_alias)
-        post = user.posts_api.create_post(payload=data_helper().get_random_post_payload())
-        user.posts_api.delete_post(post.id)
-        return post.id
-
-    yield _action_perform_by
 
 
 
@@ -243,14 +329,7 @@ def get_liked_comment_before(get_service_by_role):
 @pytest.fixture()
 def get_incorrect_post(request, get_service_by_role):
     case_info = request.param
-    if case_info["post_case"] == "late":
-        user = get_service_by_role(case_info["create_by"])
-        posts = user.posts_api.get_list_posts().items
-        own_username = user.auth_api.get_me().username
-        post_id = find_not_recent_post(posts, own_username)
-        assert post_id is not None
-        yield post_id
-    elif case_info["post_case"] == "not_own":
+    if  case_info["post_case"] == "not_own":
         user = get_service_by_role(case_info["create_by"])
         posts = user.posts_api.get_list_posts().items
         own_username = user.auth_api.get_me().username
@@ -305,9 +384,6 @@ def get_post_with_likes(request, get_service_by_role):
     params = {"sort_by": "likes_count"}
     post = user.posts_api.get_list_posts(params=params).items[0]
     yield post.id
-
-
-
 
 @pytest.fixture()
 def get_comment_for_likes(request, get_service_by_role):
@@ -434,20 +510,6 @@ def create_reply_remove(request,  get_service_by_role):
     user.comments_api.delete_comment(comment_id=comment.id)
 
 
-
-
-
-@pytest.fixture()
-def post_cleaner(get_service_by_role):
-    created_ids = []
-
-    def register(post_id, role="user_eve"):
-        created_ids.append((post_id, role))
-
-    yield register  # тест получает функцию регистрации
-
-    for post_id, role in created_ids:  # cleanup всего что зарегистрировано
-        get_service_by_role(role).posts_api.delete_post(post_id)
 
 @pytest.fixture()
 def comment_cleaner(get_service_by_role):

@@ -16,12 +16,7 @@ def is_not_recent(created_at: datetime, minutes: int = 15) -> bool:
     return (now - created_at) >= timedelta(minutes=minutes)
 
 
-def find_not_recent_post(posts, username):
-    """Return the post of specified author by username, published  > 15 minutes ago"""
-    for post in posts:
-        if post.author.username == username and is_not_recent(post.created_at):
-            return post.id
-    return None
+
 
 def find_not_recent_comment(comments, username):
     """Return the comment of specified author by username, published  > 15 minutes ago"""
@@ -48,6 +43,13 @@ def find_other_authors_comment(comments, username):
 
 
 class DataHelper:
+    @staticmethod
+    def find_not_recent_post(posts, username):
+        """Return the post of specified author by username, published  > 15 minutes ago"""
+        for post in posts:
+            if post.author.username == username and is_not_recent(post.created_at):
+                return post.id
+        return None
 
     def generate_string(self, length=10):
         """Генерирует слуself, чайную строку заданной длины"""

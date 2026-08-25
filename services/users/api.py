@@ -1,5 +1,6 @@
 import requests
 
+from common.base_api import BaseAPI
 from services.users.endpoints import Endpoints
 from services.users.models.model_profile_update import ResponseProfileUpdateModel
 from services.users.models.model_profile_update_avatar import ResponseProfileAvatarUpdateModel
@@ -16,19 +17,21 @@ from services.users.payloads import Payloads
 from config.headers import Headers
 
 
-class UsersAPI(Helper):
+class UsersAPI(BaseAPI):
     def __init__(self):
+        super().__init__()
         self.payloads = Payloads()
         self.headers = Headers()
         self.endpoints = Endpoints()
 
 
-    def get_list_users(self, params: dict = None, status_code: int = 200, expected_success: bool = True):
-        response = requests.get(
-            url=self.endpoints.get_users,
-            headers=self.headers.basic,
-            params= GetUsersParams(**(params or {})).to_dict()
-        )
+    def get_list_users(self, params: GetUsersParams = None, status_code: int = 200, expected_success: bool = True):
+        response =  self.request()\
+            .set_url(self.endpoints.get_users) \
+            .set_headers(self.headers.basic) \
+            .set_query_params(params.to_dict() if params else {})\
+            .send("GET")
+
         return self.validate_response(response, ResponseUserItemsModel, status_code, expected_success)
 
     def get_user_suggestions(self, status_code: int = 200, expected_success: bool = True):

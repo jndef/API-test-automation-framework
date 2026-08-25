@@ -7,19 +7,7 @@ from pydantic import BaseModel
 
 class Helper:
 
-    def attach_response(self, response):
-        # print(f"attach_response: {response.request.url}")
-        parsed_response = json.dumps(response, indent=4)
-        allure.attach(
-            body=parsed_response,
-            name='API Response',
-            attachment_type=allure.attachment_type.JSON)
-    def attach_failure(self, response):
-        # print(f"attach_response: {response.request.url}")
-        allure.attach(
-            body=f"{response.request.method}. {response.request.url}\nRequest body:{response.request.body if response.request.method == "POST" else None}\nResponse text: {response.text}",
-            name='API Failure',
-            attachment_type=allure.attachment_type.TEXT)
+
 
     def validate_response(self, response:requests.Response, model:type[BaseModel]=None,status_code:int=200, expected_success:bool=True):
         print(f"\nRequest to validate: {response.request.method} {response.request.url}\nExpected status code: {status_code}, actual status code: {response.status_code}\nValidate_response...")

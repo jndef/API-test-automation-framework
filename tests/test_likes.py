@@ -15,7 +15,7 @@ class TestLikes(BaseTest):
     @allure.suite("Like post")
     @allure.story("User can like existed post")
     @allure.description("Like post - valid")
-    @pytest.mark.parametrize("create_post_remove, test_data", [
+    @pytest.mark.parametrize("create_remove_post_by_user, test_data", [
         pytest.param({"create_by": "admin"}, {"user":"admin", "payload":{'reaction': 'like'}},
                      id="Add reaction to post as admin"),
         # pytest.param({"create_by": "user_eve"}, {"user":"user_eve", "payload":{'reaction': 'love'}},
@@ -28,9 +28,9 @@ class TestLikes(BaseTest):
         #              id="Add reaction to post as user"),
         # pytest.param({"create_by": "moderator"}, {"user":"moderator", "payload":{'reaction': 'angry'}},
         #              id="Add reaction to post as moderator"),
-        ], indirect=["create_post_remove"])
-    def test_like_post(self, create_post_remove, test_data):
-        prepared_post_id = create_post_remove
+        ], indirect=["create_remove_post_by_user"])
+    def test_like_post(self, create_remove_post_by_user, test_data):
+        prepared_post_id = create_remove_post_by_user
         user = self.get_actor(test_data["user"])
         post_before = user.posts_api.get_post(post_id=prepared_post_id)
         like = user.likes_api.like_post(post_id=prepared_post_id, payload=test_data["payload"])

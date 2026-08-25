@@ -13,5 +13,5 @@ class PaginationParams(BaseParams):
 
 @dataclass
 class SortParams(BaseParams):
-    sort_order: Optional[Literal["asc", "desc"]] = None
+    sort_order: Optional[str] = None
 
