@@ -2,9 +2,9 @@ import allure
 import pytest
 
 from config.base_test import BaseTest
-from services.posts.params import GetPostsParams, GetPostsTestCase, GetPostsByRoleTestCase, GetFeedTestCase, \
+from services.posts.params import GetPostsParams, GetPostsByRoleTestCase, \
     GetFeedParams, GetFeedByRoleTestCase, DeletePostParams, DeletePostByRoleTestCase
-from services.posts.payloads import CreatePostTestCase, CreatePostBodyParams, CreatePostByRoleTestCase, \
+from services.posts.payloads import CreatePostBodyParams, CreatePostByRoleTestCase, \
     UpdatePostBodyParams, UpdatePostByRoleTestCase, CreateRepostByRoleTestCase, CreateRepostParams
 
 
@@ -216,8 +216,8 @@ class TestPosts(BaseTest):
     @allure.description("Get certain post - not existed post_id")
     @pytest.mark.parametrize("case_user", [pytest.param("user_bob",id="Try to get not existed post")
     ])
-    def test_get_post_not_existed_post(self, get_not_existed_uuid, case_user):
-        prepared_post_id = get_not_existed_uuid
+    def test_get_post_not_existed_post(self, case_user):
+        prepared_post_id = self.data_helper.get_not_existed_uuid()
         post_service = self.get_actor(case_user).posts_api
         post_service.get_post(post_id=prepared_post_id,
                                 expected_success=False,
@@ -307,9 +307,9 @@ class TestPosts(BaseTest):
         pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostBodyParams(content="A-edited"), status_code=404, expected_success=False),
                      id="Attempt to update post, that doesn't exist"),
     ])
-    def test_update_post_not_existed(self, get_not_existed_uuid, case):
+    def test_update_post_not_existed(self, case):
         post_service = self.get_actor(case.role).posts_api
-        prepared_post_id = get_not_existed_uuid
+        prepared_post_id = self.data_helper.get_not_existed_uuid()
         post_service.update_post(post_id=prepared_post_id,
                                             payload=case.payload,
                                             expected_success=case.expected_success,
@@ -400,8 +400,8 @@ class TestPosts(BaseTest):
         pytest.param(DeletePostByRoleTestCase(role="user_eve", params=DeletePostParams(), expected_success=False,
                                               status_code=404), id="Remove post that doesn't exist"),
     ])
-    def test_delete_post_invalid(self, get_not_existed_uuid, case):
-        prepared_post_id = get_not_existed_uuid
+    def test_delete_post_invalid(self, case):
+        prepared_post_id = self.data_helper.get_not_existed_uuid()
         post_service = self.get_actor(case.role).posts_api
         post_service.delete_post(post_id=prepared_post_id,
                                    expected_success=case.expected_success,
@@ -457,8 +457,8 @@ class TestPosts(BaseTest):
         pytest.param(CreateRepostByRoleTestCase(role="user_bob",payload=CreateRepostParams(repost_type="repost",content="A" * 2)),
                      id="Non-existing post id"),
     ])
-    def test_repost_post_not_existed(self, case, get_not_existed_uuid):
-        prepared_post_id = get_not_existed_uuid
+    def test_repost_post_not_existed(self, case):
+        prepared_post_id = self.data_helper.get_not_existed_uuid()
         post_service = self.get_actor(case.role).posts_api
         post_service.repost_post(payload=case.payload,
                                    post_id=prepared_post_id,
@@ -536,8 +536,8 @@ class TestPosts(BaseTest):
     @allure.description("Attempt to pin the post, when post doesn't exist")
     @pytest.mark.parametrize("case_user", [
         pytest.param("user_eve",id="Pin the post that doesn't exist"),])
-    def test_pin_post_not_existed(self, get_not_existed_uuid, case_user):
-        prepared_post_id = get_not_existed_uuid
+    def test_pin_post_not_existed(self, case_user):
+        prepared_post_id = self.data_helper.get_not_existed_uuid()
         post_service = self.get_actor(case_user).posts_api
         post_service.pin_post(post_id=prepared_post_id,
                                 expected_success=False,
@@ -578,12 +578,11 @@ class TestPosts(BaseTest):
     @allure.suite("Pin/unpin post")
     @allure.story("User can UNpin own post already pinned")
     @allure.description("Attempt to pin the post, that doesn't exist")
-    @pytest.mark.testing
     @pytest.mark.parametrize("case_user", [
         pytest.param("user_eve",id="Pin the post that doesn't exist"),
     ])
-    def test_unpin_post_not_existed(self, get_not_existed_uuid, case_user):
-        prepared_post_id = get_not_existed_uuid
+    def test_unpin_post_not_existed(self, case_user):
+        prepared_post_id = self.data_helper.get_not_existed_uuid()
         post_service = self.get_actor(case_user).posts_api
         post_service.unpin_post(post_id=prepared_post_id,
                                   expected_success=False,
@@ -591,7 +590,6 @@ class TestPosts(BaseTest):
 
     @allure.suite("Pin/unpin post")
     @allure.story("User can UNpin own post already pinned")
-    @pytest.mark.testing
     @allure.description("Attempt to pin the post, when post is deleted")
     @pytest.mark.parametrize("case_user", [
         pytest.param("user_eve",

@@ -4,11 +4,6 @@ from dataclasses import dataclass
 from typing import Literal, Optional, Annotated
 from common.base_params import PaginationParams, SortParams, BaseParams
 
-@dataclass
-class GetPostsByRoleTestCase:
-    role: str
-    status_code: int = 200
-    expected_success: bool = True
 
 @dataclass
 class GetPostsTestCase:
@@ -24,6 +19,12 @@ class GetPostsByRoleTestCase:
     expected_success: bool = True
 
 @dataclass
+class GetPostsParams(PaginationParams, SortParams):
+    hashtag: Optional[str] = None
+    author_id: Optional[Annotated[str, UUID4]] = None
+    sort_by: str = None
+
+@dataclass
 class GetFeedByRoleTestCase:
     role: str
     params: GetFeedParams
@@ -37,6 +38,14 @@ class GetFeedTestCase:
     expected_success: bool = True
 
 
+
+
+
+
+
+@dataclass
+class GetFeedParams(PaginationParams):
+    ...
 @dataclass
 class DeletePostByRoleTestCase:
     role: str
@@ -49,17 +58,6 @@ class DeletePostTestCase:
     params: DeletePostParams
     status_code: int = 200
     expected_success: bool = True
-
-@dataclass
-class GetPostsParams(PaginationParams, SortParams):
-    hashtag: Optional[str] = None
-    author_id: Optional[Annotated[str, UUID4]] = None
-    sort_by: str = None
-
-
-@dataclass
-class GetFeedParams(PaginationParams):
-    ...
 
 @dataclass
 class DeletePostParams(BaseParams):

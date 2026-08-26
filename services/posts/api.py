@@ -1,5 +1,3 @@
-import requests
-
 from common.base_api import BaseAPI
 from config.headers import Headers
 from services.posts.endpoints import Endpoints
