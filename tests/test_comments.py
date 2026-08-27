@@ -4,8 +4,8 @@ import pytest
 from config.base_test import BaseTest
 from services.comments.params import GetCommentsByRoleTestCase, GetCommentsQueryParams, GetRepliesByRoleTestCase, \
     GetRepliesQueryParams
-from services.comments.payloads import CreateCommentByRoleTestCase, CreateCommentBody, UpdateCommentBody, \
-    UpdateCommentByRoleTestCase, UpdateCommentBodyQuery, CreateCommentBodyQuery
+from services.comments.payloads import CreateCommentByRoleTestCase, \
+    UpdateCommentByRoleTestCase, UpdateCommentPayloadQuery, CreateCommentPayloadQuery
 
 
 @allure.epic("Comments Service")
@@ -89,9 +89,9 @@ class TestComments(BaseTest):
     @allure.story("User can create new comment to the post")
     @allure.description("Create comment to post")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateCommentByRoleTestCase(role="user_eve",payload=CreateCommentBodyQuery(content="A")),
+        pytest.param(CreateCommentByRoleTestCase(role="user_eve",payload=CreateCommentPayloadQuery(content="A")),
                      id="Valid minimal content boundary"),
-        pytest.param(CreateCommentByRoleTestCase(role="user_eve",payload=CreateCommentBodyQuery(content="A"* 1000)),
+        pytest.param(CreateCommentByRoleTestCase(role="user_eve",payload=CreateCommentPayloadQuery(content="A"* 1000)),
                      id="Valid maximum content boundary"),
     ])
     def test_create_comment(self, case, build_post_remove, comment_cleaner):
@@ -107,11 +107,11 @@ class TestComments(BaseTest):
     @allure.story("User can create new comment to the post")
     @allure.description("Create comment to post, incorrect - invalid payload")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateCommentByRoleTestCase(role="user_eve", payload=CreateCommentBodyQuery(content="")),
+        pytest.param(CreateCommentByRoleTestCase(role="user_eve", payload=CreateCommentPayloadQuery(content="")),
                      id="Invalid content below minimum boundary"),
-        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentBodyQuery(content="A"*1001)),
+        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayloadQuery(content="A"*1001)),
                      id="Invalid content above maximum boundary"),
-        pytest.param(CreateCommentByRoleTestCase(role="user_eve", payload=CreateCommentBodyQuery()),
+        pytest.param(CreateCommentByRoleTestCase(role="user_eve", payload=CreateCommentPayloadQuery()),
                      id="Missing required content field"),
     ])
     def test_create_comment_incorrect_invalid_payload(self,case, build_post_remove):
@@ -125,7 +125,7 @@ class TestComments(BaseTest):
     @allure.suite("Create new comment")
     @allure.story("User can create new comment to the post")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentBodyQuery(content="Valid comment"), expected_success=False, status_code=404),
+        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayloadQuery(content="Valid comment"), expected_success=False, status_code=404),
                      id="Create comment to post - not existed post"),
     ])
     @allure.description("Create comment to post, incorrect - not existed post")
@@ -141,7 +141,7 @@ class TestComments(BaseTest):
     @allure.story("User can create new comment to the post")
     @allure.description("Create comment to post, incorrect - Removed post")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentBodyQuery(content="Valid comment"), expected_success=False, status_code=404),
+        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayloadQuery(content="Valid comment"), expected_success=False, status_code=404),
                      id="Create comment to post - Removed post"),
     ])
     def test_create_comment_removed_post(self, case, get_removed_post):
@@ -155,7 +155,7 @@ class TestComments(BaseTest):
     @allure.suite("Create new comment")
     @allure.story("User can create new comment to the post")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentBodyQuery(content="Valid comment"), expected_success=False, status_code=422),
+        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayloadQuery(content="Valid comment"), expected_success=False, status_code=422),
                      id="Create comment to post - invalid post uuid")
 
     ])
@@ -172,9 +172,9 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("User can update existed comment - success")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_bob", payload=UpdateCommentBodyQuery(content="a")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_bob", payload=UpdateCommentPayloadQuery(content="a")),
                      id="Update comment - Valid minimal content boundary"),
-        pytest.param(UpdateCommentByRoleTestCase(role="user_bob", payload=UpdateCommentBodyQuery(content="A" * 1000)),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_bob", payload=UpdateCommentPayloadQuery(content="A" * 1000)),
                      id="Update comment - Valid maximum content boundary"),
     ])
     def test_update_comment(self, build_comment_remove, case):
@@ -188,11 +188,11 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("User can update existed comment, incorrect - negative payload")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentBodyQuery(content="")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="")),
                      id="Update comment - content below minimum boundary"),
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentBodyQuery(content="A" * 1001)),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A" * 1001)),
                      id="Create comment - content above maximum boundary"),
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentBodyQuery()),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery()),
                      id="Create comment - content above maximum boundary"),
     ])
     def test_update_comment_invalid_payload_data(self,build_comment_remove, case):
@@ -207,7 +207,7 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("Attempt to edit comment - Invalid comment uuid")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentBodyQuery(content="A")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A")),
                      id="Attempt to edit comment with invalid uuid"),
                              ])
     def test_update_comment_invalid_uuid(self, case):
@@ -222,7 +222,7 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("User can update existed comment - Comment is deleted")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentBodyQuery(content="A")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A")),
                      id="Attempt to edit removed comment"),
                              ])
     def test_update_comment_removed(self, case, get_removed_comment):
@@ -237,7 +237,7 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("Attempt tp edit comment created by another user")
     @pytest.mark.parametrize("comment_creator, case", [
-        pytest.param("user_bob", UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentBodyQuery(content="A")),
+        pytest.param("user_bob", UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A")),
                      id="Attempt to edit comment created by another user"),
                              ])
     def test_update_comment_created_by_another(self, comment_creator, case, build_comment_remove):
@@ -252,7 +252,7 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("User can update existed comment - not existed")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentBodyQuery(content="A")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A")),
                      id="Attempt to edit comment that doesn't exist"),
                              ])
     def test_update_comment_not_existed(self, case):
@@ -377,9 +377,9 @@ class TestComments(BaseTest):
     @allure.story("User can create a reply to existed comment")
     @allure.description("Create reply to comment")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateCommentByRoleTestCase(role="user_eve", payload=CreateCommentBodyQuery(content="A")),
+        pytest.param(CreateCommentByRoleTestCase(role="user_eve", payload=CreateCommentPayloadQuery(content="A")),
                      id="Valid minimal content boundary"),
-        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentBodyQuery(content="A"*1000)),
+        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayloadQuery(content="A"*1000)),
                      id="Valid maximum content boundary"),
     ])
     def test_create_reply(self, create_and_get_comment, case, comment_cleaner):
@@ -400,7 +400,7 @@ class TestComments(BaseTest):
         prepared_comment_id = get_removed_comment("user_bob")
         comments_service = self.get_actor("user_bob").comments_api
         comments_service.create_reply(comment_id=prepared_comment_id,
-                                       payload=CreateCommentBodyQuery(content="Edited"),
+                                       payload=CreateCommentPayloadQuery(content="Edited"),
                                        expected_success=False,
                                        status_code=404)
 
@@ -412,6 +412,6 @@ class TestComments(BaseTest):
         user = self.get_actor("user_bob")
         prepared_comment_id = self.data_helper.get_not_existed_uuid()
         user.comments_api.create_reply(comment_id=prepared_comment_id,
-                                       payload=CreateCommentBodyQuery(content="Edited"),
+                                       payload=CreateCommentPayloadQuery(content="Edited"),
                                        expected_success=False,
                                        status_code=404)

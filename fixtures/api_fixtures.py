@@ -1,13 +1,11 @@
 import random
-from dataclasses import dataclass
-
-import faker
 import pytest
 from faker import Faker
 
-from services.comments.payloads import CreateCommentBody
+from services.comments.payloads import CreateCommentBody, CreateCommentPayloadQuery
+from services.likes.payloads import LikePostPayload
 from services.posts.params import GetPostsParams
-from services.posts.payloads import CreatePostBodyParams
+from services.posts.payloads import CreatePostPayload
 from utils.data_helper import DataHelper as data_helper
 from auth.role_factory import MultiRoleServiceFactory, ServiceContainer
 from utils.data_helper import find_other_authors_post
@@ -15,7 +13,13 @@ from utils.data_helper import find_other_authors_post
 fake = Faker()
 
 
-
+@pytest.fixture()
+def get_post_with_likes():
+    def get_posts_with_likes(post_service):
+        params = GetPostsParams(sort_by="likes_count")
+        post = post_service.get_list_posts(params=params).items[0]
+        return post.id
+    yield get_posts_with_likes
 
 @pytest.fixture(scope="session")
 def get_service_by_role():
@@ -43,7 +47,7 @@ def _get_username_by_role(get_service_by_role, services_for_role:str):
 def create_remove_post_by_user(request, get_service_by_role):
     create_post_by:str = request.param
     post_service = get_service_by_role(create_post_by).posts_api
-    payload=CreatePostBodyParams(content="B")
+    payload=CreatePostPayload(content="B")
 
     post = post_service.create_post(payload)
     yield post.id
@@ -55,7 +59,7 @@ def build_post_remove(get_service_by_role):
 
     def _build(role:str):
         post_service = get_service_by_role(role).posts_api
-        payload = CreatePostBodyParams(content="B")
+        payload = CreatePostPayload(content="B")
 
         post = post_service.create_post(payload)
         created_posts.append((role, post.id))
@@ -71,7 +75,7 @@ def build_post_pin_remove(get_service_by_role):
 
     def _build(role:str):
         post_service = get_service_by_role(role).posts_api
-        payload = CreatePostBodyParams(content="B")
+        payload = CreatePostPayload(content="B")
 
         post = post_service.create_post(payload)
         post_service.pin_post(post.id)
@@ -83,11 +87,60 @@ def build_post_pin_remove(get_service_by_role):
         get_service_by_role(role).posts_api.delete_post(post_id)
 
 @pytest.fixture()
+def build_post_like_remove(get_service_by_role):
+    created_posts:list[tuple] = []
+
+    def _build(role:str, reaction:str="like"):
+        app_services = get_service_by_role(role)
+
+        post_service = app_services.posts_api
+        post_payload = CreatePostPayload(content="B")
+        post = post_service.create_post(post_payload)
+
+        like_service = app_services.likes_api
+        like_payload = LikePostPayload(reaction=reaction)
+        like_service.like_post(post.id, payload=like_payload)
+        created_posts.append((role, post.id))
+        return post.id
+    yield _build  # тест получает функцию регистрации
+
+    for role, post_id in reversed(created_posts):
+        get_service_by_role(role).posts_api.delete_post(post_id)
+
+@pytest.fixture()
+def build_comment_like_remove(get_service_by_role):
+    created_comments:list[tuple] = []
+
+    def _build(role:str, reaction:str="like"):
+        app_services = get_service_by_role(role)
+
+        post_service = app_services.posts_api
+        comment_service = app_services.comments_api
+        like_service = app_services.likes_api
+
+        comment_payload = CreateCommentPayloadQuery(content="B")
+        like_payload = LikePostPayload(reaction=reaction)
+
+        post = random.choice(_get_posts_list_for_user(post_service))
+        comment = comment_service.create_comment(post.id, comment_payload)
+
+
+        like_service.like_comment(comment.id, payload=like_payload)
+        created_comments.append((role, comment.id))
+        return comment.id
+    yield _build  # тест получает функцию регистрации
+
+    for role, comment_id in reversed(created_comments):
+        get_service_by_role(role).comments_api.delete_comment(comment_id)
+
+
+
+@pytest.fixture()
 def get_removed_post(get_service_by_role):
 
     def _remove_post_by(role):
         post_service = get_service_by_role(role).posts_api
-        payload = CreatePostBodyParams(content="B")
+        payload = CreatePostPayload(content="B")
 
         post = post_service.create_post(payload)
         post_service.delete_post(post.id)
@@ -99,21 +152,11 @@ def get_removed_post(get_service_by_role):
 def create_and_get_post(get_service_by_role):
     def _create(role:str):
         post_service = get_service_by_role(role).posts_api
-        payload = CreatePostBodyParams(content="B")
+        payload = CreatePostPayload(content="B")
 
         post = post_service.create_post(payload)
         return post.id
     yield _create
-
-@pytest.fixture()
-def create_comment_remove_after(request, get_service_by_role):
-    case_info = request.param
-    user = get_service_by_role(case_info["precondition_role"])
-    post = user.posts_api.get_list_posts().items[0]
-    comment = user.comments_api.create_comment(post_id=post.id,
-                                               payload=data_helper().get_random_comment_payload())
-    yield comment.id
-    user.comments_api.delete_comment(comment.id)
 
 @pytest.fixture()
 def build_comment_remove(request, get_service_by_role):
@@ -123,7 +166,7 @@ def build_comment_remove(request, get_service_by_role):
         app_services:ServiceContainer = get_service_by_role(role)
         payload = CreateCommentBody(content="B")
         posts:list[dict] = _get_posts_list_for_user(app_services.posts_api)
-        comment = app_services.comments_api.create_comment(post_id=random.choice(posts).id, payload=payload)
+        comment = app_services.comments_api.create_comment(post_id=(random.choice(posts)).id, payload=payload)
         created_comments.append((role, comment.id))
         return comment.id
     yield _build_comment  # тест получает функцию регистрации
@@ -442,12 +485,7 @@ def get_post_for_comment(request, get_service_by_role):
     post = user.posts_api.get_list_posts(params=params).items[0]
     yield post.id
 
-@pytest.fixture()
-def get_post_with_likes(request, get_service_by_role):
-    user = get_service_by_role("admin")
-    params = {"sort_by": "likes_count"}
-    post = user.posts_api.get_list_posts(params=params).items[0]
-    yield post.id
+
 
 @pytest.fixture()
 def get_comment_for_likes(request, get_service_by_role):

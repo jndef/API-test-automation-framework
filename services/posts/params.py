@@ -5,11 +5,6 @@ from typing import Literal, Optional, Annotated
 from common.base_params import PaginationParams, SortParams, BaseParams
 
 
-@dataclass
-class GetPostsTestCase:
-    params: GetPostsParams
-    status_code: int = 200
-    expected_success: bool = True
 
 @dataclass
 class GetPostsByRoleTestCase:

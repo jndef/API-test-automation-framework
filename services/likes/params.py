@@ -1,12 +1,13 @@
-from pydantic import UUID4
-
-
-
-# users/params.py
 from dataclasses import dataclass
-from typing import Literal, Optional, Annotated
 from common.base_params import PaginationParams
 
+
+@dataclass
+class GetPostLikesByRoleTestCase:
+    role: str
+    params: GetPostLikesParams
+    status_code: int = None
+    expected_success: bool = True
 
 @dataclass
 class GetPostLikesParams(PaginationParams):

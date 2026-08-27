@@ -5,20 +5,20 @@ from pydantic import BaseModel
 
 @dataclass
 class CreatePostTestCase:
-    payload: CreatePostBodyParams
-    status_code: int = 200
+    payload: CreatePostPayload
+    status_code: int
     expected_success: bool = True
 
 @dataclass
 class CreatePostByRoleTestCase:
     role: str
-    payload: CreatePostBodyParams
-    status_code: int = 201
+    payload: CreatePostPayload
+    status_code: int = None
     expected_success: bool = True
 
 
 
-class CreatePostBodyParams(BaseModel):
+class CreatePostPayload(BaseModel):
     content: str = "A"
     visibility: str = "public"
     image_url: Optional[str] = None
@@ -28,18 +28,18 @@ class CreatePostBodyParams(BaseModel):
 @dataclass
 class UpdatePostByRoleTestCase:
     role:str
-    payload: UpdatePostBodyParams
-    status_code: int = 200
+    payload: UpdatePostPayload
+    status_code: int = None
     expected_success: bool = True
 
 @dataclass
 class UpdatePostTestCase:
-    payload: UpdatePostBodyParams
-    status_code: int = 200
+    payload: UpdatePostPayload
+    status_code: int
     expected_success: bool = True
 
 
-class UpdatePostBodyParams(BaseModel):
+class UpdatePostPayload(BaseModel):
     content: str | int
     image_url: Optional[str] = None
     visibility: Optional[str] = None
@@ -48,17 +48,17 @@ class UpdatePostBodyParams(BaseModel):
 @dataclass
 class CreateRepostByRoleTestCase:
     role: str
-    payload: CreateRepostParams
-    status_code: int = 200
+    payload: CreateRepostPayload
+    status_code: int = None
     expected_success: bool = True
 
 @dataclass
 class CreateRepostTestCase:
-    payload: CreateRepostParams
-    status_code: int = 200
+    payload: CreateRepostPayload
+    status_code: int
     expected_success: bool = True
 
 
-class CreateRepostParams(BaseModel):
+class CreateRepostPayload(BaseModel):
     repost_type: Optional[str] = None
     content: str = None

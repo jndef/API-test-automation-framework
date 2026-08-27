@@ -4,8 +4,8 @@ import pytest
 from config.base_test import BaseTest
 from services.posts.params import GetPostsParams, GetPostsByRoleTestCase, \
     GetFeedParams, GetFeedByRoleTestCase, DeletePostParams, DeletePostByRoleTestCase
-from services.posts.payloads import CreatePostBodyParams, CreatePostByRoleTestCase, \
-    UpdatePostBodyParams, UpdatePostByRoleTestCase, CreateRepostByRoleTestCase, CreateRepostParams
+from services.posts.payloads import CreatePostPayload, CreatePostByRoleTestCase, \
+    UpdatePostPayload, UpdatePostByRoleTestCase, CreateRepostByRoleTestCase, CreateRepostPayload
 
 
 @allure.epic("Posts Service")
@@ -82,19 +82,19 @@ class TestPosts(BaseTest):
     @allure.description("Create post - valid payload")
     @pytest.mark.parametrize("case", [
         pytest.param(CreatePostByRoleTestCase(role="user_bob",
-            payload=CreatePostBodyParams(content="A", visibility="public")),
+            payload=CreatePostPayload(content="A", visibility="public")),
             id="Valid minimal boundary + default visibility and image None"),
         pytest.param(CreatePostByRoleTestCase(role="user_eve",
-            payload=CreatePostBodyParams(content="A" * 2000, visibility="public")),
+            payload=CreatePostPayload(content="A" * 2000, visibility="public")),
             id="valid max boundary + image"),
         pytest.param(CreatePostByRoleTestCase(role="user_bob",
-            payload=CreatePostBodyParams(content=f"Another valid post", visibility="followers_only")),
+            payload=CreatePostPayload(content=f"Another valid post", visibility="followers_only")),
             id="valid followers_only without image"),
         pytest.param(CreatePostByRoleTestCase(role="user_eve",
-            payload=CreatePostBodyParams(content=f"Image post", visibility="public", image_url="/test_data/image.jpg")),
+            payload=CreatePostPayload(content=f"Image post", visibility="public", image_url="/test_data/image.jpg")),
             id="valid public with image"),
         pytest.param(CreatePostByRoleTestCase(role="user_bob",
-            payload=CreatePostBodyParams(content=f"Default visibility post", visibility="public")),
+            payload=CreatePostPayload(content=f"Default visibility post", visibility="public")),
             id="optional image_url omitted + default visibility"),
     ])
     def test_create_post(self, case, post_cleaner):
@@ -111,11 +111,11 @@ class TestPosts(BaseTest):
     @allure.story("User can create post at platform")
     @allure.description("Create post - depending on role {role}")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreatePostByRoleTestCase(role="admin", payload=CreatePostBodyParams(content="B")),
+        pytest.param(CreatePostByRoleTestCase(role="admin", payload=CreatePostPayload(content="B")),
                      id="Create post as admin"),
-        pytest.param(CreatePostByRoleTestCase(role="moderator", payload=CreatePostBodyParams(content="C")),
+        pytest.param(CreatePostByRoleTestCase(role="moderator", payload=CreatePostPayload(content="C")),
                      id="Create post as moderator"),
-        pytest.param(CreatePostByRoleTestCase(role="user_bob", payload=CreatePostBodyParams(content="D")),
+        pytest.param(CreatePostByRoleTestCase(role="user_bob", payload=CreatePostPayload(content="D")),
                      id="Create post as user"),
     ])
     def test_create_posts_depends_on_role(self, case, post_cleaner):
@@ -130,13 +130,13 @@ class TestPosts(BaseTest):
     @allure.description("Create post -  invalid payload")
     @pytest.mark.parametrize("case", [
         pytest.param(CreatePostByRoleTestCase(role="admin",
-            payload=CreatePostBodyParams(content="", visibility="public")),
+            payload=CreatePostPayload(content="", visibility="public")),
             id="invalid content, below min boundary"),
         pytest.param(CreatePostByRoleTestCase(role="admin",
-            payload=CreatePostBodyParams(content="A" * 2001, visibility="public")),
+            payload=CreatePostPayload(content="A" * 2001, visibility="public")),
             id="invalid content, above max boundary"),
         pytest.param(CreatePostByRoleTestCase(role="admin",
-            payload=CreatePostBodyParams(content="Valid post content", visibility="private")),
+            payload=CreatePostPayload(content="Valid post content", visibility="private")),
             id="valid followers_only without image"),
     ])
     def test_create_post_invalid_payload(self, case):
@@ -228,9 +228,9 @@ class TestPosts(BaseTest):
     @allure.story("As a post creator i can update it after publishing")
     @allure.description("Update post as author")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdatePostByRoleTestCase(role="user_eve",payload=UpdatePostBodyParams(content="A")),
+        pytest.param(UpdatePostByRoleTestCase(role="user_eve",payload=UpdatePostPayload(content="A")),
                      id="Update post created by author - Valid minimal boundary"),
-        pytest.param(UpdatePostByRoleTestCase(role="user_bob",payload=UpdatePostBodyParams(content="A" * 2000)),
+        pytest.param(UpdatePostByRoleTestCase(role="user_bob",payload=UpdatePostPayload(content="A" * 2000)),
                      id="Update post created by author - Valid maximal boundary"),
     ])
     def test_update_post(self, build_post_remove, case):
@@ -254,7 +254,7 @@ class TestPosts(BaseTest):
     @allure.story("As a user i can update only own post in valid time range")
     @allure.description("Attempt to update the post removed before")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdatePostByRoleTestCase(role="user_bob", payload=UpdatePostBodyParams(content="A"), status_code=404, expected_success=False),
+        pytest.param(UpdatePostByRoleTestCase(role="user_bob", payload=UpdatePostPayload(content="A"), status_code=404, expected_success=False),
                      id="Try to update post, that was removed"),
     ])
     def test_update_removed_post(self, get_removed_post, case):
@@ -270,7 +270,7 @@ class TestPosts(BaseTest):
     @allure.story("As a user i can update only own post in valid time range")
     @allure.description("Attempt to update the post if allowed period to edit is expired")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostBodyParams(content="A-edited"),
+        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A-edited"),
                                               status_code=400, expected_success=False),
                      id="As author update the post, that older than 15 minutes"),
     ])
@@ -288,7 +288,7 @@ class TestPosts(BaseTest):
     @allure.description("Attempt to update the post created by another user")
     @pytest.mark.parametrize("post_builder_user, case", [
         pytest.param("user_bob",
-                     UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostBodyParams(content="A-edited"), status_code=403, expected_success=False),
+                     UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A-edited"), status_code=403, expected_success=False),
                      id="Attempt to update the post created by another user"),
     ])
     def test_update_post_created_by_another_user(self, post_builder_user, build_post_remove, case):
@@ -304,7 +304,7 @@ class TestPosts(BaseTest):
     @allure.story("As a user i can update only own post in valid time range")
     @allure.description("Test attempt to update post, that doesn't exist")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostBodyParams(content="A-edited"), status_code=404, expected_success=False),
+        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A-edited"), status_code=404, expected_success=False),
                      id="Attempt to update post, that doesn't exist"),
     ])
     def test_update_post_not_existed(self, case):
@@ -319,11 +319,11 @@ class TestPosts(BaseTest):
     @allure.story("User can update created post")
     @allure.description("Attempt to edit post using invalid payload")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostBodyParams(content="")),
+        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="")),
                      id="Update post - content, below min boundary"),
-        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostBodyParams(content="A" * 2001)),
+        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A" * 2001)),
                      id="Update post - content, above max boundary"),
-        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostBodyParams(content=2001)),
+        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content=2001)),
                      id="Update post - content, Integer type of value"),
     ])
     def test_update_post_invalid_payload(self, build_post_remove, case):
@@ -411,11 +411,11 @@ class TestPosts(BaseTest):
     @allure.story("User can repost existed post")
     @allure.description("Create valid repost post")
     @pytest.mark.parametrize("build_post_by_user, case", [
-        pytest.param("user_bob", CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostParams(repost_type="repost")),
+        pytest.param("user_bob", CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostPayload(repost_type="repost")),
                      id="Repost post - repost type and without content"),
-        pytest.param("user_bob", CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostParams(repost_type="quote", content="A" * 2000)),
+        pytest.param("user_bob", CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostPayload(repost_type="quote", content="A" * 2000)),
                      id="Repost post - quote type and  max content boundary"),
-        pytest.param("user_bob",CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostParams(content="Content only")),
+        pytest.param("user_bob",CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostPayload(content="Content only")),
                      id="Repost post - without defined repost type"),
     ])
     def test_repost_post(self, case,build_post_by_user, build_post_remove):
@@ -435,10 +435,10 @@ class TestPosts(BaseTest):
     @allure.story("User can repost existed post")
     @allure.description("Attempt to create repost with invalid payload")
     @pytest.mark.parametrize("build_post_by_user, case", [
-        pytest.param("user_bob", CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostParams(
+        pytest.param("user_bob", CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostPayload(
             repost_type="quote", content="A" * 2001)),
                      id="Invalid request payload - content, content above max boundary"),
-        pytest.param("user_bob", CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostParams(
+        pytest.param("user_bob", CreateRepostByRoleTestCase(role="user_eve", payload=CreateRepostPayload(
             repost_type="invalid_type", content="A" * 2)),
                      id="Invalid request payload - Invalid repost type enum"),
     ])
@@ -454,7 +454,7 @@ class TestPosts(BaseTest):
     @allure.story("User can repost existed post")
     @allure.description("Attempt to create repost, when post id is incorrect")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateRepostByRoleTestCase(role="user_bob",payload=CreateRepostParams(repost_type="repost",content="A" * 2)),
+        pytest.param(CreateRepostByRoleTestCase(role="user_bob",payload=CreateRepostPayload(repost_type="repost",content="A" * 2)),
                      id="Non-existing post id"),
     ])
     def test_repost_post_not_existed(self, case):
@@ -469,7 +469,7 @@ class TestPosts(BaseTest):
     @allure.story("User can repost existed post")
     @allure.description("Attempt to create repost, when post id is incorrect")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateRepostByRoleTestCase(role="user_bob",payload=CreateRepostParams(repost_type="repost",content="A" * 2)),
+        pytest.param(CreateRepostByRoleTestCase(role="user_bob",payload=CreateRepostPayload(repost_type="repost",content="A" * 2)),
                      id="Attempt to repost removed post"),
     ])
     def test_repost_post_removed(self, case, get_removed_post):

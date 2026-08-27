@@ -12,17 +12,17 @@ fake = Faker()
 @dataclass
 class CreateCommentByRoleTestCase:
     role:str
-    payload: CreateCommentBodyQuery
+    payload: CreateCommentPayloadQuery
     status_code: int = 200
     expected_success: bool = True
 
 @dataclass
 class CreateCommentTestCase:
-    payload: CreateCommentBodyQuery
+    payload: CreateCommentPayloadQuery
     status_code: int = 200
     expected_success: bool = True
 
-class CreateCommentBodyQuery(BaseModel):
+class CreateCommentPayloadQuery(BaseModel):
     content: str | int = None
 
 class CreateCommentBody(BaseModel):
@@ -31,17 +31,17 @@ class CreateCommentBody(BaseModel):
 @dataclass
 class UpdateCommentByRoleTestCase:
     role:str
-    payload: UpdateCommentBodyQuery
+    payload: UpdateCommentPayloadQuery
     status_code: int = 200
     expected_success: bool = True
 
 @dataclass
 class UpdateCommentTestCase:
-    payload: UpdateCommentBodyQuery
+    payload: UpdateCommentPayloadQuery
     status_code: int = 200
     expected_success: bool = True
 
-class UpdateCommentBodyQuery(BaseModel):
+class UpdateCommentPayloadQuery(BaseModel):
     content: str | int = None
 
 class UpdateCommentBody(BaseModel):
@@ -50,18 +50,18 @@ class UpdateCommentBody(BaseModel):
 @dataclass
 class DeleteCommentByRoleTestCase:
     role: str
-    params: DeleteCommentParams
+    params: DeleteCommentPayload
     status_code: int = 204
     expected_success: bool = True
 
 @dataclass
 class DeleteCommentTestCase:
-    params: DeleteCommentParams
+    params: DeleteCommentPayload
     status_code: int = 204
     expected_success: bool = True
 
 @dataclass
-class DeleteCommentParams(BaseParams):
+class DeleteCommentPayload(BaseParams):
     reason: Optional[str] = None
 
 

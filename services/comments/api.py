@@ -6,7 +6,7 @@ from services.comments.models.model_comment_update import ResponseCommentUpdateM
 from services.comments.models.model_comments_list import ResponseCommentsModel
 from services.comments.models.model_reply_create import ResponseCreateReplyModel
 from services.comments.params import GetCommentsParams, GetRepliesParams, GetCommentsQueryParams, GetRepliesQueryParams
-from services.comments.payloads import  CreateCommentBodyQuery, UpdateCommentBodyQuery
+from services.comments.payloads import  CreateCommentPayloadQuery, UpdateCommentPayloadQuery
 
 
 class CommentsAPI(BaseAPI):
@@ -24,7 +24,7 @@ class CommentsAPI(BaseAPI):
             .send("GET")
         return self.validate_response(response, ResponseCommentsModel,status_code=status_code, expected_success=expected_success)
 
-    def create_comment(self, post_id:str, payload: CreateCommentBodyQuery, status_code: int = 201, expected_success: bool = True):
+    def create_comment(self, post_id:str, payload: CreateCommentPayloadQuery, status_code: int = 201, expected_success: bool = True):
         response =  self.request()\
             .set_url(self.endpoints.create_comment(post_id)) \
             .set_headers(self.headers.basic) \
@@ -33,7 +33,7 @@ class CommentsAPI(BaseAPI):
         return self.validate_response(response, ResponseCommentCreateModel, status_code=status_code, expected_success=expected_success)
 
 
-    def update_comment(self, comment_id:str,  payload: UpdateCommentBodyQuery, status_code: int = 200, expected_success: bool = True):
+    def update_comment(self, comment_id:str,  payload: UpdateCommentPayloadQuery, status_code: int = 200, expected_success: bool = True):
         response =  self.request()\
             .set_url(self.endpoints.update_comment(comment_id)) \
             .set_headers(self.headers.basic) \
@@ -56,7 +56,7 @@ class CommentsAPI(BaseAPI):
             .send("GET")
         return self.validate_response(response, ResponseCommentsModel,status_code=status_code, expected_success=expected_success)
 
-    def create_reply(self, comment_id:str, payload: CreateCommentBodyQuery, status_code: int = 201, expected_success: bool = True):
+    def create_reply(self, comment_id:str, payload: CreateCommentPayloadQuery, status_code: int = 201, expected_success: bool = True):
         response =  self.request()\
             .set_url(self.endpoints.create_reply(comment_id)) \
             .set_headers(self.headers.basic) \

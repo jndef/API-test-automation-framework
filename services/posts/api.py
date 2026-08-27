@@ -7,7 +7,7 @@ from services.posts.models.model_post_update import ResponsePostUpdateModel
 from services.posts.models.model_posts_feed import ResponsePostsFeedModel
 from services.posts.models.model_posts_list import ResponsePostsModel
 from services.posts.params import GetPostsParams, GetFeedParams, DeletePostParams
-from services.posts.payloads import CreatePostBodyParams, UpdatePostBodyParams, CreateRepostParams
+from services.posts.payloads import CreatePostPayload, UpdatePostPayload, CreateRepostPayload
 
 
 class PostsAPI(BaseAPI):
@@ -27,7 +27,7 @@ class PostsAPI(BaseAPI):
         return self.validate_response(response, ResponsePostsModel,status_code=status_code, expected_success=expected_success)
 
 
-    def create_post(self, payload: CreatePostBodyParams, status_code: int = 201, expected_success: bool = True):
+    def create_post(self, payload: CreatePostPayload, status_code: int = 201, expected_success: bool = True):
         response =  self.request()\
             .set_url(self.endpoints.create_post) \
             .set_headers(self.headers.basic) \
@@ -53,7 +53,7 @@ class PostsAPI(BaseAPI):
 
         return self.validate_response(response, ResponsePostModel, status_code=status_code, expected_success=expected_success)
 
-    def update_post(self, post_id:str,  payload: UpdatePostBodyParams, status_code: int = 200, expected_success: bool = True):
+    def update_post(self, post_id:str,  payload: UpdatePostPayload, status_code: int = 200, expected_success: bool = True):
         response =  self.request()\
             .set_url(self.endpoints.update_post(post_id)) \
             .set_headers(self.headers.basic) \
@@ -72,7 +72,7 @@ class PostsAPI(BaseAPI):
         return self.validate_response(response, None, status_code=status_code, expected_success=expected_success)
 
 
-    def repost_post(self, post_id:str, payload: CreateRepostParams, status_code: int = 201, expected_success: bool = True):
+    def repost_post(self, post_id:str, payload: CreateRepostPayload, status_code: int = 201, expected_success: bool = True):
         response =  self.request()\
             .set_url(self.endpoints.repost_post(post_id)) \
             .set_headers(self.headers.basic) \
