@@ -1,6 +1,8 @@
 import requests
 
 class HttpRequestBuilder:
+    _session = requests.Session()
+
     def __init__(self):
         self._request_data = {}
         self._request_timeout = 10.0
@@ -63,9 +65,7 @@ class HttpRequestBuilder:
 
     def send(self,method: str):
         assert method.upper() in ["GET", "POST", "PUT", "PATCH", "DELETE"]
-        # print("headers:", self._request_data.get("headers"))
-        # print("files:", self._request_data.get("files"))
-        return getattr(requests, method.lower())(
+        return getattr(self._session, method.lower())(
             **self._request_data,
             timeout=self._request_timeout,
         )
