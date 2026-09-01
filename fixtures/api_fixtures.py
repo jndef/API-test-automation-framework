@@ -148,6 +148,25 @@ def build_post_pin_remove(get_service_by_role):
         get_service_by_role(role).posts_api.delete_post(post_id)
 
 @pytest.fixture()
+def build_post_bookmark_remove(get_service_by_role):
+    created_posts:list[tuple] = []
+
+    def _build(role:str):
+        api_client = get_service_by_role(role)
+        post_service = api_client.posts_api
+        bookmark_service = api_client.bookmarks_api
+        payload = CreatePostPayload(content="B")
+
+        post = post_service.create_post(payload)
+        bookmark_service.bookmark_post(post.id)
+        created_posts.append((role, post.id))
+        return post.id
+    yield _build  # тест получает функцию регистрации
+
+    for role, post_id in reversed(created_posts):
+        get_service_by_role(role).posts_api.delete_post(post_id)
+
+@pytest.fixture()
 def build_post_like_remove(get_service_by_role):
     created_posts:list[tuple] = []
 
@@ -204,6 +223,22 @@ def get_removed_post(get_service_by_role):
         payload = CreatePostPayload(content="B")
 
         post = post_service.create_post(payload)
+        post_service.delete_post(post.id)
+        return post.id
+
+    yield _remove_post_by
+
+@pytest.fixture()
+def get_removed_bookmarked_post(get_service_by_role):
+
+    def _remove_post_by(role):
+        api_client = get_service_by_role(role)
+        post_service = api_client.posts_api
+        bookmark_service = api_client.bookmarks_api
+        payload = CreatePostPayload(content="B")
+
+        post = post_service.create_post(payload)
+        bookmark_service.bookmark_post(post.id)
         post_service.delete_post(post.id)
         return post.id
 
