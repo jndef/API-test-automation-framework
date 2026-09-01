@@ -8,10 +8,11 @@ from typing import Literal, Optional, Annotated
 from common.base_params import PaginationParams, SortParams, BaseParams
 
 @dataclass
-class GetCommentsTestCase:
-    params: GetCommentsQueryParams
-    status_code: int = 200
-    expected_success: bool = True
+class GetCommentsQueryParams(BaseParams):
+    sort_order: Optional[str] = None
+    page: Optional[int] = None
+    per_page: Optional[int] = None
+    sort_by: Optional[str] = None
 
 @dataclass
 class GetCommentsByRoleTestCase:
@@ -20,18 +21,12 @@ class GetCommentsByRoleTestCase:
     status_code: int = 200
     expected_success: bool = True
 
-@dataclass
-class GetCommentsQueryParams(BaseParams):
-    sort_order: Optional[str] = None
-    page: Optional[int] = None
-    per_page: Optional[int] = None
-    sort_by: Optional[str] = None
 
 @dataclass
-class GetRepliesTestCase:
-    params: GetRepliesQueryParams
-    status_code: int = 200
-    expected_success: bool = True
+class GetRepliesQueryParams(BaseParams):
+    page: Optional[int] = None
+    per_page: Optional[int] = None
+
 
 @dataclass
 class GetRepliesByRoleTestCase:
@@ -39,11 +34,6 @@ class GetRepliesByRoleTestCase:
     params: GetRepliesQueryParams
     status_code: int = 200
     expected_success: bool = True
-
-@dataclass
-class GetRepliesQueryParams(BaseParams):
-    page: Optional[int] = None
-    per_page: Optional[int] = None
 
 # @dataclass
 # class GetCommentsByRoleTestCase:

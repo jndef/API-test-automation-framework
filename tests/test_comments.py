@@ -101,6 +101,8 @@ class TestComments(BaseTest):
 
         comment_cleaner(comment.id)  # регистрируем на удаление
         assert comment.content == case.payload.content, f"Created comment doesn't contain expected content.\nER: {case.payload.content}\nAR: {comment.content}"
+        assert not comment.is_deleted, "Created comment should not be deleted."
+        assert prepared_post_id == comment.post_id, "fCreated comment has unexpected post_id"
 
 
     @allure.suite("Create new comment")

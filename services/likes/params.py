@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from common.base_params import PaginationParams
 
+@dataclass
+class GetPostLikesParams(PaginationParams):
+    ...
 
 @dataclass
 class GetPostLikesByRoleTestCase:
@@ -9,6 +12,3 @@ class GetPostLikesByRoleTestCase:
     status_code: int = None
     expected_success: bool = True
 
-@dataclass
-class GetPostLikesParams(PaginationParams):
-    ...

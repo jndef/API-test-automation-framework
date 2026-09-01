@@ -5,6 +5,12 @@ from pydantic import BaseModel
 
 fake = Faker()
 
+class LikePostPayload(BaseModel):
+    reaction: str = None
+
+class LikeCommentPayload(BaseModel):
+    reaction: str | int = None
+
 @dataclass
 class LikePostByRoleTestCase:
     role:str
@@ -12,18 +18,12 @@ class LikePostByRoleTestCase:
     status_code: int = None
     expected_success: bool = True
 
-class LikePostPayload(BaseModel):
-    reaction: str = None
-
 @dataclass
 class LikeCommentByRoleTestCase:
     role:str
     payload: LikeCommentPayload
     status_code: int = None
     expected_success: bool = True
-
-class LikeCommentPayload(BaseModel):
-    reaction: str | int = None
 
 
 class Payloads:

@@ -29,25 +29,41 @@ def db_cleanup_conversation(db_connect):
 
     def _cleanup(conversation_id):
         # conversation_id = db_connect.get_conversation_id_between_users(user_a,user_b)
-
-        if conversation_id is not None:
-            db_connect.delete_conversation(conversation_id)
-            count = db_connect.check_conversation_by_id(conversation_id)
-            assert count == 0
-            print(f"cleanup_conversation: {conversation_id}")
+        db_connect.delete_conversation(conversation_id)
+        count = db_connect.check_conversation_by_id(conversation_id)
+        assert count == 0
+        print(f"cleanup_conversation: {conversation_id}")
     return _cleanup
 
 @pytest.fixture()
-def cleanup_conversation_by_id_after(request, db_connect):
-    case_info = request.param
-    yield
-    conversation_id = db_connect.get_conversation_id_between_users(user_alias1=case_info["user1"], user_alias2=case_info["user2"])
-    if conversation_id is not None:
-        db_connect.delete_conversation(conversation_id)
+def db_cleanup_conversation_by_aliases(db_connect):
+    def _cleanup_conversation(user_alias1:str, user_alias2:str):
+        conversation_id = db_connect.get_conversation_id_between_users(user_alias1, user_alias2)
+        if conversation_id is not None:
+            db_connect.delete_conversation(conversation_id)
+            print(f"Conversation is removed: {conversation_id}")
+        else:
+            print(f"Conversation is absent. Continue...")
+    return _cleanup_conversation
 
+@pytest.fixture()
+def db_get_conversation(db_connect):
+    def _get_conversation(user_alias1: str, user_alias2: str):
+        conversation_id = db_connect.get_conversation_id_between_users(user_alias1, user_alias2)
+        if conversation_id is not None:
+            print(f"Conversation is found: {conversation_id}")
+            return conversation_id
+    yield _get_conversation
 
-
-
+@pytest.fixture()
+def db_get_rand_user_conversation(db_connect):
+    def _get_user_conversation(user_alias:str):
+        conversation_id = db_connect.get_existed_conversation_of_user(user_alias)
+        if conversation_id is not None:
+            print(f"Conversation is found: {conversation_id}")
+            return conversation_id
+        raise BaseException(f"Conversation is absent")
+    yield _get_user_conversation
 
 @pytest.fixture()
 def db_get_user_name_by_alias(request, db_connect):
@@ -57,18 +73,13 @@ def db_get_user_name_by_alias(request, db_connect):
         yield username
 
 @pytest.fixture()
-def get_username(db_connect):
+def db_get_username(db_connect):
     def _get(alias: str) -> str:
         return db_connect.get_user_by_name(alias)
-    return _get
+    yield _get
 
 
-@pytest.fixture()
-def get_conversation(request, db_connect):
-    case_info = request.param
-    conversation_id = db_connect.get_conversation_id_between_users(user_alias1=case_info["user1"], user_alias2=case_info["user2"])
-    if conversation_id is not None:
-        yield conversation_id
+
 
 @pytest.fixture(name="reset_role_after")
 def set_users_role_back(db_connect, request):
@@ -82,42 +93,27 @@ def mark_all_notifications_as_unred(db_connect, request):
     db_connect.mark_all_notifications_unread(for_user=mark_unread)
     yield
 
-@pytest.fixture(name="db_comment_with_replies")
-def get_comment_with_replies(db_connect):
-    comment_id = db_connect.get_comment_with_replies()
-    yield comment_id["parent_comment_id"]
-    # def _set_role_for_user(user_name, role_back:str="user"):
-    #     db_connect.set_role(table="user", user_name=change_role_data[0], role=change_role_data[2])
-    # return _set_role_for_user
 
 @pytest.fixture()
-def get_participant_id(request):
+def db_mark_conversation_unread(db_connect):
+    """
+    Fixture to mark conversation as unread
+    :param db_connect: db connection to perform request to DB
+    :return:
+    """
+    def _mark(conversation_id:str, role):
+        user_id = creds.get_user(role).user_id
+        db_connect.make_conversation_unread(user_id, conversation_id)
+    yield _mark
 
-    case_info = request.param
-    if case_info["case"] in ["valid", "yourself"]:
-        user_id = creds.get_user(alias=case_info["participant"])
-        yield user_id
-    if case_info["case"]  == "invalid_uuid":
-        yield "10AZ000-0Z0-0Z0-0Z0-00a00000003"
-    elif case_info["case"] == "not_existed":
-        participant = fake.uuid4()
-        print(f"participant: {participant}")
-        yield participant
-    if case_info["case"]  == "invalid_uuid":
-        yield "10AZ000-0Z0-0Z0-0Z0-00a00000003"
-    elif case_info["case"] == "not_existed":
-        participant = fake.uuid4()
-        print(f"participant: {participant}")
-        yield participant
-
-#
-# case_info = request.param
-# if case_info["case"] in ["valid", "yourself"]:
-#     user_id = creds.get_user_id_by_elias(case_info["participant"])
-#     yield user_id
-# if case_info["case"]  == "invalid_uuid":
-#     yield "10AZ000-0Z0-0Z0-0Z0-ZZa00000003"
-# elif case_info["case"] == "not_existed":
-#     participant = fake.uuid4()
-#     print(f"participant: {participant}")
-#     yield participant
+@pytest.fixture()
+def db_mark_conversation_read(db_connect):
+    """
+    Fixture to mark conversation as read
+    :param db_connect: db connection to perform request to DB
+    :return:
+    """
+    def _mark(conversation_id:str, role):
+        user_id = creds.get_user(role).user_id
+        db_connect.make_conversation_read(user_id, conversation_id)
+    yield _mark

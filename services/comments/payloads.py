@@ -9,6 +9,9 @@ from common.base_params import BaseParams
 
 fake = Faker()
 
+class CreateCommentPayloadQuery(BaseModel):
+    content: str | int = None
+
 @dataclass
 class CreateCommentByRoleTestCase:
     role:str
@@ -16,17 +19,13 @@ class CreateCommentByRoleTestCase:
     status_code: int = 200
     expected_success: bool = True
 
-@dataclass
-class CreateCommentTestCase:
-    payload: CreateCommentPayloadQuery
-    status_code: int = 200
-    expected_success: bool = True
-
-class CreateCommentPayloadQuery(BaseModel):
-    content: str | int = None
 
 class CreateCommentBody(BaseModel):
     content: str
+
+
+class UpdateCommentPayloadQuery(BaseModel):
+    content: str | int = None
 
 @dataclass
 class UpdateCommentByRoleTestCase:
@@ -35,17 +34,14 @@ class UpdateCommentByRoleTestCase:
     status_code: int = 200
     expected_success: bool = True
 
-@dataclass
-class UpdateCommentTestCase:
-    payload: UpdateCommentPayloadQuery
-    status_code: int = 200
-    expected_success: bool = True
 
-class UpdateCommentPayloadQuery(BaseModel):
-    content: str | int = None
 
 class UpdateCommentBody(BaseModel):
     content: str
+
+
+class DeleteCommentPayload(BaseParams):
+    reason: Optional[str] = None
 
 @dataclass
 class DeleteCommentByRoleTestCase:
@@ -54,15 +50,7 @@ class DeleteCommentByRoleTestCase:
     status_code: int = 204
     expected_success: bool = True
 
-@dataclass
-class DeleteCommentTestCase:
-    params: DeleteCommentPayload
-    status_code: int = 204
-    expected_success: bool = True
 
-@dataclass
-class DeleteCommentPayload(BaseParams):
-    reason: Optional[str] = None
 
 
 class Payloads:

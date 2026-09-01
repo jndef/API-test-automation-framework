@@ -2,8 +2,10 @@ import random
 import pytest
 from faker import Faker
 
+from auth.credentials import Credentials
 from services.comments.payloads import CreateCommentBody, CreateCommentPayloadQuery
 from services.likes.payloads import LikePostPayload
+from services.messages.payloads import CreateMessagePayload
 from services.posts.params import GetPostsParams
 from services.posts.payloads import CreatePostPayload
 from utils.data_helper import DataHelper as data_helper
@@ -11,6 +13,7 @@ from auth.role_factory import MultiRoleServiceFactory, ServiceContainer
 from utils.data_helper import find_other_authors_post
 
 fake = Faker()
+creds = Credentials()
 
 
 @pytest.fixture()
@@ -52,6 +55,64 @@ def create_remove_post_by_user(request, get_service_by_role):
     post = post_service.create_post(payload)
     yield post.id
     post_service.delete_post(post.id)
+
+@pytest.fixture()
+def build_conversation(get_service_by_role, db_get_conversation, db_get_username):
+    def _build(role:str, participant_role:str):
+        existed_conversation = db_get_conversation(role, participant_role)
+        if existed_conversation is not None:
+            return existed_conversation
+        messages_service = get_service_by_role(role).messages_api
+        participant_username = db_get_username(participant_role)
+        conversation = messages_service.find_or_create_dm(participant_username)
+        return conversation.id
+    yield _build  # тест получает функцию регистрации
+
+@pytest.fixture()
+def build_message(get_service_by_role, db_get_rand_user_conversation):
+    def _build(role:str):
+        message_service = get_service_by_role(role).messages_api
+        payload = CreateMessagePayload(content="M")
+        conversation = db_get_rand_user_conversation(role)
+        message = message_service.send_message(conversation_id=conversation, payload=payload)
+        return message.id
+    yield _build
+
+@pytest.fixture()
+def build_message_remove_at_certain_conversation(get_service_by_role):
+    created_messages:list[tuple] = []
+
+    def _build(role:str, conversation:str):
+        message_service = get_service_by_role(role).messages_api
+        payload = CreateMessagePayload(content="M")
+        message = message_service.send_message(conversation_id=conversation, payload=payload)
+        created_messages.append((role, message.id))
+        return message.id
+    yield _build
+    for role, message_id in reversed(created_messages):
+        get_service_by_role(role).messages_api.remove_message(message_id)
+
+@pytest.fixture()
+def build_message_at_certain_conversation(get_service_by_role):
+    def _build(role:str, conversation:str):
+        message_service = get_service_by_role(role).messages_api
+        payload = CreateMessagePayload(content=data_helper.generate_text(max_len=20))
+        message = message_service.send_message(conversation_id=conversation, payload=payload)
+        return message.id
+    yield _build
+
+
+@pytest.fixture()
+def get_removed_message(get_service_by_role, db_get_rand_user_conversation):
+    def _build(role:str):
+        message_service = get_service_by_role(role).messages_api
+        payload = CreateMessagePayload(content="M")
+        conversation = db_get_rand_user_conversation(role)
+        message = message_service.send_message(conversation_id=conversation, payload=payload)
+        message_service.remove_message(message.id)
+        return message.id
+    yield _build
+
 
 @pytest.fixture()
 def build_post_remove(get_service_by_role):
@@ -209,6 +270,19 @@ def comment_cleaner(get_service_by_role):
 
     for comment_id, role in created_ids:  # cleanup всего что зарегистрировано
         get_service_by_role(role).comments_api.delete_comment(comment_id)
+
+
+@pytest.fixture()
+def message_cleaner(get_service_by_role):
+    created_ids = []
+
+    def register(message_id, role:str):
+        created_ids.append((message_id, role))
+
+    yield register  # тест получает функцию регистрации
+
+    for message_id, role in created_ids:  # cleanup всего что зарегистрировано
+        get_service_by_role(role).messages_api.remove_message(message_id)
 
 @pytest.fixture()
 def create_pin_and_get_post(get_service_by_role, create_and_get_post):
@@ -406,18 +480,18 @@ def get_liked_post_before(get_service_by_role):
         return posts[0].id
     yield _action_perform_by
 
-    @pytest.fixture()
-    def get_comment_before(get_service_by_role):
-        def _action_perform_by(role_alias: str):
-            user = get_service_by_role(role_alias)
-            params = {"sort_by": "comments_count"}
-            post = user.posts_api.get_list_posts(params=params).items[0]
-            comments = user.comments_api.get_list_comments(post_id=post.id)
-            for comment in comments:
-                if not comment.is_liked:
-                    return comment.id
-            raise Exception ("Fixture error: No posts without like")
-        yield _action_perform_by
+@pytest.fixture()
+def get_comment_before(get_service_by_role):
+    def _action_perform_by(role_alias: str):
+        user = get_service_by_role(role_alias)
+        params = {"sort_by": "comments_count"}
+        post = user.posts_api.get_list_posts(params=params).items[0]
+        comments = user.comments_api.get_list_comments(post_id=post.id)
+        for comment in comments:
+            if not comment.is_liked:
+                return comment.id
+        raise Exception ("Fixture error: No posts without like")
+    yield _action_perform_by
 
 
 @pytest.fixture()
@@ -533,67 +607,6 @@ def create_comment_only(request, get_service_by_role):
                                                expected_success=True)
     yield comment.id
 
-@pytest.fixture()
-def get_incorrect_comment(request,  get_service_by_role):
-    case_info = request.param
-    if case_info["comment_case"] == "removed":
-        user = get_service_by_role(case_info["precondition_role"])
-        params = {"sort_by": "comments_count"}
-        post = user.posts_api.get_list_posts(params=params).items[0]
-        comment = user.comments_api.create_comment(post_id=post.id, payload=data_helper().get_random_comment_payload())
-        user.comments_api.delete_comment(comment.id)
-        yield comment.id
-    elif case_info["comment_case"] == "not_existed":
-        comment_id = fake.uuid4()
-        yield comment_id
-    elif case_info["comment_case"] == "invalid_uuid":
-        yield "10AW000-0Z0-0Y0-0Y0-00a00000002"
-    elif case_info["comment_case"] == "late":
-
-        user = get_service_by_role(case_info["precondition_role"])
-        params = {"sort_by": "comments_count"}
-        post = user.posts_api.get_list_posts(params=params).items[0]
-
-        own_username = user.auth_api.get_me().username
-
-        comments = user.comments_api.get_list_comments(post_id=post.id).items
-        comment_id = data_helper.find_not_recent_comment(comments, own_username)
-        assert comment_id is not None
-        yield comment_id
-    elif case_info["comment_case"] == "not_own":
-        user = get_service_by_role(case_info["precondition_role"])
-        params = {"sort_by": "comments_count"}
-        post = user.posts_api.get_list_posts(params=params).items[0]
-        own_username = user.auth_api.get_me().username
-
-        comments = user.comments_api.get_list_comments(post_id=post.id).items
-
-        comment_id = data_helper.find_other_authors_comment(comments, own_username)
-        assert comment_id is not None
-        yield comment_id
-    elif case_info["comment_case"] == "post":
-        user = get_service_by_role(case_info["precondition_role"])
-        post = user.posts_api.get_list_posts().items[0]
-        yield post.id
-    elif case_info["comment_case"] == "liked":
-        user = get_service_by_role(case_info["precondition_role"])
-        params = {"sort_by": "comments_count"}
-
-        post = user.posts_api.get_list_posts(params=params).items[1]
-        comment = user.comments_api.create_comment(post_id=post.id,
-                                                   payload=data_helper().get_random_comment_payload(),
-                                                   expected_success=True)
-        user.likes_api.like_comment(comment_id=comment.id,
-                                 payload={},
-                                 expected_success=True)
-        yield comment.id
-        user.comments_api.delete_comment(comment.id)
-    elif case_info["comment_case"] == "not_liked":
-        user = get_service_by_role(case_info["precondition_role"])
-        params = {"sort_by": "comments_count"}
-        post = user.posts_api.get_list_posts(params=params).items[0]
-        comment = user.comments_api.get_list_comments(post_id=post.id).items[1]
-        yield comment.id
 
 @pytest.fixture()
 def create_reply_remove(request,  get_service_by_role):

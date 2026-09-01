@@ -25,7 +25,7 @@ class ResponseMessageModel(BaseModel):
 class ResponseConversationModel(BaseModel):
     id: Annotated[str, UUID4]
     is_group: bool
-    name: str
+    name: str | None
     participants: List[ResponseUserModel] = []
     last_message: Optional[ResponseMessageModel] = None
     unread_count: int

@@ -7,6 +7,7 @@ from services.follows.api import FollowsAPI
 from services.likes.api import LikesAPI
 from services.messages.api import MessagesAPI
 from services.posts.api import PostsAPI
+from services.upload.api import UploadsAPI
 from services.users.api import UsersAPI
 
 
@@ -20,6 +21,7 @@ class ServiceContainer:
         self.likes_api = LikesAPI()
         self.bookmarks_api = BookmarksAPI()
         self.messages_api = MessagesAPI()
+        self.upload_api = UploadsAPI()
 
 class MultiRoleServiceFactory:
 
@@ -52,7 +54,8 @@ class MultiRoleServiceFactory:
             "comments_api" : CommentsAPI(),
             "likes_api": LikesAPI(),
             "bookmarks_api": BookmarksAPI(),
-            "messages_api": MessagesAPI()
+            "messages_api": MessagesAPI(),
+            "upload_api": UploadsAPI()
             # More api_serives
         }
         if role is None:

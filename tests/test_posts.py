@@ -86,26 +86,33 @@ class TestPosts(BaseTest):
             id="Valid minimal boundary + default visibility and image None"),
         pytest.param(CreatePostByRoleTestCase(role="user_eve",
             payload=CreatePostPayload(content="A" * 2000, visibility="public")),
-            id="valid max boundary + image"),
+            id="valid max boundary"),
         pytest.param(CreatePostByRoleTestCase(role="user_bob",
             payload=CreatePostPayload(content=f"Another valid post", visibility="followers_only")),
             id="valid followers_only without image"),
         pytest.param(CreatePostByRoleTestCase(role="user_eve",
-            payload=CreatePostPayload(content=f"Image post", visibility="public", image_url="/test_data/image.jpg")),
+            payload=CreatePostPayload(content=f"Image post", visibility="public", image_url="image.jpg")),
             id="valid public with image"),
         pytest.param(CreatePostByRoleTestCase(role="user_bob",
             payload=CreatePostPayload(content=f"Default visibility post", visibility="public")),
             id="optional image_url omitted + default visibility"),
     ])
     def test_create_post(self, case, post_cleaner):
-        posts_service = self.get_actor(case.role).posts_api
+        api_services = self.get_actor(case.role)
+        payload = case.payload
+        if payload.image_url:
+            upload_service = api_services.upload_api
+            image_url = upload_service.upload_image(payload.image_url)
+            payload.image_url = image_url.url
+        posts_service = api_services.posts_api
         new_post = posts_service.create_post(payload=case.payload)
 
         post_cleaner(new_post.id, case.role)  # регистрируем на удаление
-        assert new_post.content == case.payload.content
-        assert new_post.visibility == case.payload.visibility
-        if case.payload.image_url:
-            assert new_post.image_url == case.payload.image_url
+        assert new_post.content == case.payload.content, "Created post has content, that differs from expected"
+        assert new_post.visibility == case.payload.visibility, "Created post has visibility, that differs from expected"
+        assert not new_post.is_deleted, "Created post has is_deleted - true"
+        if payload.image_url:
+            assert isinstance(new_post.image_url, str), f"Created post has image_url with unexpected type: {type(new_post.image_url)}"
 
     @allure.suite("Create post")
     @allure.story("User can create post at platform")

@@ -1,16 +1,23 @@
-from pydantic import UUID4
-
-
-
-# users/params.py
 from dataclasses import dataclass
-from typing import Literal, Optional, Annotated
 from common.base_params import PaginationParams
+
+
+@dataclass
+class GetConversationsListParamsByRoleTestCase:
+    role: str
+    params: GetConversationsListParams
+
+
+@dataclass
+class GetConversationMessagesListParamsByRoleTestCase:
+    role: str
+    params: GetConversationMessagesListParams
 
 
 @dataclass
 class GetConversationsListParams(PaginationParams):
     ...
+
 
 @dataclass
 class GetConversationMessagesListParams(PaginationParams):

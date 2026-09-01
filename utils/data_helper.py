@@ -1,3 +1,5 @@
+import os
+import platform
 import random
 import string
 from datetime import datetime, timezone, timedelta
@@ -7,6 +9,8 @@ from faker import Faker
 from auth.credentials import Credentials
 fake = Faker()
 creds = Credentials()
+
+
 
 
 
@@ -44,6 +48,35 @@ def find_other_authors_comment(comments, username):
 
 class DataHelper:
     @staticmethod
+    def get_path_to_file(file_name: str = None, folders: str = None):
+        """
+        Method, that prepared path to specified file name and folders.
+        :param file_name: prepared name, required to build file path
+        :param folders: prepared folder name, if file is placed in certain folder
+        :return:
+        """
+        if folders is not None:
+            os_name = platform.system()
+            if os_name == "Darwin":
+                folders = folders.replace("\\", "/")
+            elif os_name == "Windows":
+                folders = folders.replace("/", "\\")
+            return os.path.join(os.getcwd(), f"{folders}", f"{file_name}")
+        return os.path.join(os.getcwd(), f"{file_name}")
+
+    def get_file_as_binary(self, image_file_name: str = None, folders: str = "test_data") -> bytes:
+        """
+        :param image_file_name: filename of image
+        :param folders: optional, if images is placed at certain folder of project
+        :return: binary format of provided image
+        """
+        path_to_file = self.get_path_to_file(file_name=image_file_name, folders=folders)
+        print(path_to_file)
+        with open (path_to_file, "rb") as f:
+            file_content = f.read()
+        return file_content
+
+    @staticmethod
     def find_not_recent_post(posts, username):
         """Return the post of specified author by username, published  > 15 minutes ago"""
         for post in posts:
@@ -72,8 +105,8 @@ class DataHelper:
         """Генерирует случайный номер телефона"""
         return f"{country_code} {random.randint(100, 999)}-{random.randint(100, 999)}-{random.randint(1000, 9999)}"
 
-
-    def generate_text(self, max_len=100):
+    @staticmethod
+    def generate_text(max_len=100):
         return fake.text(max_len)
 
 
@@ -103,10 +136,29 @@ class DataHelper:
     def get_participant_id(self, alis:str):
         return creds.get_user(alis).user_id
 
-
+    def get_random_username(self):
+        return fake.user_name()
 
     def get_not_existed_uuid(self):
         return fake.uuid4()
+    @staticmethod
+    def get_date_from_now(date_step:str="days", amount_to_change:int=0):
+        """
+        Method to get date at YYYY-mm-ddTHH:MM:SS.ffZ format.
+        :param date_step: interval type of time offset (Optional). By default - 'hours'
+        :param amount_to_change:value of offset. Allows negative values to subtract provided about from now. By default - 0
+        :return: Return time now by default at provided format
+        """
+        data_updater = {"hours": timedelta(hours=amount_to_change),
+                         "minutes": timedelta(minutes=amount_to_change),
+                         "days": timedelta(days=amount_to_change),
+                         "years": timedelta(days=365*amount_to_change)}
+        assert date_step in data_updater.keys(), "Unknown date_step"
+        fake_date = fake.date_time().now()
+        fake_date = fake_date + data_updater[date_step]
+        return fake_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
     def get_invalid_uuid(self,):
         return fake.uuid4()[0:-2]
+
+

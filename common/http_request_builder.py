@@ -32,6 +32,24 @@ class HttpRequestBuilder:
         self._request_data["json"] = json
         return self
 
+    def set_multipart_file(self, file_name: str,  file_content: bytes, content_type: str, field_name: str = "file"):
+        """
+        Set file for multipart/form-data request.
+
+        :param file_name: file name
+        :param file_content: binary file content
+        :param content_type: type of the file
+        :param field_name: multipart field name
+        :return: self
+        """
+        self._request_data["files"] = {
+            field_name:(
+            file_name,
+            file_content,
+            content_type)
+        }
+        return self
+
     def set_query_params(self, **kwargs):
         """
         Method to set request query params for request builder if required
@@ -45,6 +63,8 @@ class HttpRequestBuilder:
 
     def send(self,method: str):
         assert method.upper() in ["GET", "POST", "PUT", "PATCH", "DELETE"]
+        # print("headers:", self._request_data.get("headers"))
+        # print("files:", self._request_data.get("files"))
         return getattr(requests, method.lower())(
             **self._request_data,
             timeout=self._request_timeout,
