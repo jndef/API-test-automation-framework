@@ -81,11 +81,11 @@ def db_get_username(db_connect):
 
 
 
-@pytest.fixture(name="reset_role_after")
-def set_users_role_back(db_connect, request):
-    yield
-    change_role_data = request.param
-    db_connect.set_role(table="users", user_name=change_role_data[0], role=change_role_data[1])
+# @pytest.fixture(name="reset_role_after")
+# def set_users_role_back(db_connect, request):
+#     yield
+#     change_role_data = request.param
+#     db_connect.set_role(table="users", user_name=change_role_data[0], role=change_role_data[1])
 
 @pytest.fixture(name="mark_unread_all")
 def mark_all_notifications_as_unred(db_connect, request):

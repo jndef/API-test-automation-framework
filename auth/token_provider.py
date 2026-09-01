@@ -26,7 +26,8 @@ class  TokenProvider:
             .set_request_body(auth_api_client.payloads.login_account(creds.email,creds.password))\
             .send("POST")
         if response.status_code == 200:
-            token = response.json()["access_token"]
+            token = response.access_token
+            # token = response.json()["access_token"]
             self._token_cache[role] = token
             print(f"\nAuthenticated as: {role}")
             return token

@@ -86,11 +86,6 @@ class PostsAPI(BaseAPI):
             .set_url(self.endpoints.pin_post(post_id)) \
             .set_headers(self.headers.basic) \
             .send("POST")
-        #
-        # response = requests.post(
-        #     url=self.endpoints.pin_post(post_id),
-        #     headers=self.headers.basic,
-        # )
         return self.validate_response(response, None, status_code, expected_success)
 
     def unpin_post(self, post_id:str, status_code: int = 204, expected_success: bool = True):
