@@ -2,6 +2,8 @@
 
 Test automation framework for REST API testing built on top of 
 QA Automation Sandbox (https://github.com/manikosto/qa-automation-sandbox)
+Refactoring is currently in progress. See here 
+https://github.com/jndef/API-test-automation-framework/tree/refactor/architecture-and-services
 
 ## Stack
 - Python 3.12
