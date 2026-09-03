@@ -1,5 +1,7 @@
 import os
 from dataclasses import dataclass
+
+import allure
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -40,12 +42,13 @@ class Credentials:
         :param alias:
         :return: object of UserProfile dataclass
         """
-        alias = self._role_checker(alias)
-        # stage = "LOCAL" if os.getenv("STAGE") == "local_docker" else os.getenv("STAGE").upper()
-        role = alias.upper()
-        return UserProfile(
-            alias=alias,
-            user_id=os.getenv(f"{role}_ID"),
-            email=os.getenv(f"{role}_LOGIN"),
-            password=os.getenv(f"{role}_PASSWORD"),
-        )
+        with allure.step(f"Setup - Get credentials data from .env for user: {alias}"):
+            alias = self._role_checker(alias)
+            # stage = "LOCAL" if os.getenv("STAGE") == "local_docker" else os.getenv("STAGE").upper()
+            role = alias.upper()
+            return UserProfile(
+                alias=alias,
+                user_id=os.getenv(f"{role}_ID"),
+                email=os.getenv(f"{role}_LOGIN"),
+                password=os.getenv(f"{role}_PASSWORD"),
+            )

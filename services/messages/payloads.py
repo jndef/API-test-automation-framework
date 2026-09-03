@@ -8,17 +8,17 @@ from utils.data_helper import DataHelper
 fake = Faker()
 
 
+class CreateConversationPayload(BaseModel):
+    participant_ids: list[str] = Field(default=[])
+    is_group: bool = Field(default=False)
+    name: str = Field(default=DataHelper().generate_text(15))
+
+
 @dataclass
 class CreateConversationByRoleTestCase:
     role: str
     payload: CreateConversationPayload
     participant_role: str = None
-
-
-class CreateConversationPayload(BaseModel):
-    participant_ids: list[str] = Field(default=[])
-    is_group: bool = Field(default=False)
-    name: str = Field(default=DataHelper().generate_text(15))
 
 
 @dataclass

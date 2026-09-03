@@ -1,4 +1,6 @@
 import random
+
+import allure
 import pytest
 from faker import Faker
 
@@ -10,7 +12,6 @@ from services.posts.params import GetPostsParams
 from services.posts.payloads import CreatePostPayload
 from utils.data_helper import DataHelper as data_helper
 from auth.role_factory import MultiRoleServiceFactory, ServiceContainer
-from utils.data_helper import find_other_authors_post
 
 fake = Faker()
 creds = Credentials()
@@ -25,7 +26,12 @@ def get_post_with_likes():
     yield get_posts_with_likes
 
 @pytest.fixture(scope="session")
+@allure.title("Setup - Build general multi services factory")
 def get_service_by_role():
+    """
+    Fixture. Setup - build general multi services factory for specified user (by alias)
+    :return:
+    """
     factory = MultiRoleServiceFactory()
     def _get_service_container_for_user(role):
         return factory.get_services(role)
@@ -112,6 +118,19 @@ def get_removed_message(get_service_by_role, db_get_rand_user_conversation):
         message_service.remove_message(message.id)
         return message.id
     yield _build
+
+@pytest.fixture()
+@allure.title("API fixture: init adding  avatar to profile")
+def add_avatar_to_profile(get_service_by_role):
+    """
+    API Fixture. Upload avatar for user by provided alias
+    :param get_service_by_role:
+    :return:
+    """
+    def _add_avatar(role:str):
+        user_service = get_service_by_role(role).users_api
+        user_service.update_profile_avatar(image_name="image.png")
+    yield _add_avatar
 
 
 @pytest.fixture()

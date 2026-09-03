@@ -1,3 +1,5 @@
+import allure
+
 from auth.credentials import Credentials, UserProfile
 from services.auth.api import AuthAPI
 import pytest
@@ -16,7 +18,8 @@ class BaseTest:
     data_helper = DataHelper()
 
     def get_actor(self, role: str):
-        return self._service_by_role(role)
+        with allure.step(f'Setup - Get multi services factory for certain user {role}'):
+            return self._service_by_role(role)
 
     @staticmethod
     def get_user_info(alias: str) -> UserProfile:
@@ -50,6 +53,7 @@ class BaseTest:
 
 
     @pytest.fixture(autouse=True)
+    @allure.title("Setup - Get multi services factory for tests")
     def _inject_services(self, get_service_by_role):
         self._service_by_role = get_service_by_role
 

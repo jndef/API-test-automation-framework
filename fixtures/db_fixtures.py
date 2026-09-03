@@ -1,4 +1,6 @@
 import sqlite3
+
+import allure
 from faker import Faker
 fake = Faker()
 import pytest
@@ -8,6 +10,7 @@ from config.db_config import MyLocalDBConfig
 from utils.db_helper import DataBaseHandler
 creds = Credentials()
 
+@allure.title("DB Fixture: Create/close connection to DB")
 @pytest.fixture(name="db_connect", scope="session")
 def connect_database():
     data_base = DataBaseHandler(MyLocalDBConfig)
@@ -65,15 +68,14 @@ def db_get_rand_user_conversation(db_connect):
         raise BaseException(f"Conversation is absent")
     yield _get_user_conversation
 
-@pytest.fixture()
-def db_get_user_name_by_alias(request, db_connect):
-    case_info = request.param
-    username = db_connect.get_user_by_name(case_info["alias"])
-    if username is not None:
-        yield username
-
+@allure.title("DB Fixture: get username by provided alias")
 @pytest.fixture()
 def db_get_username(db_connect):
+    """
+    DB fixture to get username by provided alias
+    :param db_connect:
+    :return: username (str)
+    """
     def _get(alias: str) -> str:
         return db_connect.get_user_by_name(alias)
     yield _get
