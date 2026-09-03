@@ -150,6 +150,30 @@ def build_post_remove(get_service_by_role):
         get_service_by_role(role).posts_api.delete_post(post_id)
 
 @pytest.fixture()
+def create_follow_request_remove(get_service_by_role):
+    follow_users:list[tuple]=[]
+    def _follow(role, user_name:str):
+        follow_service = get_service_by_role(role).follows_api
+        follow_service.follow_user(user_name)
+        follow_users.append((role, user_name))
+    yield _follow  # тест получает функцию регистрации
+
+    for role, user_name in reversed(follow_users):
+        get_service_by_role(role).follows_api.unfollow_user(user_name)
+
+@pytest.fixture()
+@allure.title("API Fixture - create follow request before")
+def get_follow_request(get_service_by_role):
+
+    def _follow(role, user_name:str):
+        follow_service = get_service_by_role(role).follows_api
+        follow = follow_service.follow_user(user_name)
+        return follow.id
+    yield _follow  # тест получает функцию регистрации
+
+
+
+@pytest.fixture()
 def build_post_pin_remove(get_service_by_role):
     created_posts:list[tuple] = []
 
@@ -368,6 +392,16 @@ def post_cleaner(get_service_by_role):
     yield register  # тест получает функцию регистрации
     for post_id, role in created_ids:  # cleanup всего что зарегистрировано
         get_service_by_role(role).posts_api.delete_post(post_id)
+
+@pytest.fixture()
+@allure.title("API Fixture. Clean (remove) follow request after test")
+def follow_request_cleaner(get_service_by_role):
+    created_ids = []
+    def _register(user_name, role:str):
+        created_ids.append((user_name, role))
+    yield _register  # тест получает функцию регистрации
+    for user_name, role in created_ids:  # cleanup всего что зарегистрировано
+        get_service_by_role(role).follows_api.unfollow_user(user_name)
 
 
 
