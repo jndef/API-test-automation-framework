@@ -9,13 +9,13 @@ from common.base_params import BaseParams
 
 fake = Faker()
 
-class CreateCommentPayloadQuery(BaseModel):
+class CreateCommentPayload(BaseModel):
     content: str | int = None
 
 @dataclass
 class CreateCommentByRoleTestCase:
     role:str
-    payload: CreateCommentPayloadQuery
+    payload: CreateCommentPayload
     status_code: int = 200
     expected_success: bool = True
 

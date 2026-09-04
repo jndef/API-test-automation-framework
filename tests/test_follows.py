@@ -409,7 +409,6 @@ class TestFollows(BaseTest):
     @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Reject follow requests")
-    @pytest.mark.testing
     @allure.title("Reject follow request - attempt to reject twice request")
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_bob", "user_private", id="Attempt to reject twice request"),

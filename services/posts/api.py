@@ -1,3 +1,5 @@
+import allure
+
 from common.base_api import BaseAPI
 from config.headers import Headers
 from services.posts.endpoints import Endpoints
@@ -18,80 +20,82 @@ class PostsAPI(BaseAPI):
         self.endpoints = Endpoints()
 
     def get_list_posts(self, params: GetPostsParams = None, status_code: int = 200, expected_success: bool = True):
-        response =  self.request()\
-            .set_url(self.endpoints.get_list_posts)\
-            .set_query_params(**(params.to_dict() if params else {}))\
-            .set_headers(self.headers.basic)\
-            .send("GET")
-
-        return self.validate_response(response, ResponsePostsModel,status_code=status_code, expected_success=expected_success)
+        with allure.step(f"API Request - get list of posts"):
+            response =  self.request()\
+                .set_url(self.endpoints.get_list_posts)\
+                .set_query_params(**(params.to_dict() if params else {}))\
+                .set_headers(self.headers.basic)\
+                .send("GET")
+            return self.validate_response(response, ResponsePostsModel,status_code=status_code, expected_success=expected_success)
 
 
     def create_post(self, payload: CreatePostPayload, status_code: int = 201, expected_success: bool = True):
-        response =  self.request()\
-            .set_url(self.endpoints.create_post) \
-            .set_headers(self.headers.basic) \
-            .set_request_body(payload.model_dump(exclude_none=True))\
-            .send("POST")
-
-        return self.validate_response(response, ResponseCreatePostModel, status_code=status_code, expected_success=expected_success)
+        with allure.step(f"API POST Request - create a new post with text ({payload})"):
+            response =  self.request()\
+                .set_url(self.endpoints.create_post) \
+                .set_headers(self.headers.basic) \
+                .set_request_body(payload.model_dump(exclude_none=True))\
+                .send("POST")
+            return self.validate_response(response, ResponseCreatePostModel, status_code=status_code, expected_success=expected_success)
 
     def get_posts_feed(self, params: GetFeedParams = None, status_code: int = 200, expected_success: bool = True):
-        response =  self.request()\
-            .set_url(self.endpoints.get_feed)\
-            .set_query_params(**(params.to_dict() if params else {}))\
-            .set_headers(self.headers.basic)\
-            .send("GET")
-
-        return self.validate_response(response, ResponsePostsFeedModel, status_code=status_code, expected_success=expected_success)
+        with allure.step(f"API Request - get posts feed"):
+            response =  self.request()\
+                .set_url(self.endpoints.get_feed)\
+                .set_query_params(**(params.to_dict() if params else {}))\
+                .set_headers(self.headers.basic)\
+                .send("GET")
+            return self.validate_response(response, ResponsePostsFeedModel, status_code=status_code, expected_success=expected_success)
 
     def get_post(self, post_id:str, status_code: int = 200, expected_success: bool = True):
-        response =  self.request()\
-            .set_url(self.endpoints.get_post(post_id))\
-            .set_headers(self.headers.basic)\
-            .send("GET")
-
-        return self.validate_response(response, ResponsePostModel, status_code=status_code, expected_success=expected_success)
+        with allure.step(f"API Request - get certain post ({post_id})"):
+            response =  self.request()\
+                .set_url(self.endpoints.get_post(post_id))\
+                .set_headers(self.headers.basic)\
+                .send("GET")
+            return self.validate_response(response, ResponsePostModel, status_code=status_code, expected_success=expected_success)
 
     def update_post(self, post_id:str,  payload: UpdatePostPayload, status_code: int = 200, expected_success: bool = True):
-        response =  self.request()\
-            .set_url(self.endpoints.update_post(post_id)) \
-            .set_headers(self.headers.basic) \
-            .set_request_body(payload.model_dump(exclude_none=True))\
-            .send("PATCH")
-
-        return self.validate_response(response, ResponsePostUpdateModel, status_code=status_code, expected_success=expected_success)
+        with allure.step(f"API PATCH Request - update post ({post_id})"):
+            response =  self.request()\
+                .set_url(self.endpoints.update_post(post_id)) \
+                .set_headers(self.headers.basic) \
+                .set_request_body(payload.model_dump(exclude_none=True))\
+                .send("PATCH")
+            return self.validate_response(response, ResponsePostUpdateModel, status_code=status_code, expected_success=expected_success)
 
     def delete_post(self, post_id:str, params: DeletePostParams = None, status_code: int = 204, expected_success: bool = True):
-        response =  self.request()\
-            .set_url(self.endpoints.delete_post(post_id)) \
-            .set_query_params(**(params.to_dict() if params else {})) \
-            .set_headers(self.headers.basic) \
-            .send("DELETE")
-
-        return self.validate_response(response, None, status_code=status_code, expected_success=expected_success)
+        with allure.step(f"API DELETE Request - remove post ({post_id})"):
+            response =  self.request()\
+                .set_url(self.endpoints.delete_post(post_id)) \
+                .set_query_params(**(params.to_dict() if params else {})) \
+                .set_headers(self.headers.basic) \
+                .send("DELETE")
+            return self.validate_response(response, None, status_code=status_code, expected_success=expected_success)
 
 
     def repost_post(self, post_id:str, payload: CreateRepostPayload, status_code: int = 201, expected_success: bool = True):
-        response =  self.request()\
-            .set_url(self.endpoints.repost_post(post_id)) \
-            .set_headers(self.headers.basic) \
-            .set_request_body(payload.model_dump(exclude_none=True))\
-            .send("POST")
+        with allure.step(f"API POST Request - repost post ({post_id})"):
+            response =  self.request()\
+                .set_url(self.endpoints.repost_post(post_id)) \
+                .set_headers(self.headers.basic) \
+                .set_request_body(payload.model_dump(exclude_none=True))\
+                .send("POST")
 
-        return self.validate_response(response, ResponsePostUpdateModel, status_code=status_code, expected_success=expected_success)
+            return self.validate_response(response, ResponsePostUpdateModel, status_code=status_code, expected_success=expected_success)
 
     def pin_post(self, post_id:str, status_code: int = 204, expected_success: bool = True):
-        response =  self.request()\
-            .set_url(self.endpoints.pin_post(post_id)) \
-            .set_headers(self.headers.basic) \
-            .send("POST")
-        return self.validate_response(response, None, status_code, expected_success)
+        with allure.step(f"API POST Request - pin post ({post_id})"):
+            response =  self.request()\
+                .set_url(self.endpoints.pin_post(post_id)) \
+                .set_headers(self.headers.basic) \
+                .send("POST")
+            return self.validate_response(response, None, status_code, expected_success)
 
     def unpin_post(self, post_id:str, status_code: int = 204, expected_success: bool = True):
-        response =  self.request()\
-            .set_url(self.endpoints.unpin_post(post_id)) \
-            .set_headers(self.headers.basic) \
-            .send("POST")
-
+        with allure.step(f"API POST Request - unpin post ({post_id})"):
+            response =  self.request()\
+                .set_url(self.endpoints.unpin_post(post_id)) \
+                .set_headers(self.headers.basic) \
+                .send("POST")
         return self.validate_response(response, None, status_code, expected_success)

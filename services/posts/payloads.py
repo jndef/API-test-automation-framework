@@ -1,7 +1,10 @@
 from dataclasses import dataclass
-from typing import Literal, Optional
+from typing import Literal, Optional, Union
 
 from pydantic import BaseModel
+
+
+RepostOptionsType = Union[Literal["repost", "quote"], None, str]
 
 class CreatePostPayload(BaseModel):
     content: str = "A"
@@ -31,7 +34,7 @@ class UpdatePostByRoleTestCase:
 
 
 class CreateRepostPayload(BaseModel):
-    repost_type: Optional[str] = None
+    repost_type: RepostOptionsType = None
     content: str = None
 
 

@@ -1,15 +1,18 @@
 from dataclasses import dataclass
+from typing import Literal, Union
 
 from faker import Faker
 from pydantic import BaseModel
 
+ReactionsOptionsType = Union[Literal["like", "love", "laugh", "wow", "sad", "angry"], None, str]
+
 fake = Faker()
 
 class LikePostPayload(BaseModel):
-    reaction: str = None
+    reaction: ReactionsOptionsType = None
 
 class LikeCommentPayload(BaseModel):
-    reaction: str | int = None
+    reaction: ReactionsOptionsType = None
 
 @dataclass
 class LikePostByRoleTestCase:

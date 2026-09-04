@@ -5,7 +5,7 @@ import pytest
 from faker import Faker
 
 from auth.credentials import Credentials
-from services.comments.payloads import CreateCommentBody, CreateCommentPayloadQuery
+from services.comments.payloads import CreateCommentBody, CreateCommentPayload
 from services.likes.payloads import LikePostPayload
 from services.messages.payloads import CreateMessagePayload
 from services.posts.params import GetPostsParams
@@ -251,7 +251,7 @@ def build_comment_like_remove(get_service_by_role):
         comment_service = app_services.comments_api
         like_service = app_services.likes_api
 
-        comment_payload = CreateCommentPayloadQuery(content="B")
+        comment_payload = CreateCommentPayload(content="B")
         like_payload = LikePostPayload(reaction=reaction)
 
         post = random.choice(_get_posts_list_for_user(post_service))
@@ -348,7 +348,13 @@ def get_removed_comment(get_service_by_role):
     yield _remove_comment_by
 
 @pytest.fixture()
+@allure.title("API Fixture. Clean (remove) comment after test")
 def comment_cleaner(get_service_by_role):
+    """
+    API Fixture. Clean (remove) comment after test
+    :param get_service_by_role:
+    :return:
+    """
     created_ids = []
 
     def register(comment_id, role="user_eve"):
@@ -395,7 +401,13 @@ def get_expired_to_edit_post(get_service_by_role):
     yield _get_expired_post
 
 @pytest.fixture()
+@allure.title("API Fixture. Clean (remove) post after test")
 def post_cleaner(get_service_by_role):
+    """
+    API fixture. Remove added post after test
+    :param get_service_by_role:
+    :return:
+    """
     created_ids = []
     def register(post_id, role:str):
         created_ids.append((post_id, role))
