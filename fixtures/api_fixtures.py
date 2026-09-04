@@ -150,7 +150,13 @@ def build_post_remove(get_service_by_role):
         get_service_by_role(role).posts_api.delete_post(post_id)
 
 @pytest.fixture()
+@allure.title("API Fixture - create follow request before and remove after")
 def create_follow_request_remove(get_service_by_role):
+    """
+    API Fixture - create follow request before and remove after
+    :param get_service_by_role:
+    :return:
+    """
     follow_users:list[tuple]=[]
     def _follow(role, user_name:str):
         follow_service = get_service_by_role(role).follows_api
@@ -164,7 +170,11 @@ def create_follow_request_remove(get_service_by_role):
 @pytest.fixture()
 @allure.title("API Fixture - create follow request before")
 def get_follow_request(get_service_by_role):
-
+    """
+    API Fixture. Upload follow request for user by provided alias
+    :param get_service_by_role:
+    :return:
+    """
     def _follow(role, user_name:str):
         follow_service = get_service_by_role(role).follows_api
         follow = follow_service.follow_user(user_name)
@@ -396,6 +406,11 @@ def post_cleaner(get_service_by_role):
 @pytest.fixture()
 @allure.title("API Fixture. Clean (remove) follow request after test")
 def follow_request_cleaner(get_service_by_role):
+    """
+    Clean (remove) follow request after test
+    :param get_service_by_role:
+    :return:
+    """
     created_ids = []
     def _register(user_name, role:str):
         created_ids.append((user_name, role))
