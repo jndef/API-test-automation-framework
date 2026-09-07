@@ -139,7 +139,7 @@ def build_post_remove(get_service_by_role):
 
     def _build(role:str):
         post_service = get_service_by_role(role).posts_api
-        payload = CreatePostPayload(content="B")
+        payload = CreatePostPayload(content=data_helper.generate_text(50))
 
         post = post_service.create_post(payload)
         created_posts.append((role, post.id))

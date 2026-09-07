@@ -8,6 +8,7 @@ from services.likes.api import LikesAPI
 from services.messages.api import MessagesAPI
 from services.notifications.api import NotificationsAPI
 from services.posts.api import PostsAPI
+from services.search.api import SearchAPI
 from services.upload.api import UploadsAPI
 from services.users.api import UsersAPI
 
@@ -24,6 +25,7 @@ class ServiceContainer:
         self.messages_api = MessagesAPI()
         self.upload_api = UploadsAPI()
         self.notifications_api = NotificationsAPI()
+        self.search_api = SearchAPI()
 
 class MultiRoleServiceFactory:
 
@@ -58,7 +60,8 @@ class MultiRoleServiceFactory:
             "bookmarks_api": BookmarksAPI(),
             "messages_api": MessagesAPI(),
             "upload_api": UploadsAPI(),
-            "notifications_api": NotificationsAPI()
+            "notifications_api": NotificationsAPI(),
+            "search_api" : SearchAPI()
             # More api_serives
         }
         if role is None:

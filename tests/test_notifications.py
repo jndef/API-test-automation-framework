@@ -3,7 +3,7 @@ import pytest
 
 from config.base_test import BaseTest
 from services.comments.payloads import CreateCommentPayload
-from services.likes.payloads import LikePostPayload, LikeCommentPayload
+from services.likes.payloads import LikePostPayload
 from services.notifications.params import GetNotificationsParamsByRoleTestCase, GetNotificationsParams
 from services.posts.payloads import CreatePostPayload, CreateRepostPayload
 
