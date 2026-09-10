@@ -5,19 +5,13 @@ fake = Faker()
 
 
 from dataclasses import dataclass
-from typing import Optional, Union, Literal
-from common.base_params import PaginationParams, SortParams, ReadableParams, BaseParams
-
-SortOrderType = Union[Literal["asc", "desc"], None, str]
-SortByType = Union[Literal["created_at", "username", "display_name"], None, str]
-sort_order: Optional[SortOrderType] = None
-
+from typing import Optional
+from common.base_params import PaginationParams, SortParams, ReadableParams, SortByParam
 
 
 @dataclass(repr=False)
-class GetUsersParams(PaginationParams, SortParams, ReadableParams):
+class GetUsersParams(PaginationParams, SortParams,SortByParam, ReadableParams):
     search: Optional[str] = None
-    sort_by: Optional[SortByType] = None
 
 @dataclass(repr=False)
 class GetUsersParamsByRoleTestCase(ReadableParams):

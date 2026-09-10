@@ -1,10 +1,13 @@
 import random
+from dataclasses import dataclass
 
 import allure
 import pytest
 from faker import Faker
 
 from auth.credentials import Credentials
+from services.admin.params import AdminGetAllUsersParams
+from services.admin.payloads import UpdateUserByAdminPayload
 from services.comments.payloads import CreateCommentBody, CreateCommentPayload
 from services.likes.payloads import LikePostPayload
 from services.messages.payloads import CreateMessagePayload
@@ -431,39 +434,64 @@ def follow_request_cleaner(get_service_by_role):
         get_service_by_role(role).follows_api.unfollow_user(user_name)
 
 
-
-
-
-
-@pytest.fixture()
-def follow_unfollow(request, get_service_by_role):
-    params = request.param
-    callspec = getattr(request.node, "callspec", None)
-
-    if callspec:
-        data_params = callspec.params
-    else:
-        data_params = None
-    if data_params and data_params["expected_success"]:
-        # print("FIXTURE. EXPECTED SUCCESS")
-        user_services = get_service_by_role(params[0])
-        if params[2] == "follow":
-            try:
-                user_services.follows_api.follow_user(params[1])
-            except AssertionError:
-                pass
-        elif params[2] == "unfollow":
-            try:
-                user_services.follows_api.unfollow_user(params[1])
-            except AssertionError:
-                pass
-    yield
-
+@dataclass
+class UserInfo:
+    role: str
+    user_id: str
+    is_verified: bool
+    is_active: bool
 
 
 @pytest.fixture()
-def bookmark_post_only(request, get_service_by_role):
-    user = get_service_by_role(request.param["create_by"])
-    post = user.posts_api.get_list_posts().items[0]
-    user.bookmarks_api.bookmark_post(post.id)
-    yield post.id
+def get_me_of_certain_user(get_service_by_role):
+    def _ger_user_info(role:str) -> UserInfo:
+        api_services = get_service_by_role(role)
+        user_info = api_services.auth_api.get_me()
+        return UserInfo(
+                role=user_info.role,
+                is_verified=user_info.is_verified,
+                is_active=user_info.is_active,
+                user_id=user_info.id)
+    yield _ger_user_info
+
+@pytest.fixture()
+@allure.title("API Fixture. Register new user for test")
+def register_new_account(get_service_by_role):
+    """
+    API Fixture. Register new user for test
+    :param get_service_by_role:
+    :return:
+    """
+    guest_service = get_service_by_role(None)
+    payload = data_helper.get_random_register_account_payload()
+    created_user = guest_service.auth_api.register(payload)
+    yield UserInfo(
+        role=created_user.role,
+        is_verified=created_user.is_verified,
+        is_active=created_user.is_active,
+        user_id=created_user.id)
+
+@pytest.fixture()
+@allure.title("API Fixture. Register new user for test")
+def register_remove_new_account(get_service_by_role):
+    """
+    API Fixture. Register new user for test and deactivate after
+    :param get_service_by_role:
+    :return:
+    """
+    created_ids = []
+    def _create() -> UserInfo:
+        guest_service = get_service_by_role(None)
+        payload = data_helper.get_random_register_account_payload()
+        created_user = guest_service.auth_api.register(payload)
+        created_ids.append(created_user.id)
+        user_data = UserInfo(
+            role=created_user.role,
+            is_verified=created_user.is_verified,
+            is_active=created_user.is_active,
+            user_id=created_user.id)
+        return user_data
+    yield _create
+    admin_service = get_service_by_role("admin").admin_api
+    for user_id in created_ids:
+        admin_service.deactivate_user_by_admin(user_id)

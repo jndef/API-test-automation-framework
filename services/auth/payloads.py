@@ -1,7 +1,37 @@
+from dataclasses import dataclass
+
 from faker import Faker
+from pydantic import BaseModel
 
 fake = Faker()
 
+@dataclass(repr=False)
+class CreateAccountPayload(BaseModel):
+    email: str
+    display_name: str
+    username: str
+    password: str | int = None
+
+
+@dataclass(repr=False)
+class LoginToAccountPayload(BaseModel):
+    password: str
+    email: str
+
+
+@dataclass(repr=False)
+class LoginToAccountPayloadByRoleTestCase:
+    role: str
+
+@dataclass(repr=False)
+class RefreshTokenPayload(BaseModel):
+    refresh_token: str
+
+
+
+@dataclass(repr=False)
+class LogoutPayload(BaseModel):
+    refresh_token: str
 
 class Payloads:
 

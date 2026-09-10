@@ -5,6 +5,7 @@ SERVICE_URL = "/api/auth"
 
 class Endpoints:
 
+    register_account = f"{STAGE}{SERVICE_URL}/register"
     login_account = f"{STAGE}{SERVICE_URL}/login"
     refresh = f"{STAGE}{SERVICE_URL}/refresh"
     logout = f"{STAGE}{SERVICE_URL}/logout"

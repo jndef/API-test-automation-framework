@@ -7,6 +7,8 @@ from datetime import datetime, timezone, timedelta
 from faker import Faker
 
 from auth.credentials import Credentials
+from services.auth.payloads import CreateAccountPayload
+
 fake = Faker()
 creds = Credentials()
 
@@ -124,6 +126,9 @@ class DataHelper:
             "image_url": random.choice(image_url_options),
             "visibility": random.choice(visibility_options)
         }
+    @staticmethod
+    def get_random_register_account_payload():
+        return CreateAccountPayload(display_name=fake.name(), username=fake.user_name(), email=f"ivanjndef+{fake.random_int(100, 100000)}@gmail.com", password="123456")
 
     def get_random_comment_payload(self):
         """Generates random comment payload depending on max content length"""

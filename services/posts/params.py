@@ -2,44 +2,44 @@ from pydantic import UUID4
 
 from dataclasses import dataclass
 from typing import Literal, Optional, Annotated
-from common.base_params import PaginationParams, SortParams, BaseParams
+from common.base_params import PaginationParams, SortParams, BaseParams, ReadableParams
 
 
-@dataclass
-class GetPostsParams(PaginationParams, SortParams):
+@dataclass(repr=False)
+class GetPostsParams(PaginationParams, SortParams, ReadableParams):
     hashtag: Optional[str] = None
     author_id: Optional[Annotated[str, UUID4]] = None
     sort_by: str = None
 
 
-@dataclass
-class GetFeedParams(PaginationParams):
+@dataclass(repr=False)
+class GetFeedParams(PaginationParams, ReadableParams):
     ...
 
 
-@dataclass
-class DeletePostParams(BaseParams):
+@dataclass(repr=False)
+class DeletePostParams(BaseParams, ReadableParams):
     reason: Optional[str] = None
 
 
-@dataclass
-class GetPostsByRoleTestCase:
+@dataclass(repr=False)
+class GetPostsByRoleTestCase(ReadableParams):
     role: str
     params: GetPostsParams
     status_code: int = 200
     expected_success: bool = True
 
 
-@dataclass
-class GetFeedByRoleTestCase:
+@dataclass(repr=False)
+class GetFeedByRoleTestCase(ReadableParams):
     role: str
     params: GetFeedParams
     status_code: int = 200
     expected_success: bool = True
 
 
-@dataclass
-class DeletePostByRoleTestCase:
+@dataclass(repr=False)
+class DeletePostByRoleTestCase(ReadableParams):
     role: str
     params: DeletePostParams
     status_code: int = 200

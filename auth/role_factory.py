@@ -1,5 +1,6 @@
 from config.headers import Headers
 from auth.token_provider import TokenProvider
+from services.admin.api import AdminAPI
 from services.auth.api import AuthAPI
 from services.bookmarks.api import BookmarksAPI
 from services.comments.api import CommentsAPI
@@ -26,6 +27,7 @@ class ServiceContainer:
         self.upload_api = UploadsAPI()
         self.notifications_api = NotificationsAPI()
         self.search_api = SearchAPI()
+        self.admin_api = AdminAPI()
 
 class MultiRoleServiceFactory:
 
@@ -61,7 +63,8 @@ class MultiRoleServiceFactory:
             "messages_api": MessagesAPI(),
             "upload_api": UploadsAPI(),
             "notifications_api": NotificationsAPI(),
-            "search_api" : SearchAPI()
+            "search_api" : SearchAPI(),
+            "admin_api" : AdminAPI()
             # More api_serives
         }
         if role is None:

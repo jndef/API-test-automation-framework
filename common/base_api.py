@@ -22,6 +22,9 @@ class BaseAPI:
             print(f"\nRequest to validate: {response.request.method} {response.request.url}\nExpected status code: {status_code}, actual status code: {response.status_code}\nValidate_response...")
             if response.status_code != status_code:
                 self.reporter.attach_failure(response)
+                if response.status_code == 403:
+                    raise Exception(
+                        f"Failed. Request {response.request.method} {response.request.url} returned {response.status_code} status code.\n Request headers: {response.request.headers}\nResponse text: {response.text}")
                 raise Exception(f"Failed. Request {response.request.method} {response.request.url} returned {response.status_code} status code.\nResponse text: {response.text}")
             # if model is not None:
             if expected_success and model is not None:

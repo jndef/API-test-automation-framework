@@ -4,7 +4,7 @@ from dataclasses import dataclass, asdict
 from typing import Optional, Literal, Union
 
 SortOrderType = Union[Literal["asc", "desc"], None, str]
-
+SortByType = Union[Literal["created_at", "username", "display_name"], None, str]
 
 from dataclasses import fields
 
@@ -40,3 +40,7 @@ class PaginationParams(BaseParams):
 @dataclass(repr=False)
 class SortParams(BaseParams):
     sort_order: Optional[SortOrderType] = None
+
+@dataclass(repr=False)
+class SortByParam(BaseParams):
+    sort_by: Optional[SortByType] = None

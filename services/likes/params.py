@@ -1,12 +1,13 @@
 from dataclasses import dataclass
-from common.base_params import PaginationParams
+from common.base_params import PaginationParams, ReadableParams
 
-@dataclass
-class GetPostLikesParams(PaginationParams):
+
+@dataclass(repr=False)
+class GetPostLikesParams(PaginationParams, ReadableParams):
     ...
 
-@dataclass
-class GetPostLikesByRoleTestCase:
+@dataclass(repr=False)
+class GetPostLikesByRoleTestCase(ReadableParams):
     role: str
     params: GetPostLikesParams
     status_code: int = None

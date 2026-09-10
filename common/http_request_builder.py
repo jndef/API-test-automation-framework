@@ -1,4 +1,10 @@
+from typing import Literal
+
 import requests
+
+RequestMethodOptions = Literal["GET", "POST", "PUT", "PATCH", "DELETE"]
+
+
 
 class HttpRequestBuilder:
     _session = requests.Session()
@@ -63,7 +69,7 @@ class HttpRequestBuilder:
             self._request_data["params"][key] = value
         return self
 
-    def send(self,method: str):
+    def send(self,method: RequestMethodOptions):
         assert method.upper() in ["GET", "POST", "PUT", "PATCH", "DELETE"]
         return getattr(self._session, method.lower())(
             **self._request_data,
