@@ -24,6 +24,7 @@ class TestAdmin(BaseTest):
         "moderator",
     ])
     @pytest.mark.smoke
+    @pytest.mark.positive
     def test_get_stats(self, case):
         admin_service = self.get_actor(case).admin_api
         admin_service.get_stats()
@@ -36,7 +37,8 @@ class TestAdmin(BaseTest):
     @pytest.mark.parametrize("case ", [
         "user_bob",
     ])
-    @pytest.mark.smoke
+    @pytest.mark.regression
+    @pytest.mark.positive
     def test_get_stats_invalid_role(self, case):
         admin_service = self.get_actor(case).admin_api
         admin_service.get_stats(status_code=403, expected_success=False)
@@ -70,10 +72,11 @@ class TestAdmin(BaseTest):
                                                                                         role="moderator", per_page=1)),
                      id="is_active - True, role - moderator, per_page - 1"),
     ])
-    @pytest.mark.smoke
-    def test_get_all_users(self, case):
-        searched_user_api_client = self.get_actor(case.search_query)
-        searched_user_username: str = searched_user_api_client.auth_api.get_me().username
+    @pytest.mark.regression
+    @pytest.mark.users
+    @pytest.mark.positive
+    def test_get_all_users(self, case, get_me_of_certain_user):
+        searched_user_username: str = get_me_of_certain_user(case.search_query).username
         api_client = self.get_actor(case.role)
         api_client.admin_api.get_list_all_users(params=case.params, search_query=searched_user_username)
 
@@ -102,7 +105,10 @@ class TestAdmin(BaseTest):
                                                           params=AdminGetAllUsersParams(sort_order="test")),
                      id="sort_order - test"),
     ])
-    @pytest.mark.smoke
+
+    @pytest.mark.regression
+    @pytest.mark.users
+    @pytest.mark.negative
     def test_get_all_users_invalid_params(self, case):
         api_client = self.get_actor(case.role)
         api_client.admin_api.get_list_all_users(params=case.params, search_query=case.search_query,
@@ -114,8 +120,11 @@ class TestAdmin(BaseTest):
     @allure.story("Admin can see existed users")
     @allure.title("Get List All Users by invalid user ({case})")
     @pytest.mark.parametrize("case ", [
-        "user_bob",
+        "user_alice",
     ])
+    @pytest.mark.regression
+    @pytest.mark.users
+    @pytest.mark.negative
     def test_get_all_users_invalid_role(self, case):
         admin_service = self.get_actor(case).admin_api
         admin_service.get_list_all_users(params=AdminGetAllUsersParams(), search_query=case, status_code=403,
@@ -131,11 +140,13 @@ class TestAdmin(BaseTest):
                                                             payload=UpdateUserByAdminPayload(is_verified=True),
                                                             updated_user="user_bob"),
                      id="Update user - is_verified - True"),
-        pytest.param(UpdateUserByAdminPayloadByRoleTestCase(case_role="moderator",
+        pytest.param(UpdateUserByAdminPayloadByRoleTestCase(case_role="admin",
                                                             payload=UpdateUserByAdminPayload(is_verified=False),
                                                             updated_user="user_bob"),
                      id="Update user - is_verified - False"),
     ])
+    @pytest.mark.smoke
+    @pytest.mark.positive
     def test_admin_update_user_verified(self, case, get_me_of_certain_user):
         admin_service = self.get_actor(case.case_role).admin_api
         searched_user = get_me_of_certain_user(case.updated_user)
@@ -155,6 +166,8 @@ class TestAdmin(BaseTest):
     @pytest.mark.parametrize("case_role ", [
         "user_bob",
     ])
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_admin_update_user_verified_no_rights(self, case_role, get_me_of_certain_user):
         admin_service = self.get_actor(case_role).admin_api
         searched_user = get_me_of_certain_user(case_role)
@@ -177,6 +190,8 @@ class TestAdmin(BaseTest):
                                                             updated_user="user_bob"),
                      id="Update user - is_active - False"),
     ])
+    @pytest.mark.regression
+    @pytest.mark.positive
     def test_admin_update_user_active(self, case, get_me_of_certain_user):
         admin_service = self.get_actor(case.case_role).admin_api
         searched_user = get_me_of_certain_user(case.updated_user)
@@ -197,6 +212,8 @@ class TestAdmin(BaseTest):
         "user_bob",
         "moderator",
     ])
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_admin_update_user_active_no_rights(self, case_role, get_me_of_certain_user):
         admin_service = self.get_actor(case_role).admin_api
         searched_user = get_me_of_certain_user(case_role)
@@ -228,6 +245,8 @@ class TestAdmin(BaseTest):
                      id="admin, Update user's role for moderator (user)"),
 
     ])
+    @pytest.mark.smoke
+    @pytest.mark.positive
     def test_admin_update_user_role(self, case, get_me_of_certain_user):
         admin_service = self.get_actor(case.case_role).admin_api
         searched_user = get_me_of_certain_user(case.updated_user)
@@ -266,6 +285,8 @@ class TestAdmin(BaseTest):
         pytest.param("moderator", "admin", "user",
                      id="moderator, Attempt to update user's role for admin (-> user)"),
     ])
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_admin_update_user_role_no_rights(self, case_role, updated_user, new_role, get_me_of_certain_user):
         admin_service = self.get_actor(case_role).admin_api
         searched_user = get_me_of_certain_user(updated_user)
@@ -282,6 +303,8 @@ class TestAdmin(BaseTest):
         pytest.param("admin",
                      id="user, Attempt to update user's role for moderator (-> user)"),
     ])
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_admin_update_user_not_existed(self, case_role):
         admin_service = self.get_actor(case_role).admin_api
         searched_user = self.data_helper.get_not_existed_uuid()
@@ -298,6 +321,9 @@ class TestAdmin(BaseTest):
         pytest.param("admin",
                      id="user, Attempt to update user's role for moderator (-> user)"),
     ])
+    @pytest.mark.regression
+    @pytest.mark.negative
+
     def test_admin_update_user_not_valid_uuid(self, case_role):
         admin_service = self.get_actor(case_role).admin_api
         searched_user = self.data_helper.get_invalid_uuid()
@@ -314,6 +340,8 @@ class TestAdmin(BaseTest):
         pytest.param("admin",
                      id="admin, deactivate user"),
     ])
+    @pytest.mark.smoke
+    @pytest.mark.positive
     def test_deactivate_user(self, case_role, register_new_account):
         admin_service = self.get_actor(case_role).admin_api
         registered_user = register_new_account
@@ -330,9 +358,11 @@ class TestAdmin(BaseTest):
         pytest.param("moderator",
                      id="user, attempt to deactivate user"),
     ])
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_deactivate_user_by_non_admin(self, case_role, register_remove_new_account):
         admin_service = self.get_actor(case_role).admin_api
-        registered_user = register_remove_new_account()
+        registered_user = register_remove_new_account
         admin_service.deactivate_user_by_admin(user_id=registered_user.user_id, expected_success=False, status_code=403)
 
     @allure.suite("Deactivate certain user by admin")
@@ -344,6 +374,8 @@ class TestAdmin(BaseTest):
                      id="attempt to deactivate user with not existed user id"),
 
     ])
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_deactivate_user_not_existed(self, case_role):
         admin_service = self.get_actor(case_role).admin_api
         registered_user = self.data_helper.get_not_existed_uuid()
@@ -358,6 +390,8 @@ class TestAdmin(BaseTest):
                      id="user, attempt to deactivate user"),
 
     ])
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_deactivate_user_not_valid_uuid(self, case_role):
         admin_service = self.get_actor(case_role).admin_api
         registered_user = self.data_helper.get_invalid_uuid()
@@ -383,6 +417,8 @@ class TestAdmin(BaseTest):
                      id="page - 2nd page, per_page in allowed range"),
     ])
     @pytest.mark.smoke
+    @pytest.mark.positive
+    @pytest.mark.feed
     def test_get_all_posts(self, case):
 
         api_client = self.get_actor(case.role)
@@ -399,9 +435,11 @@ class TestAdmin(BaseTest):
                      id="only deleted posts"),
         pytest.param(AdminGetAllPostsParamsByRoleTestCase(role="moderator",
                                                           params=AdminGetAllPostsParams(is_deleted=False)),
-                     id="only deleted posts"),
+                     id="only not deleted posts"),
     ])
     @pytest.mark.smoke
+    @pytest.mark.positive
+    @pytest.mark.feed
     def test_get_all_posts_with_filter(self, case):
 
         api_client = self.get_actor(case.role)
@@ -422,7 +460,9 @@ class TestAdmin(BaseTest):
                                                           params=AdminGetAllPostsParams()),
                      id="Attempt to request endpoint as user"),
     ])
-    @pytest.mark.smoke
+    @pytest.mark.regression
+    @pytest.mark.negative
+    @pytest.mark.feed
     def test_get_all_posts_by_non_admin(self, case):
         admin_service = self.get_actor(case.role).admin_api
         admin_service.get_list_all_posts(params=case.params, expected_success=False, status_code=403)
@@ -440,6 +480,9 @@ class TestAdmin(BaseTest):
                                                          params=AdminDeletePostParams()),
                      id="Attempt to remove post by moderator"),
     ])
+    @pytest.mark.smoke
+    @pytest.mark.positive
+    @pytest.mark.feed
     def test_admin_remove_post(self, case, create_and_get_post):
         api_client = self.get_actor(case.role)
         admin_service = api_client.admin_api
@@ -460,14 +503,17 @@ class TestAdmin(BaseTest):
     @allure.sub_suite("Remove existed posts by admin")
     @allure.story("Admin can moderate/remove existed post")
     @allure.title("Moderate/remove existed post by general user ({case.role})")
-    @pytest.mark.parametrize("case", [
-        pytest.param(AdminDeletePostParamsByRoleTestCase(role="user_bob",
+    @pytest.mark.parametrize("post_creator, case", [
+        pytest.param("user_eve", AdminDeletePostParamsByRoleTestCase( role="user_bob",
                                                          params=AdminDeletePostParams()),
                      id="Attempt to remove post by regular user"),
     ])
-    def test_admin_remove_post_by_regular_user(self, case, build_post_remove):
+    @pytest.mark.regression
+    @pytest.mark.negative
+    @pytest.mark.feed
+    def test_admin_remove_post_by_regular_user(self, case, post_creator, build_post_remove):
         admin_service = self.get_actor(case.role).admin_api
-        prepared_post_id = build_post_remove(case.role)
+        prepared_post_id = build_post_remove(post_creator)
         admin_service.remove_post_by_admin(post_id=prepared_post_id, params=case.params, expected_success=False,
                                            status_code=403)
 
@@ -476,14 +522,17 @@ class TestAdmin(BaseTest):
     @allure.sub_suite("Remove existed posts by admin")
     @allure.story("Admin can moderate/remove existed post")
     @allure.title("Moderate/remove existed post - removed post")
-    @pytest.mark.parametrize("case", [
-        pytest.param(AdminDeletePostParamsByRoleTestCase(role="admin",
+    @pytest.mark.parametrize("post_creator, case", [
+        pytest.param("user_eve", AdminDeletePostParamsByRoleTestCase(role="admin",
                                                          params=AdminDeletePostParams()),
                      id="Attempt to remove post already removed"),
     ])
-    def test_admin_remove_post_removed_already(self, case, get_removed_post):
+    @pytest.mark.regression
+    @pytest.mark.negative
+    @pytest.mark.feed
+    def test_admin_remove_post_removed_already(self,post_creator, case, get_removed_post):
         admin_service = self.get_actor(case.role).admin_api
-        prepared_post_id = get_removed_post(case.role)
+        prepared_post_id = get_removed_post(post_creator)
         admin_service.remove_post_by_admin(post_id=prepared_post_id, params=case.params, expected_success=False,
                                            status_code=404)
 
@@ -492,6 +541,9 @@ class TestAdmin(BaseTest):
     @allure.sub_suite("Remove existed posts by admin")
     @allure.story("Admin can moderate/remove post with non existed post")
     @allure.title("Moderate/remove existed post - removed post")
+    @pytest.mark.regression
+    @pytest.mark.negative
+    @pytest.mark.feed
     @pytest.mark.parametrize("case", [
         pytest.param(AdminDeletePostParamsByRoleTestCase(role="admin",
                                                          params=AdminDeletePostParams()),
@@ -513,6 +565,9 @@ class TestAdmin(BaseTest):
                                                          params=AdminDeletePostParams()),
                      id="Attempt to remove post - not valid id"),
     ])
+    @pytest.mark.regression
+    @pytest.mark.negative
+    @pytest.mark.feed
     def test_admin_remove_post_not_valid_uuid(self, case):
         admin_service = self.get_actor(case.role).admin_api
         prepared_post_id = self.data_helper.get_invalid_uuid()

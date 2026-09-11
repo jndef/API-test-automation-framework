@@ -9,7 +9,7 @@ class ResponseUserModel(BaseModel):
     email: str
     username: str
     display_name: str
-    bio: str
+    bio: Optional[str] = None
     avatar_url: Optional[str] = None
     cover_url: Optional[str] = None
     role: str

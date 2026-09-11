@@ -9,8 +9,9 @@ from services.users.payloads import UpdateMePayloadByRoleTestCase, UpdateMePaylo
     UpdateAvatarFilePayload
 
 
-@allure.epic("Users")
-@allure.parent_suite("Users")
+@allure.epic("Users Service")
+@allure.parent_suite("Users Service")
+@pytest.mark.users
 class TestUsers(BaseTest):
 
     @allure.feature("List Users")

@@ -24,6 +24,7 @@ class UserInfo:
     is_active: bool
     email:str=None
     password:str=None
+    username:str=None
 
 
 @pytest.fixture()
@@ -34,12 +35,28 @@ def get_post_with_likes():
     :return: post_id
     """
 
-    def get_posts_with_likes(post_service) -> str:
+    def _get_posts_with_likes(post_service) -> str:
         params = GetPostsParams(sort_by="likes_count")
         post = post_service.get_list_posts(params=params).items[0]
         return post.id
 
-    yield get_posts_with_likes
+    yield _get_posts_with_likes
+
+
+@pytest.fixture()
+@allure.title("API Fixture: Get fist matched post with comments (post_id)")
+def get_post_with_comments(get_service_by_role):
+    """
+    API Fixture: Get fist matched post with comments (performs by certain user - by alias)
+    :return: post_id
+    """
+    def _get_posts_with_comments(role:str) -> str:
+        post_service = get_service_by_role(role).posts_api
+        params = GetPostsParams(sort_by="comments_count")
+        post = post_service.get_list_posts(params=params).items[0]
+        return post.id
+
+    yield _get_posts_with_comments
 
 
 @pytest.fixture(scope="session")
@@ -637,7 +654,8 @@ def get_me_of_certain_user(get_service_by_role):
             role=user_info.role,
             is_verified=user_info.is_verified,
             is_active=user_info.is_active,
-            user_id=user_info.id)
+            user_id=user_info.id,
+            username=user_info.username)
 
     yield _ger_user_info
 

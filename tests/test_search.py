@@ -8,14 +8,18 @@ from services.search.params import SearchUsersParamsByRoleTestCase, SearchUsersP
 
 
 @allure.epic("Search Service")
-@allure.feature("Search")
 @allure.parent_suite("Search service API")
 @allure.title("Search service API")
 @pytest.mark.search
 class TestSearch(BaseTest):
-    @allure.suite("Search users")
+
+    @allure.suite("Search")
     @allure.sub_suite("Search users")
-    @allure.title("Search users with search_query ({case.searched_user_alias})")
+    @allure.feature("Search users")
+    @allure.story("User can search user")
+    @allure.title("Search users with search_query, display name ({case.searched_user_alias})")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(SearchUsersParamsByRoleTestCase(role="user_bob", searched_user_alias="user_eve",
                                                      params=SearchUsersParams(page=1, per_page=1)),
@@ -29,9 +33,13 @@ class TestSearch(BaseTest):
         assert user2_display_name in response.items[
             0].display_name.lower(), f"ER:/AR: {user2_display_name} / {response.items[0].display_name}"
 
-    @allure.suite("Search users")
+    @allure.suite("Search")
     @allure.sub_suite("Search users")
-    @allure.title("Search users with search_query ({case.searched_user_alias})")
+    @allure.feature("Search users")
+    @allure.story("User can search user")
+    @allure.title("Search users with search_query, username ({case.searched_user_alias})")
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(SearchUsersParamsByRoleTestCase(role="user_bob", searched_user_alias="user_eve",
                                                      params=SearchUsersParams(page=1, per_page=1)),
@@ -45,9 +53,13 @@ class TestSearch(BaseTest):
         assert user2_username in response.items[
             0].username.lower(), f"ER:/AR: {user2_username} / {response.items[0].username}"
 
-    @allure.suite("Search users")
+    @allure.suite("Search")
     @allure.sub_suite("Search users")
-    @allure.title("Search users with search_query ({case.searched_user_alias})")
+    @allure.feature("Search users")
+    @allure.story("User can search user")
+    @allure.title("Search users with search_query, part display name ({case.searched_user_alias})")
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(SearchUsersParamsByRoleTestCase(role="user_bob", searched_user_alias="user_eve",
                                                      params=SearchUsersParams(page=1, per_page=1)),
@@ -61,9 +73,13 @@ class TestSearch(BaseTest):
         assert any(user2_display_name in user.display_name.lower() for user in
                    response.items), f"ER:/AR: {user2_display_name} / {response.items[0].display_name}"
 
-    @allure.suite("Search users")
+    @allure.suite("Search")
     @allure.sub_suite("Search users")
-    @allure.title("Search users with search_query ({case.searched_user_alias})")
+    @allure.feature("Search users")
+    @allure.story("User can search user")
+    @allure.title("Search users with search_query - not existed")
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(SearchUsersParamsByRoleTestCase(role="user_bob", searched_user_alias="test" * 3,
                                                      params=SearchUsersParams(page=1, per_page=1)),
@@ -74,9 +90,13 @@ class TestSearch(BaseTest):
         search_response = search_service.search_users(params=case.params, search_query=case.searched_user_alias)
         assert search_response.total == 0 and len(search_response.items) == 0
 
-    @allure.suite("Search users")
+    @allure.suite("Search")
     @allure.sub_suite("Search users")
-    @allure.title("Search users with search_query ({case.searched_user_alias})")
+    @allure.feature("Search users")
+    @allure.story("User can search user")
+    @allure.title("Search users with search_query - incorrect search query")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(SearchUsersParamsByRoleTestCase(role="user_bob", searched_user_alias="test" * 51,
                                                      params=SearchUsersParams(page=1, per_page=1)),
@@ -90,9 +110,13 @@ class TestSearch(BaseTest):
         search_service.search_users(params=case.params, search_query=case.searched_user_alias, expected_success=False,
                                     status_code=422)
 
-    @allure.suite("Search posts")
+    @allure.suite("Search")
     @allure.sub_suite("Search posts")
-    @allure.title("Search posts - full post body, not long")
+    @allure.feature("Search posts")
+    @allure.story("User can search posts")
+    @allure.title("Search posts with search_query - full post body, not long")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(SearchPostsParamsByRoleTestCase(role="user_bob", searched_post_info="user_eve",
                                                      params=SearchPostsParams(page=1, per_page=10)),
@@ -107,9 +131,13 @@ class TestSearch(BaseTest):
         assert post_content in search_response.items[
             0].content, f"ER:/AR: {search_response} / {search_response.items[0].content}"
 
-    @allure.suite("Search posts")
+    @allure.suite("Search")
     @allure.sub_suite("Search posts")
-    @allure.title("Search posts - part post body")
+    @allure.feature("Search posts")
+    @allure.story("User can search posts")
+    @allure.title("Search posts with search_query - part post body")
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(SearchPostsParamsByRoleTestCase(role="user_bob", searched_post_info="user_eve",
                                                      params=SearchPostsParams(page=1, per_page=10)),
@@ -127,9 +155,13 @@ class TestSearch(BaseTest):
         assert part_of_post_content in search_response.items[
             0].content, f"ER:/AR: {search_response} / {search_response.items[0].content}"
 
-    @allure.suite("Search posts")
+    @allure.suite("Search")
     @allure.sub_suite("Search posts")
-    @allure.title("Search posts - not existed post body")
+    @allure.feature("Search posts")
+    @allure.story("User can search posts")
+    @allure.title("Search posts with search_query - not existed post body")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(SearchPostsParamsByRoleTestCase(role="user_bob", searched_post_info="user_eve",
                                                      params=SearchPostsParams(page=1, per_page=10)),
@@ -142,9 +174,13 @@ class TestSearch(BaseTest):
         search_response = user1_api.search_api.search_posts(params=case.params, search_query=post_content)
         assert search_response.total == 0 and len(search_response.items) == 0
 
-    @allure.suite("Search posts")
+    @allure.suite("Search")
     @allure.sub_suite("Search posts")
-    @allure.title("Search posts with search_query ({case.searched_post_info})")
+    @allure.feature("Search posts")
+    @allure.story("User can search posts")
+    @allure.title("Search posts - incorrect search query")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(SearchPostsParamsByRoleTestCase(role="user_bob", searched_post_info="test" * 51,
                                                      params=SearchPostsParams(page=1, per_page=1)),
@@ -158,9 +194,13 @@ class TestSearch(BaseTest):
         search_service.search_posts(params=case.params, search_query=case.searched_post_info, expected_success=False,
                                     status_code=422)
 
-    @allure.suite("Search hashtags")
+    @allure.suite("Search")
     @allure.sub_suite("Search hashtags")
-    @allure.title("Search hashtags with search_query ({case.searched_hashtag})")
+    @allure.feature("Search hashtags")
+    @allure.story("User can search hashtags")
+    @allure.title("Search hashtag")
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(SearchHashtagsParamsByRoleTestCase(role="user_bob", searched_hashtag="dev",
                                                         params=SearchHashtagsParams(page=1, per_page=10)),
@@ -175,9 +215,13 @@ class TestSearch(BaseTest):
         assert case.searched_hashtag in response.items[
             0].name, f"ER:/AR: {case.searched_hashtag} / {response.items[0].name}"
 
-    @allure.suite("Search hashtags")
+    @allure.suite("Search")
     @allure.sub_suite("Search hashtags")
-    @allure.title("Search not existed hashtag with search_query ({case.searched_hashtag})")
+    @allure.feature("Search hashtags")
+    @allure.story("User can search hashtags")
+    @allure.title("Search hashtag - not existed")
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(SearchHashtagsParamsByRoleTestCase(role="user_bob", searched_hashtag="est" * 5,
                                                         params=SearchHashtagsParams(page=1, per_page=10)),
@@ -188,9 +232,13 @@ class TestSearch(BaseTest):
         response = search_service.search_hashtags(search_query=case.searched_hashtag, params=case.params)
         assert len(response.items) == 0
 
-    @allure.suite("Search hashtags")
+    @allure.suite("Search")
     @allure.sub_suite("Search hashtags")
-    @allure.title("Search hashtags with search_query ({case.searched_hashtag})")
+    @allure.feature("Search hashtags")
+    @allure.story("User can search hashtags")
+    @allure.title("Search hashtag - incorrect search query")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(SearchHashtagsParamsByRoleTestCase(role="user_bob", searched_hashtag="test" * 45,
                                                         params=SearchHashtagsParams(page=1, per_page=10)),
@@ -204,9 +252,13 @@ class TestSearch(BaseTest):
         search_service.search_hashtags(search_query=case.searched_hashtag, params=case.params, status_code=422,
                                        expected_success=False)
 
-    @allure.suite("Search hashtags trending")
+    @allure.suite("Search")
     @allure.sub_suite("Search hashtags trending")
-    @allure.title("Search hashtags trending with search_query ({case.params})")
+    @allure.feature("Search hashtags trending")
+    @allure.story("User can search hashtags trending")
+    @allure.title("Search hashtags trending")
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(SearchTrendingParamsByRoleTestCase(role="user_bob",
                                                         params=SearchTrendingParams(limit=1, period="week")),
@@ -230,9 +282,13 @@ class TestSearch(BaseTest):
         if case.params.limit:
             assert len(response) <= case.params.limit, f"ER:/AR: {case.params.limit}/{len(response)}"
 
-    @allure.suite("Search hashtags trending")
+    @allure.suite("Search")
     @allure.sub_suite("Search hashtags trending")
-    @allure.title("Search hashtags trending with search_query ({case.params})")
+    @allure.feature("Search hashtags trending")
+    @allure.story("User can search hashtags trending")
+    @allure.title("Search hashtags trending - incorrect query params")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(SearchTrendingParamsByRoleTestCase(role="user_bob",
                                                         params=SearchTrendingParams(limit=0)),

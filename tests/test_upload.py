@@ -6,15 +6,18 @@ from services.upload.payload import UploadImageByRoleTestCase
 
 
 @allure.epic("Upload Service")
-@allure.feature("Upload")
-@allure.parent_suite("Tests Upload service API")
-@allure.title("Tests Upload service API")
+@allure.parent_suite("Upload service API")
+@allure.title("Upload service API")
 @pytest.mark.upload
 class TestUpload(BaseTest):
 
-    @allure.suite("Upload image")
+    @allure.suite("Upload")
+    @allure.sub_suite("Upload image")
+    @allure.feature("Upload image")
     @allure.story("User can upload image to attach it to post/comment/message")
-    @allure.description("Upload image")
+    @allure.title("Upload image for post/comment/message")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(UploadImageByRoleTestCase(role="admin", file="image.jpg"),
                      id="Upload image, allowed - jpg"),
@@ -33,10 +36,13 @@ class TestUpload(BaseTest):
         upload_service = self.get_actor(case.role).upload_api
         upload_service.upload_image(case.file)
 
-
-    @allure.suite("Upload image")
+    @allure.suite("Upload")
+    @allure.sub_suite("Upload image")
+    @allure.feature("Upload image")
     @allure.story("User can upload image to attach it to post/comment/message")
-    @allure.description("Upload image - invalid file")
+    @allure.title("Upload image - invalid file")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(UploadImageByRoleTestCase(role="admin", file="test.txt"),
                      id="Upload image, not allowed - txt"),

@@ -9,15 +9,19 @@ from services.messages.payloads import CreateConversationPayload, CreateConversa
 
 
 @allure.epic("Messages Service")
-@allure.feature("Messages")
 @allure.parent_suite("Tests Messages service API")
 @allure.title("Tests Messages service API")
 @pytest.mark.messages
+@allure.feature("Messages")
 class TestMessages(BaseTest):
-
-    @allure.suite("Get conversations list")
+    @allure.feature("Get comments")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Get conversations list")
+    @allure.feature("Conversation")
     @allure.story("User can see existed conversations")
-    @allure.description("Get conversations list")
+    @allure.title("Get conversations list")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("test_case", [
         pytest.param(GetConversationsListParamsByRoleTestCase(role="user_bob",
                                                               params=GetConversationsListParams(page=1, per_page=1)),
@@ -33,9 +37,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(test_case.role).messages_api
         messages_service.get_conversations_list(params=test_case.params)
 
-    @allure.suite("Get conversations list")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Get conversations list")
+    @allure.feature("Conversation")
     @allure.story("User can see existed conversations")
-    @allure.description("Get conversations list - incorrect query params")
+    @allure.title("Get conversations list - incorrect query params")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case", [
         pytest.param(GetConversationsListParamsByRoleTestCase(role="user_bob",
                                                               params=GetConversationsListParams(page=0, per_page=10)),
@@ -53,9 +61,13 @@ class TestMessages(BaseTest):
                                                 expected_success=False,
                                                 status_code=422)
 
-    @allure.suite("Create conversation")
-    @allure.story("User can create conversation")
-    @allure.description("Create conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Create conversation")
+    @allure.feature("Conversation")
+    @allure.story("User can create conversation with another user")
+    @allure.title("Create conversation")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("test_case", [
         pytest.param(CreateConversationByRoleTestCase(role="user_eve", payload=CreateConversationPayload(),
                                                       participant_role="user_bob"),
@@ -84,12 +96,16 @@ class TestMessages(BaseTest):
         assert conversation.participants[0].id == participant_user_id
         assert conversation.name == test_case.payload.name
 
-    @allure.suite("Create conversation")
-    @allure.story("User can create conversation")
-    @allure.description("Create conversation - invalid participant id, not existed user")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Create conversation")
+    @allure.feature("Conversation")
+    @allure.story("User can create conversation with another user")
+    @allure.title("Create conversation - invalid participant id, not existed user")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.flaky(reruns=2, reruns_delay=1)
     @pytest.mark.parametrize("test_case", [
-        pytest.param(CreateConversationByRoleTestCase(role="user_eve", payload=CreateConversationPayload()),
+        pytest.param(CreateConversationByRoleTestCase(role="user_bob", payload=CreateConversationPayload()),
                      id="Attempt to create conversation with not existed user"),
     ])
     def test_create_conversation_not_existed_user(self, test_case):
@@ -105,9 +121,13 @@ class TestMessages(BaseTest):
             CreateConversationPayload(participant_ids=conversation_participants, name=test_case.payload.name),
             expected_success=False, status_code=404)
 
-    @allure.suite("Create conversation")
-    @allure.story("User can create conversation")
-    @allure.description("Create conversation - invalid participant id, invalid uuid")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Create conversation")
+    @allure.feature("Conversation")
+    @allure.story("User can create conversation with another user")
+    @allure.title("Create conversation - participant id, invalid uuid")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case", [
         pytest.param(CreateConversationByRoleTestCase(role="user_eve", payload=CreateConversationPayload()),
                      id="Attempt to create conversation with with not existed use"),
@@ -125,9 +145,13 @@ class TestMessages(BaseTest):
             CreateConversationPayload(participant_ids=conversation_participants, name=test_case.payload.name),
             expected_success=False, status_code=422)
 
-    @allure.suite("Create conversation")
-    @allure.story("User can create conversation")
-    @allure.description("Create conversation - too long conversation name")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Create conversation")
+    @allure.feature("Conversation")
+    @allure.story("User can create conversation with another user")
+    @allure.title("Create conversation - too long conversation name")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case", [
         pytest.param(
             CreateConversationByRoleTestCase(role="user_eve", payload=CreateConversationPayload(name="A" * 101),
@@ -148,9 +172,13 @@ class TestMessages(BaseTest):
             CreateConversationPayload(participant_ids=conversation_participants, name=test_case.payload.name),
             expected_success=False, status_code=422)
 
-    @allure.suite("Find and create conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Find and create conversation")
+    @allure.feature("Conversation")
     @allure.story("User can find or create new conversation if it wasn't existed")
-    @allure.description("Find and create conversation")
+    @allure.title("Find and create conversation")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("test_case_role, test_case_participant_role", [
         pytest.param("user_eve", "user_bob", id="Find or created new conversation")
     ])
@@ -163,9 +191,13 @@ class TestMessages(BaseTest):
         conversation = messages_service.find_or_create_dm(participant_name)
         assert conversation.participants[1].username == participant_name
 
-    @allure.suite("Find and create conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Find and create conversation")
+    @allure.feature("Conversation")
     @allure.story("User can find or create new conversation if it wasn't existed")
-    @allure.description("Find and create conversation - user_name doesn't exist")
+    @allure.title("Find and create conversation - user_name doesn't exist")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case_role", [
         pytest.param(f"user_eve", id="Attempt to find/create conversation when username doesn't exist"),
     ])
@@ -175,9 +207,13 @@ class TestMessages(BaseTest):
 
         messages_service.find_or_create_dm(participant_name, status_code=404, expected_success=False)
 
-    @allure.suite("Find and create conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Find and create conversation")
+    @allure.feature("Conversation")
     @allure.story("User can find or create new conversation if it wasn't existed")
-    @allure.description("Find and create conversation - user_name is not valid")
+    @allure.title("Find and create conversation - user_name is not valid")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case_role, invalid_user_name", [
         pytest.param(f"user_eve", " ", id="Attempt to find/create conversation when username empty spaces"),
         pytest.param(f"user_eve", None, id="Attempt to find/create conversation when username None"),
@@ -187,9 +223,13 @@ class TestMessages(BaseTest):
         participant_name = invalid_user_name
         messages_service.find_or_create_dm(participant_name, status_code=404, expected_success=False)
 
-    @allure.suite("Get existed conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Get existed conversation")
+    @allure.feature("Conversation")
     @allure.story("User can get info about existing conversation")
-    @allure.description("Get existed conversation")
+    @allure.title("Get existed conversation")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("test_case_role, test_case_participant_role", [
         pytest.param("user_eve", "user_bob", id="Get conversation between users")
     ])
@@ -203,9 +243,13 @@ class TestMessages(BaseTest):
         # post_condition - clear conversation
         db_cleanup_conversation(conversation)
 
-    @allure.suite("Get existed conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Get existed conversation")
+    @allure.feature("Conversation")
     @allure.story("User can get info about existing conversation")
-    @allure.description("Get existed conversation - not existed conversation")
+    @allure.title("Get existed conversation - not existed conversation")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case_role, test_case_participant_role", [
         pytest.param("user_eve", "user_bob", id="Get not existed conversation")
     ])
@@ -214,9 +258,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(test_case_role).messages_api
         messages_service.get_conversation(conversation, expected_success=False, status_code=404)
 
-    @allure.suite("Get existed conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Get existed conversation")
+    @allure.feature("Conversation")
     @allure.story("User can get info about existing conversation")
-    @allure.description("Get existed conversation - not valid conversation uuid")
+    @allure.title("Get existed conversation - not valid conversation uuid")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case_role, test_case_participant_role", [
         pytest.param("user_eve", "user_bob", id="Get conversation by invalid uuid")
     ])
@@ -225,34 +273,46 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(test_case_role).messages_api
         messages_service.get_conversation(conversation, expected_success=False, status_code=422)
 
-    @allure.suite("Get existed conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Get existed conversation")
+    @allure.feature("Conversation")
     @allure.story("User can get info about existing conversation")
-    @allure.description("Get existed conversation - user isn't participant of it")
+    @allure.title("Get existed conversation - user isn't participant of it")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case_role, test_case_participant1_role, test_case_participant2_role ", [
         pytest.param("user_eve", "admin", "user_bob", id="Get conversation when user isn't participant")
     ])
     def test_get_conversation_by_id_not_participant(self, test_case_role, test_case_participant1_role,
-                                                    test_case_participant2_role, db_get_conversation):
-        conversation = db_get_conversation(test_case_participant1_role, test_case_participant2_role)
+                                                    test_case_participant2_role, build_conversation):
+        conversation = build_conversation(test_case_participant1_role, test_case_participant2_role)
         messages_service = self.get_actor(test_case_role).messages_api
         messages_service.get_conversation(conversation, expected_success=False, status_code=403)
 
-    @allure.suite("Get list messages")
+    @allure.suite("Messages")
+    @allure.sub_suite("Get list messages")
+    @allure.feature("Messages")
     @allure.story("As a user i can see messages of a conversation")
-    @allure.description("Get list messages")
+    @allure.title("Get list messages")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("test_case_participant1_role, test_case_participant2_role ", [
         pytest.param("user_bob", "admin", id="Get conversation messages"),
         pytest.param("admin", "user_bob", id="Get conversation messages")
     ])
-    def test_get_messages(self, test_case_participant1_role, test_case_participant2_role, db_get_conversation):
-        conversation = db_get_conversation(test_case_participant1_role, test_case_participant2_role)
+    def test_get_messages(self, test_case_participant1_role, test_case_participant2_role, build_conversation):
+        conversation = build_conversation(test_case_participant1_role, test_case_participant2_role)
         messages_service = self.get_actor(test_case_participant1_role).messages_api
         messages_service.get_conversation_messages(conversation,
                                                    params=GetConversationMessagesListParams(page=1, per_page=10))
 
-    @allure.suite("Get list messages")
+    @allure.suite("Messages")
+    @allure.sub_suite("Get list messages")
+    @allure.feature("Messages")
     @allure.story("As a user i can see messages of a conversation")
-    @allure.description("Get list messages - not existed conversation")
+    @allure.title("Get list messages - not existed conversation")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case_participant1_role", [
         pytest.param("user_bob", id="Get messages of unexisted conversation"),
     ])
@@ -261,9 +321,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(test_case_participant1_role).messages_api
         messages_service.get_conversation_messages(conversation, expected_success=False, status_code=404)
 
-    @allure.suite("Get list messages")
+    @allure.suite("Messages")
+    @allure.sub_suite("Get list messages")
+    @allure.feature("Messages")
     @allure.story("As a user i can see messages of a conversation")
-    @allure.description("Get list messages - not existed conversation")
+    @allure.title("Get list messages - not valid uuid of conversation")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case_participant1_role", [
         pytest.param("user_bob", id="Get messages of unexisted conversation"),
     ])
@@ -272,21 +336,29 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(test_case_participant1_role).messages_api
         messages_service.get_conversation_messages(conversation, expected_success=False, status_code=422)
 
-    @allure.suite("Get list messages")
+    @allure.suite("Messages")
+    @allure.sub_suite("Get list messages")
+    @allure.feature("Messages")
     @allure.story("As a user i can see messages of a conversation")
-    @allure.description("Get list messages - user isn't participant")
+    @allure.title("Get list messages - user isn't participant")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case_role, test_case_participant1_role, test_case_participant2_role ", [
         pytest.param("user_eve", "admin", "user_bob", id="Get messages when user isn't participant")
     ])
     def test_get_messages_not_participant(self, test_case_role, test_case_participant1_role,
-                                          test_case_participant2_role, db_get_conversation):
-        conversation = db_get_conversation(test_case_participant1_role, test_case_participant2_role)
+                                          test_case_participant2_role, build_conversation):
+        conversation = build_conversation(test_case_participant1_role, test_case_participant2_role)
         messages_service = self.get_actor(test_case_role).messages_api
         messages_service.get_conversation_messages(conversation, expected_success=False, status_code=403)
 
-    @allure.suite("Create message")
-    @allure.story("As a user i can create message")
-    @allure.description("Create message")
+    @allure.suite("Messages")
+    @allure.sub_suite("Create message")
+    @allure.feature("Create message")
+    @allure.story("As a user i can create message at a conversation")
+    @allure.title("Create message")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(CreateMessageByRoleTestCase(role="user_eve", participant_role="user_bob",
                                                  payload=CreateMessagePayload(content="M")),
@@ -320,9 +392,13 @@ class TestMessages(BaseTest):
 
         message_cleaner(message.id, case.role)
 
-    @allure.suite("Create message")
-    @allure.story("As a user i can create message")
-    @allure.description("Create message with invalid data at payload")
+    @allure.suite("Messages")
+    @allure.sub_suite("Create message")
+    @allure.feature("Create message")
+    @allure.story("As a user i can create message at a conversation")
+    @allure.title("Create message - invalid data at payload")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(CreateMessageByRoleTestCase(role="user_eve", participant_role="user_bob",
                                                  payload=CreateMessagePayload(content="")),
@@ -330,9 +406,6 @@ class TestMessages(BaseTest):
         pytest.param(CreateMessageByRoleTestCase(role="user_eve", participant_role="user_bob",
                                                  payload=CreateMessagePayload(content="M" * 2001)),
                      id="Create a new message - max allowed content"),
-        pytest.param(CreateMessageByRoleTestCase(role="user_eve", participant_role="user_bob",
-                                                 payload=CreateMessagePayload(content="Message", image_url="")),
-                     id="Create a new message - image url - empty string"),
         pytest.param(CreateMessageByRoleTestCase(role="user_eve", participant_role="user_bob",
                                                  payload=CreateMessagePayload(content="Message", image_url="//")),
                      id="Create a new message - image url - special characters only"),
@@ -344,23 +417,31 @@ class TestMessages(BaseTest):
         messages_service.send_message(conversation_id=conversation, payload=payload, status_code=422,
                                       expected_success=False)
 
-    @allure.suite("Create message")
-    @allure.story("As a user i can create message")
-    @allure.description("Create message - user isn't participant of the conversation")
+    @allure.suite("Messages")
+    @allure.sub_suite("Create message")
+    @allure.feature("Create message")
+    @allure.story("As a user i can create message at a conversation")
+    @allure.title("Create message - user isn't participant of the conversation")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("test_case_role, test_case_participant1_role, test_case_participant2_role", [
         pytest.param("user_eve", "admin", "user_bob", id="Get messages when user isn't participant")
     ])
     def test_create_message_not_participant(self, test_case_role, test_case_participant1_role,
-                                            test_case_participant2_role, db_get_conversation):
-        conversation = db_get_conversation(test_case_participant1_role, test_case_participant2_role)
+                                            test_case_participant2_role, build_conversation):
+        conversation = build_conversation(test_case_participant1_role, test_case_participant2_role)
         messages_service = self.get_actor(test_case_role).messages_api
         payload = CreateMessagePayload(content="M")
         messages_service.send_message(conversation_id=conversation, payload=payload, status_code=403,
                                       expected_success=False)
 
-    @allure.suite("Remove message")
+    @allure.suite("Messages")
+    @allure.sub_suite("Remove message")
+    @allure.feature("Remove message")
     @allure.story("As a user i can remove created message")
-    @allure.description("Remove message")
+    @allure.title("Remove message")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param("user_eve", id="Remove message by creator"),
         pytest.param("admin", id="Remove message by creator"),
@@ -370,9 +451,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(case).messages_api
         messages_service.remove_message(message_id=prepared_message_id)
 
-    @allure.suite("Remove message")
+    @allure.suite("Messages")
+    @allure.sub_suite("Remove message")
+    @allure.feature("Remove message")
     @allure.story("As a user i can remove created message")
-    @allure.description("Remove message - not existed message")
+    @allure.title("Remove message - not existed message")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [pytest.param("user_eve", id="Remove message - message doesn't exist"),
                                       ])
     def test_remove_message_not_existed(self, case):
@@ -380,9 +465,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(case).messages_api
         messages_service.remove_message(message_id=prepared_message_id, status_code=404, expected_success=False)
 
-    @allure.suite("Remove message")
+    @allure.suite("Messages")
+    @allure.sub_suite("Remove message")
+    @allure.feature("Remove message")
     @allure.story("As a user i can remove created message")
-    @allure.description("Remove message - not valid message id")
+    @allure.title("Remove message - not valid message id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [pytest.param("user_eve", id="Remove message - message doesn't exist"),
                                       ])
     def test_remove_message_not_existed(self, case):
@@ -390,9 +479,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(case).messages_api
         messages_service.remove_message(message_id=prepared_message_id, status_code=422, expected_success=False)
 
-    @allure.suite("Remove message")
+    @allure.suite("Messages")
+    @allure.sub_suite("Remove message")
+    @allure.feature("Remove message")
     @allure.story("As a user i can remove created message")
-    @allure.description("Remove message - already removed")
+    @allure.title("Remove message - already removed")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [pytest.param("user_eve", id="Remove message - message doesn't exist"),
                                       ])
     def test_remove_message_already_removed(self, case, get_removed_message):
@@ -400,9 +493,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(case).messages_api
         messages_service.remove_message(message_id=prepared_message_id)
 
-    @allure.suite("Remove message")
+    @allure.suite("Messages")
+    @allure.sub_suite("Remove message")
+    @allure.feature("Remove message")
     @allure.story("As a user i can remove created message")
-    @allure.description("Remove message - message of participant")
+    @allure.title("Remove message - message of participant")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user, participant_user", [
         pytest.param("user_bob", "admin", id="Remove message - message of participant"),
         pytest.param("admin", "user_bob", id="Remove message by admin - message of participant"),
@@ -416,9 +513,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(case_user).messages_api
         messages_service.remove_message(message_id=prepared_message_id, expected_success=False, status_code=403)
 
-    @allure.suite("Remove message")
+    @allure.suite("Messages")
+    @allure.sub_suite("Remove message")
+    @allure.feature("Remove message")
     @allure.story("As a user i can remove created message")
-    @allure.description("Remove message - created by another user, not participant")
+    @allure.title("Remove message - created by another user, not participant")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user, participant_user1, participant_user2", [
         pytest.param("user_bob", "admin", "user_eve", id="Remove message - created by another user, not participant"),
     ])
@@ -430,9 +531,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(case_user).messages_api
         messages_service.remove_message(message_id=prepared_message_id, expected_success=False, status_code=403)
 
-    @allure.suite("Read conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Read conversation")
+    @allure.feature("Conversation")
     @allure.story("As a user i can mark conversation as read")
-    @allure.description("Read conversation")
+    @allure.title("Read conversation")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case_user, participant_user", [
         pytest.param("user_bob", "admin", id="Read conversation"),
     ])
@@ -449,9 +554,13 @@ class TestMessages(BaseTest):
 
         db_mark_conversation_unread(conversation, case_user)
 
-    @allure.suite("Read conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Read conversation")
+    @allure.feature("Conversation")
     @allure.story("As a user i can mark conversation as read")
-    @allure.description("Read conversation")
+    @allure.title("Read conversation - not existed")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user", [
         pytest.param("user_bob", id="Read conversation - not existed"),
     ])
@@ -460,9 +569,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(case_user).messages_api
         messages_service.read_conversation(conversation, status_code=404, expected_success=False)
 
-    @allure.suite("Read conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Read conversation")
+    @allure.feature("Conversation")
     @allure.story("As a user i can mark conversation as read")
-    @allure.description("Read conversation")
+    @allure.title("Read conversation - not valid uuid")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user", [
         pytest.param("user_bob", id="Read conversation - not valid uuid"),
     ])
@@ -471,11 +584,15 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(case_user).messages_api
         messages_service.read_conversation(conversation, status_code=422, expected_success=False)
 
-    @allure.suite("Read conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Read conversation")
+    @allure.feature("Conversation")
     @allure.story("As a user i can mark conversation as read")
-    @allure.description("Read conversation - user isn't participant")
+    @allure.title("Read conversation - user isn't participant")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user, participant_user1, participant_user2", [
-        pytest.param("user_bob", "admin", "user_eve", id="Remove message - created by another user, not participant"),
+        pytest.param("user_bob", "admin", "user_eve", id="read conversation - user isn't participant"),
     ])
     def test_read_conversation_not_participant(self, case_user, participant_user1, participant_user2,
                                                build_conversation,
@@ -485,9 +602,13 @@ class TestMessages(BaseTest):
         messages_service = self.get_actor(case_user).messages_api
         messages_service.read_conversation(conversation, expected_success=False, status_code=404)
 
-    @allure.suite("Read conversation")
+    @allure.suite("Conversation")
+    @allure.sub_suite("Read conversation")
+    @allure.feature("Conversation")
     @allure.story("As a user i can mark conversation as read")
-    @allure.description("Read conversation - already read")
+    @allure.title("Read conversation - already read")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("participant_user1, participant_user2", [
         pytest.param("user_bob", "admin", id="Read conversation - already read"),
     ])

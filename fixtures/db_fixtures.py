@@ -73,7 +73,7 @@ def db_get_conversation(db_connect):
         conversation_id = db_connect.get_conversation_id_between_users(user_alias1, user_alias2)
         if conversation_id is not None:
             return conversation_id
-        raise BaseException(f"Conversation is absent")
+        return None# raise BaseException(f"Conversation is absent")
 
     yield _get_conversation
 
@@ -91,7 +91,6 @@ def db_get_rand_user_conversation(db_connect):
         conversation_id = db_connect.get_existed_conversation_of_user(user_alias)
         if conversation_id is not None:
             return conversation_id
-        raise BaseException(f"Conversation is absent")
 
     yield _get_user_conversation
 
@@ -141,3 +140,17 @@ def db_mark_conversation_read(db_connect):
         db_connect.make_conversation_read(user_id, conversation_id)
 
     yield _mark
+
+@pytest.fixture()
+@allure.title("DB Fixture: get_comments_with_replies")
+def db_get_comment_with_replies(db_connect):
+    """
+    DB Fixture get comment with replies
+    :param db_connect: db connection to perform request to DB
+    :return:
+    """
+
+    def _get_comments():
+        comment = db_connect.get_comments_with_replies()
+        return comment
+    yield _get_comments

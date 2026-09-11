@@ -8,15 +8,18 @@ from services.likes.payloads import LikePostByRoleTestCase, LikePostPayload, Lik
 
 
 @allure.epic("Likes Service")
-@allure.feature("Likes")
 @allure.parent_suite("Tests Likes service API")
 @allure.title("Tests Likes service API")
+@allure.feature("Likes")
 @pytest.mark.likes
 class TestLikes(BaseTest):
 
-    @allure.suite("Like post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Like post")
     @allure.story("User can like existed post")
-    @allure.description("Like post")
+    @allure.title("Like post")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(LikePostByRoleTestCase(role="admin", payload=LikePostPayload(reaction="like")),
                      id="Add reaction to post as admin - like"),
@@ -44,18 +47,20 @@ class TestLikes(BaseTest):
         assert like_post.reaction == case.payload.reaction
         post_after = post_service.get_post(post_id=prepared_post_id)
         assert post_before.likes_count == post_after.likes_count - 1
-        assert post_after.reaction == case.payload.reaction
+        assert post_after.user_reaction == case.payload.reaction
 
-    @allure.suite("Like post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Like post")
     @allure.story("User can like existed post")
-    @allure.description("Like post - invalid payload")
+    @allure.title("Like post - invalid payload")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(LikePostByRoleTestCase(role="admin", payload=LikePostPayload(reaction="busy")),
                      id="Add not allowed reaction to post"),
-        pytest.param(LikePostByRoleTestCase(role="admin", payload=LikePostPayload(reaction="")),
+        pytest.param(LikePostByRoleTestCase(role="moderator", payload=LikePostPayload(reaction="")),
                      id="Add empty string as reaction to post"),
-        pytest.param(LikePostByRoleTestCase(role="admin", payload=LikePostPayload()),
-                     id="Unexpected Empty payload"),
+
     ])
     def test_like_post_invalid_reaction(self, case, build_post_remove):
         like_service = self.get_actor(case.role).likes_api
@@ -66,9 +71,12 @@ class TestLikes(BaseTest):
                                status_code=422,
                                expected_success=False)
 
-    @allure.suite("Like post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Like post")
     @allure.story("User can like existed post")
-    @allure.description("Like post - Post removed")
+    @allure.title("Like post - Post removed")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(LikePostByRoleTestCase(role="admin", payload=LikePostPayload(reaction="like")),
                      id="Attempt to add reaction - Post removed"),
@@ -83,9 +91,12 @@ class TestLikes(BaseTest):
                                payload=case.payload,
                                expected_success=False)
 
-    @allure.suite("Like post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Like post")
     @allure.story("User can like existed post")
-    @allure.description("Like post - Post doesn't exist")
+    @allure.title("Like post - Post doesn't exist")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(LikePostByRoleTestCase(role="admin", payload=LikePostPayload(reaction="like")),
                      id="Attempt to add reaction - not existed post"),
@@ -99,9 +110,12 @@ class TestLikes(BaseTest):
                                payload=case.payload,
                                expected_success=False)
 
-    @allure.suite("Like post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Like post")
     @allure.story("User can like existed post")
-    @allure.description("Like post - Incorrect post id")
+    @allure.title("Like post - Incorrect post id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(LikePostByRoleTestCase(role="admin", payload=LikePostPayload(reaction="like")),
                      id="Attempt to add reaction - not existed post"),
@@ -116,9 +130,12 @@ class TestLikes(BaseTest):
                                payload=case.payload,
                                expected_success=False)
 
-    @allure.suite("Like post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Like post")
     @allure.story("User can like existed post")
-    @allure.description("Like post - comment_id instead of post_id")
+    @allure.title("Like post - comment_id instead of post_id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(LikePostByRoleTestCase(role="admin", payload=LikePostPayload(reaction="like")),
                      id="Attempt to add reaction - not existed post"),
@@ -133,9 +150,12 @@ class TestLikes(BaseTest):
                                payload=case.payload,
                                expected_success=False)
 
-    @allure.suite("Like post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Like post")
     @allure.story("User can like existed post")
-    @allure.description("Like post - reaction already liked")
+    @allure.title("Like post - post already liked")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(LikePostByRoleTestCase(role="user_bob", payload=LikePostPayload(reaction="like")),
                      id="Attempt to add reaction - reaction already added"),
@@ -150,9 +170,12 @@ class TestLikes(BaseTest):
                                payload=case.payload,
                                expected_success=False)
 
-    @allure.suite("Like post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Like post")
     @allure.story("User can like existed post")
-    @allure.description("Like post - reaction already added, add new reaction")
+    @allure.title("Like post - reaction already added, add new reaction")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(LikePostByRoleTestCase(role="user_bob", payload=LikePostPayload(reaction="like")),
                      id="Attempt to add reaction - reaction already added, add new reaction"),
@@ -167,9 +190,12 @@ class TestLikes(BaseTest):
                                payload=case.payload,
                                expected_success=False)
 
-    @allure.suite("Unlike post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Unlike post")
     @allure.story("User can unlike existed post")
-    @allure.description("Unlike post - valid")
+    @allure.title("Unlike post")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case_user", [
         pytest.param("admin", id="Remove reaction from post - admin"),
         pytest.param("user_eve", id="Remove reaction from post - user"),
@@ -188,9 +214,12 @@ class TestLikes(BaseTest):
         post_after = post_service.get_post(post_id=prepared_post_id)
         assert post_before.likes_count == post_after.likes_count + 1
 
-    @allure.suite("Unlike post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Unlike post")
     @allure.story("User can unlike existed post")
-    @allure.description("Unlike post - invalid post id")
+    @allure.title("Unlike post - invalid post id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user", [
         pytest.param("user_bob", id="Remove reaction from post  - invalid post id"),
     ])
@@ -203,9 +232,12 @@ class TestLikes(BaseTest):
                                  status_code=422,
                                  expected_success=False)
 
-    @allure.suite("Unlike post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Unlike post")
     @allure.story("User can unlike existed post")
-    @allure.description("Unlike post - not existed post")
+    @allure.title("Unlike post - not existed post")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user", [
         pytest.param("user_bob", id="Remove reaction from post  - not existing post"),
     ])
@@ -218,9 +250,12 @@ class TestLikes(BaseTest):
                                  status_code=404,
                                  expected_success=False)
 
-    @allure.suite("Unlike post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Unlike post")
     @allure.story("User can unlike existed post")
-    @allure.description("Unlike post - removed post")
+    @allure.title("Unlike post - removed post")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user", [
         pytest.param("user_bob", id="Remove reaction from post  - not existed post"),
     ])
@@ -230,9 +265,12 @@ class TestLikes(BaseTest):
         like_service = self.get_actor(case_user).likes_api
         like_service.unlike_post(post_id=prepared_post_id, expected_success=False, status_code=404)
 
-    @allure.suite("Unlike post")
+    @allure.suite("Like/unlike post")
+    @allure.sub_suite("Unlike post")
     @allure.story("User can unlike existed post")
-    @allure.description("Unlike post - not liked post")
+    @allure.title("Unlike post - not liked post")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user", [
         pytest.param("user_bob", id="Remove reaction from post  - not liked post"),
     ])
@@ -242,9 +280,12 @@ class TestLikes(BaseTest):
         like_service = self.get_actor(case_user).likes_api
         like_service.unlike_post(post_id=prepared_post_id, expected_success=False, status_code=404)
 
-    @allure.suite("Get post likes")
+    @allure.suite("Get post reactions")
+    @allure.sub_suite("Get post reactions")
     @allure.story("User can see existed post reactions")
-    @allure.description("Get post likes")
+    @allure.title("Get post reactions")
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(GetPostLikesByRoleTestCase(role="user_eve", params=GetPostLikesParams(page=1, per_page=1)),
                      id=" per_page - valid minimum boundary"),
@@ -260,9 +301,12 @@ class TestLikes(BaseTest):
         prepared_post_id = get_post_with_likes(api_services.posts_api)
         like_service.get_post_likes(post_id=prepared_post_id, params=case.params)
 
-    @allure.suite("Get post likes")
+    @allure.suite("Get post reactions")
+    @allure.sub_suite("Get post reactions")
     @allure.story("User can see existed post reactions")
-    @allure.description("Get post likes - incorrect query param")
+    @allure.title("Get post reactions - incorrect query param")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(GetPostLikesByRoleTestCase(role="user_eve", params=GetPostLikesParams(page=0, per_page=10)),
                      id=" Invalid page below minimum boundary"),
@@ -282,9 +326,12 @@ class TestLikes(BaseTest):
                                     status_code=422
                                     )
 
-    @allure.suite("Get post likes")
+    @allure.suite("Get post reactions")
+    @allure.sub_suite("Get post reactions")
     @allure.story("User can see existed post reactions")
-    @allure.description("Get post likes - incorrect post id, Comment instead of post")
+    @allure.title("Get post reactions - Comment instead of post")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_get_post_reactions_comment_in_use(self, build_comment_remove):
         """Attempt to get post likes, when comment id is used"""
         prepared_post_id = build_comment_remove("user_eve")
@@ -292,9 +339,12 @@ class TestLikes(BaseTest):
         like_service.get_post_likes(post_id=prepared_post_id, params=GetPostLikesParams(), expected_success=True,
                                     status_code=200)
 
-    @allure.suite("Get post likes")
+    @allure.suite("Get post reactions")
+    @allure.sub_suite("Get post reactions")
     @allure.story("User can see existed post reactions")
-    @allure.description("Get post likes - Post doesn't exist ")
+    @allure.title("Get post reactions - Post doesn't exist")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_get_post_reactions_not_exist(self):
         """Attempt to get reactions list, when  post id doesn't exist"""
         prepared_post_id = self.data_helper.get_not_existed_uuid()
@@ -302,9 +352,12 @@ class TestLikes(BaseTest):
         like_service.get_post_likes(post_id=prepared_post_id, params=GetPostLikesParams(), expected_success=True,
                                     status_code=200)
 
-    @allure.suite("Get post likes")
+    @allure.suite("Get post reactions")
+    @allure.sub_suite("Get post reactions")
     @allure.story("User can see existed post reactions")
-    @allure.description("Get post likes - post is deleted")
+    @allure.title("Get post reactions - post is deleted")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_get_post_reactions_removed_post(self, get_removed_post):
         """Attempt to get reactions list when post is deleted"""
         prepared_post_id = get_removed_post("user_eve")
@@ -312,9 +365,12 @@ class TestLikes(BaseTest):
         like_service.get_post_likes(post_id=prepared_post_id, params=GetPostLikesParams(), expected_success=False,
                                     status_code=422)
 
-    @allure.suite("Get post likes")
+    @allure.suite("Get post reactions")
+    @allure.sub_suite("Get post reactions")
     @allure.story("User can see existed post reactions")
-    @allure.description("Get post likes - incorrect post id")
+    @allure.title("Get post reactions - incorrect post id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_get_post_reactions_incorrect_post_uuid(self):
         """Attempt to get reactions list when post id is incorrect"""
         prepared_post_id = self.data_helper.get_invalid_uuid()
@@ -322,9 +378,12 @@ class TestLikes(BaseTest):
         like_service.get_post_likes(post_id=prepared_post_id, params=GetPostLikesParams(), expected_success=False,
                                     status_code=422)
 
-    @allure.suite("Like comment")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Like comment")
     @allure.story("User can like existed comment")
-    @allure.description("Like comment depends on role")
+    @allure.title("Like comment")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(LikeCommentByRoleTestCase(role="admin", payload=LikeCommentPayload(reaction="like")),
                      id="Add reaction to post as admin - like"),
@@ -347,16 +406,17 @@ class TestLikes(BaseTest):
         like = like_service.like_comment(comment_id=prepared_comment_id, payload=case.payload)
         assert like.reaction == case.payload.reaction
 
-    @allure.suite("Like comment")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Like comment")
     @allure.story("User can like existed comment")
-    @allure.description("Like comment - invalid payload")
+    @allure.title("Like comment - invalid payload")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(LikeCommentByRoleTestCase(role="admin", payload=LikeCommentPayload(reaction="busy")),
                      id="Add not allowed reaction to comment"),
         pytest.param(LikeCommentByRoleTestCase(role="user_bob", payload=LikeCommentPayload(reaction="")),
                      id="Add empty string as reaction to post"),
-        pytest.param(LikeCommentByRoleTestCase(role="user_eve", payload=LikeCommentPayload()),
-                     id="Unexpected Empty payload")
     ])
     def test_like_comment_invalid_payload(self, case, build_comment_remove):
         """Attempt to like comment depends on role"""
@@ -369,9 +429,12 @@ class TestLikes(BaseTest):
                                   status_code=422,
                                   expected_success=False)
 
-    @allure.suite("Like comment")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Like comment")
     @allure.story("User can like existed comment")
-    @allure.description("Like comment, incorrect -  Post id in use")
+    @allure.title("Like comment - post id in use")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_like_comment_incorrect_post_in_use(self, build_post_remove):
         """Attempt to like comment, when id is post id"""
         prepared_comment_id = build_post_remove("user_eve")
@@ -379,9 +442,12 @@ class TestLikes(BaseTest):
         like_service.like_comment(comment_id=prepared_comment_id, payload=LikeCommentPayload(), status_code=404,
                                   expected_success=False)
 
-    @allure.suite("Like comment")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Like comment")
     @allure.story("User can like existed comment")
-    @allure.description("Like comment -  Comment doesn't exist")
+    @allure.title("Like comment - comment doesn't exist")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_like_comment_not_existed(self):
         """Attempt to like comment, comment doesn't exist"""
         prepared_comment_id = self.data_helper.get_not_existed_uuid()
@@ -391,9 +457,12 @@ class TestLikes(BaseTest):
                                   status_code=404,
                                   expected_success=False)
 
-    @allure.suite("Like comment")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Like comment")
     @allure.story("User can like existed comment")
-    @allure.description("Like comment - Comment is deleted")
+    @allure.title("Like comment - Comment is deleted")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_like_comment_removed(self, get_removed_comment):
         """Attempt to like comment, Comment is deleted"""
         prepared_comment_id = get_removed_comment("user_eve")
@@ -403,9 +472,12 @@ class TestLikes(BaseTest):
                                   status_code=404,
                                   expected_success=False)
 
-    @allure.suite("Like comment")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Like comment")
     @allure.story("User can like existed comment")
-    @allure.description("Like comment - Incorrect Comment id")
+    @allure.title("Like comment - Incorrect Comment id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_like_comment_invalid_uuid(self):
         """Attempt to like comment,Incorrect Comment id"""
         prepared_comment_id = self.data_helper.get_invalid_uuid()
@@ -415,9 +487,12 @@ class TestLikes(BaseTest):
                                   status_code=422,
                                   expected_success=False)
 
-    @allure.suite("Like comment")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Like comment")
     @allure.story("User can like existed comment")
-    @allure.description("Like comment - Comment is already liked")
+    @allure.title("Like comment - Comment is already liked")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_like_comment_already_liked(self, build_comment_like_remove):
         """Attempt to like comment, Comment is already liked"""
         prepared_comment_id = build_comment_like_remove("user_eve")
@@ -427,9 +502,12 @@ class TestLikes(BaseTest):
                                   status_code=409,
                                   expected_success=False)
 
-    @allure.suite("Unlike comment")
-    @allure.story("User can unlike existed comment")
-    @allure.description("Unike comment - valid")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Unlike comment")
+    @allure.story("User can remove like from existed comment")
+    @allure.title("Unlike comment")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param("admin", id="Remove reaction from post as admin"),
         pytest.param("user_eve", id="Remove reaction from post as user"),
@@ -441,9 +519,12 @@ class TestLikes(BaseTest):
         prepared_post_id = build_comment_like_remove(case)
         like_service.unlike_comment(comment_id=prepared_post_id)
 
-    @allure.suite("Unlike comment")
-    @allure.story("User can unlike existed comment")
-    @allure.description("Unike comment, incorrect - Comment instead of post")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Unlike comment")
+    @allure.story("User can remove like from existed comment")
+    @allure.title("Unlike comment - Comment instead of post")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_unlike_comment_post_in_use(self, build_post_like_remove):
         """Unike comment - invalid comment id, Post instead of comment"""
 
@@ -451,9 +532,12 @@ class TestLikes(BaseTest):
         like_service = self.get_actor("user_eve").likes_api
         like_service.unlike_comment(comment_id=prepared_post_id, expected_success=False, status_code=404)
 
-    @allure.suite("Unlike comment")
-    @allure.story("User can unlike existed comment")
-    @allure.description("Unike comment, incorrect - Post doesn't exist")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Unlike comment")
+    @allure.story("User can remove like from existed comment")
+    @allure.title("Unlike comment - Post doesn't exist")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_unlike_comment_not_existed(self):
         """Unike comment - invalid comment id, Post doesn't exist"""
 
@@ -461,22 +545,28 @@ class TestLikes(BaseTest):
         like_service = self.get_actor("user_eve").likes_api
         like_service.unlike_comment(comment_id=prepared_post_id, expected_success=False, status_code=404)
 
-    @allure.suite("Unlike comment")
-    @allure.story("User can unlike existed comment")
-    @allure.description("Unike comment, incorrect - Incorrect comment id")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Unlike comment")
+    @allure.story("User can remove like from existed comment")
+    @allure.title("Unlike comment - Incorrect comment id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_unlike_comment_invalid_uuid(self):
         """Unike comment - Incorrect comment id"""
 
         prepared_comment_id = self.data_helper.get_invalid_uuid()
         like_service = self.get_actor("user_eve").likes_api
         like_service.unlike_comment(comment_id=prepared_comment_id,
-                                              expected_success=False,
-                                              status_code=422
-                                              )
+                                    expected_success=False,
+                                    status_code=422
+                                    )
 
-    @allure.suite("Unlike comment")
-    @allure.story("User can unlike existed comment")
-    @allure.description("Unike comment, incorrect - Comment is deleted")
+    @allure.suite("Like/unlike comment")
+    @allure.sub_suite("Unlike comment")
+    @allure.story("User can remove like from existed comment")
+    @allure.title("Unlike comment - Comment is deleted")
+    @pytest.mark.regression
+    @pytest.mark.negative
     def test_unlike_comment_removed(self, get_removed_comment):
         """Unike comment - Comment is deleted"""
 

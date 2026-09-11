@@ -32,7 +32,6 @@ class AdminGetAllPostsParamsByRoleTestCase(ReadableParams):
     params: AdminGetAllPostsParams
 
 
-@dataclass(repr=False)
 class AdminDeletePostParams(BaseParams, ReadableParams):
     reason: Optional[str] = None
 

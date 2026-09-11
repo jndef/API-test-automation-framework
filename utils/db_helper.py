@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from psycopg2.extras import RealDictCursor
 
 from mysql import connector
@@ -188,6 +190,28 @@ class DataBaseHandler:
         """
         self.cursor.execute(query, (last_read_at, user_id, conversation_id,))
         self.connection.commit()
+
+
+
+    def get_comments_with_replies(self):
+        """
+        DB query. Get comments id from DB, that has replies
+        :return:
+        """
+        query = f"""
+            SELECT parent_comment_id, COUNT(id), post_id
+            FROM comments
+            WHERE parent_comment_id IS NOT NULL
+            GROUP BY parent_comment_id, post_id
+            ORDER BY COUNT(id) DESC
+        """
+        self.cursor.execute(query)
+
+        if self.cursor.rowcount > 0:
+            query_result= self.cursor.fetchone()["parent_comment_id"]
+            print(query_result)
+            return query_result
+        return None
 
     def mark_all_notifications_unread(self, for_user: str = "Admin"):
         """

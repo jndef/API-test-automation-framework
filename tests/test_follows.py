@@ -6,16 +6,19 @@ from services.follows.params import GetFollowRequestsParamsByRoleTestCase, GetFo
 from services.users.params import GetFollowersParams
 
 
-@allure.epic("Follows")
-@allure.feature("Follows")
-@allure.parent_suite("Follows")
+@allure.epic("Follows Service")
+@allure.parent_suite("Tests Follows service API")
+@allure.title("Tests Follows service API")
 @pytest.mark.follows
 class TestFollows(BaseTest):
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Get Follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User read existed follow requests")
     @allure.title("Get Follow requests with params ({case.params})")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case_user", [
         pytest.param(GetFollowRequestsParamsByRoleTestCase(role="user_private", params=GetFollowRequestsParams(page=1, per_page=1)),
             id="valid minimum boundaries"),
@@ -28,11 +31,13 @@ class TestFollows(BaseTest):
         follow_service = self.get_actor(case_user.role).follows_api
         follow_service.get_follow_requests(params=case_user.params)
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Get Follow requests")
-
-    @allure.title("Get Follow requests with  invalid params ({case.params})")
+    @allure.feature("Follow requests")
+    @allure.story("User read existed follow requests")
+    @allure.title("Get Follow requests with invalid params ({case.params})")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user", [
     pytest.param(GetFollowRequestsParamsByRoleTestCase(role="user_private", params=GetFollowRequestsParams(page=0)),
                  id="page, below min allowed value"),
@@ -50,11 +55,13 @@ class TestFollows(BaseTest):
         follow_service.get_follow_requests(params=case_user.params, status_code=422, expected_success=False)
 
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Create Follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to create follow requests to private user")
     @allure.title("Create follow request to user ({private_user}) by {case_user}")
-
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_eve", "user_private",id="create follow request by user"),
         pytest.param("admin", "user_private",id="create follow request by admin"),
@@ -91,11 +98,14 @@ class TestFollows(BaseTest):
 
 
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Create Follow requests")
-
+    @allure.feature("Follow requests")
+    @allure.story("User is able to create follow requests to private user")
     @allure.title("Create follow request to user - not valid username")
+    @pytest.mark.regression
+    @pytest.mark.negative
+
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_eve", "testtesttest",id="create follow request to user with not existed username"),
         pytest.param("user_private", "user_private", id="create follow request to himself"),
@@ -104,11 +114,13 @@ class TestFollows(BaseTest):
         follow_service = self.get_actor(case_user).follows_api
         follow_service.follow_user(private_user, expected_success=False, status_code=404)
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Create Follow requests")
-
+    @allure.feature("Follow requests")
+    @allure.story("User is able to create follow requests to private user")
     @allure.title("Create follow request to user - already followed")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_eve", "user_private", id="attempt to repeat follow request"),
     ])
@@ -119,11 +131,14 @@ class TestFollows(BaseTest):
         follow_service.follow_user(private_user_name)
         follow_service.follow_user(private_user_name, expected_success=False, status_code=409)
 
-    @allure.feature("Follow requests")
+
     @allure.suite("Follow requests")
     @allure.sub_suite("Remove Follow requests")
-
+    @allure.feature("Follow requests")
+    @allure.story("User is able to remove follow requests to private user")
     @allure.title("Remove follow request to user")
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_eve", "user_private", id="unfollow existed follow request"),
     ])
@@ -151,11 +166,14 @@ class TestFollows(BaseTest):
             assert all([case_user_username != follower_request.follower.username for follower_request in followers_requests_list])
 
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Remove Follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to remove follow requests to private user")
+    @allure.title("Remove follow request to user - not existed username")
+    @pytest.mark.regression
+    @pytest.mark.negative
 
-    @allure.title("Remove follow request to user with not existed username")
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_eve", "testtesttest", id="unfollow using not existed username"),
     ])
@@ -163,12 +181,14 @@ class TestFollows(BaseTest):
         follow_service = self.get_actor(case_user).follows_api
         follow_service.unfollow_user(private_user, status_code=404, expected_success=False)
 
-
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
-    @allure.sub_suite("Remove Follow requests - no follow request before ")
+    @allure.sub_suite("Remove Follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to remove follow requests to private user")
+    @allure.title("Remove follow request to user -  no follow request before")
+    @pytest.mark.regression
+    @pytest.mark.negative
 
-    @allure.title("Remove follow request to user with not existed username")
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_eve", "admin", id="remove follow request, no request before"),
     ])
@@ -176,11 +196,13 @@ class TestFollows(BaseTest):
         follow_service = self.get_actor(case_user).follows_api
         follow_service.unfollow_user(private_user, status_code=404, expected_success=False)
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Accept Follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to accept incoming follow request")
     @allure.title("Accept follow request of the user ({case})")
-
+    @pytest.mark.regression
+    @pytest.mark.positive
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_eve", "user_private",id="accept follow request by user"),
     ])
@@ -218,10 +240,14 @@ class TestFollows(BaseTest):
             followers_list = users_service_private_user.get_user_followers(user_name=private_user_username, params=GetFollowersParams()).items
             assert any([case_user_username == follower.username for follower in followers_list])
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Accept Follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to accept incoming follow request")
     @allure.title("Accept follow request - not existed request")
+    @pytest.mark.regression
+    @pytest.mark.negative
+
     @pytest.mark.parametrize("private_user", [
         pytest.param("user_private",id="attempt to accept not existed request"),
     ])
@@ -233,10 +259,13 @@ class TestFollows(BaseTest):
         follow_request = self.data_helper.get_not_existed_uuid()
         follow_service_private_user.accept_follow_request(follow_request, expected_success=False, status_code=404)
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Accept Follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to accept incoming follow request")
     @allure.title("Accept follow request - not valid request id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("private_user", [
         pytest.param( "user_private",id="attempt to accept not existed request"),
     ])
@@ -248,10 +277,13 @@ class TestFollows(BaseTest):
         follow_request = self.data_helper.get_invalid_uuid()
         follow_service_private_user.accept_follow_request(follow_request, expected_success=False, status_code=422)
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Accept Follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to accept incoming follow request")
     @allure.title("Accept follow request - attempt accept own request to private user")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param( "user_bob", "user_private",id="attempt accept own request to private user"),
     ])
@@ -275,13 +307,14 @@ class TestFollows(BaseTest):
 
         follow_service.accept_follow_request(follow_request.id, expected_success=False, status_code=403)
 
-
-
-
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Accept Follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to accept incoming follow request")
     @allure.title("Accept follow request - attempt to accept request twice")
+    @pytest.mark.regression
+    @pytest.mark.negative
+
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param( "user_bob", "user_private",id="attempt to accept request twice"),
     ])
@@ -307,11 +340,14 @@ class TestFollows(BaseTest):
         follow_service_private_user.accept_follow_request(follow_request.id)
         follow_service_private_user.accept_follow_request(follow_request.id, expected_success=False, status_code=400)
 
-
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Reject follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to reject follow request")
     @allure.title("Reject follow request of the user ({case})")
+    @pytest.mark.regression
+    @pytest.mark.positive
+
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_eve", "user_private", id="reject follow request by user"),
     ])
@@ -349,10 +385,14 @@ class TestFollows(BaseTest):
             followers_requests_list = follow_service_private_user.get_follow_requests(params=GetFollowersParams()).items
             assert all([case_user_username != follower_request.follower.username for follower_request in followers_requests_list])
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Reject follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to reject follow request")
     @allure.title("Reject follow request - not existed request")
+    @pytest.mark.regression
+    @pytest.mark.negative
+
     @pytest.mark.parametrize("private_user", [
         pytest.param("user_private", id="attempt to reject not existed request"),
     ])
@@ -364,11 +404,13 @@ class TestFollows(BaseTest):
         follow_request = self.data_helper.get_not_existed_uuid()
         follow_service_private_user.reject_follow_request(follow_request, expected_success=False, status_code=404)
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Reject follow requests")
-
+    @allure.feature("Follow requests")
+    @allure.story("User is able to reject follow request")
     @allure.title("Reject follow request - not valid request id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("private_user", [
         pytest.param("user_private", id="attempt to reject not existed request"),
     ])
@@ -380,10 +422,13 @@ class TestFollows(BaseTest):
         follow_request = self.data_helper.get_invalid_uuid()
         follow_service_private_user.reject_follow_request(follow_request, expected_success=False, status_code=422)
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Reject follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to reject follow request")
     @allure.title("Reject follow request - attempt to reject own request to private user")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_bob", "user_private", id="attempt reject own request to private user"),
     ])
@@ -406,10 +451,13 @@ class TestFollows(BaseTest):
 
         follow_service.reject_follow_request(follow_request.id, expected_success=False, status_code=403)
 
-    @allure.feature("Follow requests")
     @allure.suite("Follow requests")
     @allure.sub_suite("Reject follow requests")
+    @allure.feature("Follow requests")
+    @allure.story("User is able to reject follow request")
     @allure.title("Reject follow request - attempt to reject twice request")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_user, private_user", [
         pytest.param("user_bob", "user_private", id="Attempt to reject twice request"),
     ])

@@ -48,9 +48,10 @@ class AuthAPI(BaseAPI):
 
     def logout(self, token: str, payload: LogoutPayload, status_code: int = 204, expected_success: bool = True):
         with allure.step(f"API POST Request - Logout from account"):
+            self.headers.basic["Authorization"] = f"Bearer {token}"
             response = self.request() \
                 .set_url(self.endpoints.logout) \
-                .set_headers(self.headers.basic({"Authorization": f"Bearer {token}"})) \
+                .set_headers(self.headers.basic) \
                 .set_request_body(payload.model_dump(exclude_none=True)) \
                 .send("POST")
             return self.validate_response(response, None, status_code=status_code, expected_success=expected_success)

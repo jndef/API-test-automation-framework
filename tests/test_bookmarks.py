@@ -6,15 +6,20 @@ from services.bookmarks.params import GetBookmarksQueryParamsTestCaseByRole, Get
 
 
 @allure.epic("Bookmarks Service")
-@allure.feature("Bookmarks")
 @allure.parent_suite("Tests Bookmarks service API")
 @allure.title("Tests Bookmarks service API")
 @pytest.mark.bookmarks
 class TestBookmarks(BaseTest):
 
+    @allure.feature("Bookmarks")
     @allure.suite("Get user's bookmarks list")
+    @allure.sub_suite("Get user's bookmarks list")
     @allure.story("User can read added bookmarks")
-    @allure.description("Get bookmarks list")
+
+    @allure.title("Get bookmarks list")
+    @pytest.mark.regression
+    @pytest.mark.positive
+
     @pytest.mark.parametrize("case", [
         pytest.param(
             GetBookmarksQueryParamsTestCaseByRole(role="user_eve", params=GetBookmarksQueryParams(page=1, per_page=1)),
@@ -29,9 +34,13 @@ class TestBookmarks(BaseTest):
         user = self.get_actor(case.role)
         user.bookmarks_api.get_bookmarks(params=case.params)
 
+    @allure.feature("Bookmarks")
     @allure.suite("Get user's bookmarks list")
+    @allure.sub_suite("Get user's bookmarks list")
     @allure.story("User can read added bookmarks")
-    @allure.description("Get bookmarks list - incorrect query params")
+    @pytest.mark.regression
+    @pytest.mark.negative
+    @allure.title("Get bookmarks list - incorrect query params")
     @pytest.mark.parametrize("case", [
         pytest.param(
             GetBookmarksQueryParamsTestCaseByRole(role="user_eve", params=GetBookmarksQueryParams(page=0, per_page=10)),
@@ -50,9 +59,14 @@ class TestBookmarks(BaseTest):
                                          expected_success=False,
                                          status_code=422)
 
+    @allure.feature("Bookmarks")
     @allure.suite("Bookmark post")
+    @allure.sub_suite("Bookmark post")
     @allure.story("User is able to bookmark existed post")
-    @allure.description("Bookmark post")
+    @allure.title("Bookmark post")
+    @pytest.mark.smoke
+    @pytest.mark.positive
+
     @pytest.mark.parametrize("case_role", [
         pytest.param("admin", id="Bookmark post as admin"),
         pytest.param("user_eve", id="Bookmark post as user"),
@@ -68,9 +82,14 @@ class TestBookmarks(BaseTest):
         assert any(prepared_post_id == bookmark.id and bookmark.is_bookmarked for bookmark in
                    bookmarks.items), "Bookmark list doesn't contain bookmark post"
 
+
+    @allure.feature("Bookmarks")
     @allure.suite("Bookmark post")
+    @allure.sub_suite("Bookmark post")
     @allure.story("User is able to bookmark existed post")
-    @allure.description("Bookmark post - Comment instead of post")
+    @allure.title("Bookmark post - Comment instead of post")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role", [
         pytest.param("user_eve", id="Comment instead of post"),
     ])
@@ -81,9 +100,13 @@ class TestBookmarks(BaseTest):
                                          expected_success=False,
                                          status_code=404)
 
+    @allure.feature("Bookmarks")
     @allure.suite("Bookmark post")
+    @allure.sub_suite("Bookmark post")
     @allure.story("User is able to bookmark existed post")
-    @allure.description("Bookmark post - Post doesn't exist")
+    @allure.title("Bookmark post - Post doesn't exist")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role", [
         pytest.param("user_eve", id="Post doesn't exist"),
     ])
@@ -93,10 +116,13 @@ class TestBookmarks(BaseTest):
         bookmark_service.bookmark_post(post_id=prepared_post_id,
                                        expected_success=False,
                                        status_code=404)
-
+    @allure.feature("Bookmarks")
     @allure.suite("Bookmark post")
+    @allure.sub_suite("Bookmark post")
     @allure.story("User is able to bookmark existed post")
-    @allure.description("Bookmark post - Post is deleted")
+    @allure.title("Bookmark post - Post is deleted")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role", [
         pytest.param("user_bob", id="Post is deleted"),
     ])
@@ -107,9 +133,13 @@ class TestBookmarks(BaseTest):
                                        expected_success=False,
                                        status_code=404)
 
+    @allure.feature("Bookmarks")
     @allure.suite("Bookmark post")
+    @allure.sub_suite("Bookmark post")
     @allure.story("User is able to bookmark existed post")
-    @allure.description("Bookmark post - invalid post id")
+    @allure.title("Bookmark post - invalid post id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role", [
         pytest.param("user_eve", id="Invalid post id"),
     ])
@@ -120,9 +150,14 @@ class TestBookmarks(BaseTest):
                                        expected_success=False,
                                        status_code=422)
 
+    @allure.feature("Bookmarks")
     @allure.suite("Bookmark post")
+    @allure.sub_suite("Bookmark post")
     @allure.story("User is able to bookmark existed post")
-    @allure.description("Bookmark post - Post is already in bookmarks")
+    @allure.title("Bookmark post -  already in bookmarks")
+    @pytest.mark.regression
+    @pytest.mark.negative
+
     @pytest.mark.parametrize("case_role", [
         pytest.param("user_eve", id="Post is already in bookmarks"),
     ])
@@ -133,9 +168,13 @@ class TestBookmarks(BaseTest):
                                        expected_success=False,
                                        status_code=409)
 
-    @allure.suite("Unbookmark post")
+    @allure.feature("Bookmarks")
+    @allure.suite("Bookmark post")
+    @allure.sub_suite("Unbookmark post")
     @allure.story("User is able to unbookmark post")
-    @allure.description("Unbookmark post")
+    @allure.title("Unbookmark post")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case_role", [
         pytest.param("admin", id="Bookmark post as admin"),
         pytest.param("user_bob", id="Bookmark post as user"),
@@ -149,9 +188,13 @@ class TestBookmarks(BaseTest):
         assert not any(
             prepared_post_id == bookmark.id for bookmark in bookmarks.items), "Post isn't removed from bookmark list"
 
-    @allure.suite("Unbookmark post")
+    @allure.feature("Bookmarks")
+    @allure.suite("Bookmark post")
+    @allure.sub_suite("Unbookmark post")
     @allure.story("User is able to unbookmark post")
-    @allure.description("Unbookmark post - Comment instead of post")
+    @allure.title("Unbookmark post - Comment instead of post")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role", [
         pytest.param("user_eve", id="Comment instead of post"),
     ])
@@ -162,9 +205,13 @@ class TestBookmarks(BaseTest):
                                          expected_success=False,
                                          status_code=404)
 
-    @allure.suite("Unbookmark post")
+    @allure.feature("Bookmarks")
+    @allure.suite("Bookmark post")
+    @allure.sub_suite("Unbookmark post")
     @allure.story("User is able to unbookmark post")
-    @allure.description("Unbookmark post - Post doesn't exist")
+    @allure.title("Unbookmark post - Post doesn't exist")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role", [
         pytest.param("user_eve", id="Post doesn't exist"),
     ])
@@ -175,9 +222,13 @@ class TestBookmarks(BaseTest):
                                          expected_success=False,
                                          status_code=404)
 
-    @allure.suite("Unbookmark post")
+    @allure.feature("Bookmarks")
+    @allure.suite("Bookmark post")
+    @allure.sub_suite("Unbookmark post")
     @allure.story("User is able to unbookmark post")
-    @allure.description("Unbookmark post - bookmarked post is deleted")
+    @allure.title("Unbookmark post - bookmarked post is deleted")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role", [
         pytest.param("user_bob", id="Post is deleted"),
     ])
@@ -188,9 +239,13 @@ class TestBookmarks(BaseTest):
                                          expected_success=False,
                                          status_code=404)
 
-    @allure.suite("Unbookmark post")
+    @allure.feature("Bookmarks")
+    @allure.suite("Bookmark post")
+    @allure.sub_suite("Unbookmark post")
     @allure.story("User is able to unbookmark post")
-    @allure.description("Unbookmark post - invalid post id")
+    @allure.title("Unbookmark post - invalid post id")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role", [
         pytest.param("user_eve", id="Invalid post id"),
     ])
@@ -201,11 +256,15 @@ class TestBookmarks(BaseTest):
                                          expected_success=False,
                                          status_code=422)
 
-    @allure.suite("Unbookmark post")
+    @allure.feature("Bookmarks")
+    @allure.suite("Bookmark post")
+    @allure.sub_suite("Unbookmark post")
     @allure.story("User is able to unbookmark post")
-    @allure.description("Unbookmark post - invalid post id")
+    @allure.title("Unbookmark post - Post is not in bookmarks")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role", [
-        pytest.param("user_eve", id="Post is already in bookmarks"),
+        pytest.param("user_eve", id="Post is not in bookmarks"),
     ])
     def test_unbookmark_post_not_bookmarked(self, build_post_remove, case_role):
         prepared_post_id = build_post_remove(case_role)
