@@ -5,7 +5,7 @@ from config.base_test import BaseTest
 from services.comments.params import GetCommentsByRoleTestCase, GetCommentsQueryParams, GetRepliesByRoleTestCase, \
     GetRepliesQueryParams
 from services.comments.payloads import CreateCommentByRoleTestCase, \
-    UpdateCommentByRoleTestCase, UpdateCommentPayloadQuery, CreateCommentPayload
+    UpdateCommentByRoleTestCase, UpdateCommentPayload, CreateCommentPayload
 
 
 @allure.epic("Comments Service")
@@ -127,7 +127,7 @@ class TestComments(BaseTest):
     @allure.suite("Create new comment")
     @allure.story("User can create new comment to the post")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayload(content="Valid comment"), expected_success=False, status_code=404),
+        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayload(content="Valid comment")),
                      id="Create comment to post - not existed post"),
     ])
     @allure.description("Create comment to post, incorrect - not existed post")
@@ -136,14 +136,14 @@ class TestComments(BaseTest):
         prepared_post_id = self.data_helper.get_not_existed_uuid()
         comments_service.create_comment(post_id=prepared_post_id,
                                          payload=case.payload,
-                                         status_code=case.status_code,
-                                         expected_success=case.expected_success)
+                                         status_code=404,
+                                         expected_success=False)
 
     @allure.suite("Create new comment")
     @allure.story("User can create new comment to the post")
     @allure.description("Create comment to post, incorrect - Removed post")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayload(content="Valid comment"), expected_success=False, status_code=404),
+        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayload(content="Valid comment")),
                      id="Create comment to post - Removed post"),
     ])
     def test_create_comment_removed_post(self, case, get_removed_post):
@@ -157,26 +157,26 @@ class TestComments(BaseTest):
     @allure.suite("Create new comment")
     @allure.story("User can create new comment to the post")
     @pytest.mark.parametrize("case", [
-        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayload(content="Valid comment"), expected_success=False, status_code=422),
+        pytest.param(CreateCommentByRoleTestCase(role="user_bob", payload=CreateCommentPayload(content="Valid comment")),
                      id="Create comment to post - invalid post uuid")
 
     ])
     @allure.description("Create comment to post, incorrect - invalid post uuid")
-    def test_create_comment_incorrect_invalid_uuid(self,case, get_incorrect_post):
+    def test_create_comment_incorrect_invalid_uuid(self,case):
         comments_service = self.get_actor(case.role).comments_api
         prepared_post_id = self.data_helper.get_not_existed_uuid()
         comments_service.create_comment(post_id=prepared_post_id,
                                          payload=case.payload,
-                                         status_code=case.status_code,
-                                         expected_success=case.expected_success)
+                                         status_code=422,
+                                         expected_success=False)
 
     @allure.suite("Update existed comment")
     @allure.story("User can update existed comment")
     @allure.description("User can update existed comment - success")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_bob", payload=UpdateCommentPayloadQuery(content="a")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_bob", payload=UpdateCommentPayload(content="a")),
                      id="Update comment - Valid minimal content boundary"),
-        pytest.param(UpdateCommentByRoleTestCase(role="user_bob", payload=UpdateCommentPayloadQuery(content="A" * 1000)),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_bob", payload=UpdateCommentPayload(content="A" * 1000)),
                      id="Update comment - Valid maximum content boundary"),
     ])
     def test_update_comment(self, build_comment_remove, case):
@@ -190,11 +190,11 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("User can update existed comment, incorrect - negative payload")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayload(content="")),
                      id="Update comment - content below minimum boundary"),
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A" * 1001)),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayload(content="A" * 1001)),
                      id="Create comment - content above maximum boundary"),
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery()),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayload()),
                      id="Create comment - content above maximum boundary"),
     ])
     def test_update_comment_invalid_payload_data(self,build_comment_remove, case):
@@ -209,7 +209,7 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("Attempt to edit comment - Invalid comment uuid")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayload(content="A")),
                      id="Attempt to edit comment with invalid uuid"),
                              ])
     def test_update_comment_invalid_uuid(self, case):
@@ -224,7 +224,7 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("User can update existed comment - Comment is deleted")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayload(content="A")),
                      id="Attempt to edit removed comment"),
                              ])
     def test_update_comment_removed(self, case, get_removed_comment):
@@ -239,7 +239,7 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("Attempt tp edit comment created by another user")
     @pytest.mark.parametrize("comment_creator, case", [
-        pytest.param("user_bob", UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A")),
+        pytest.param("user_bob", UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayload(content="A")),
                      id="Attempt to edit comment created by another user"),
                              ])
     def test_update_comment_created_by_another(self, comment_creator, case, build_comment_remove):
@@ -254,7 +254,7 @@ class TestComments(BaseTest):
     @allure.story("User can update existed comment")
     @allure.description("User can update existed comment - not existed")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayloadQuery(content="A")),
+        pytest.param(UpdateCommentByRoleTestCase(role="user_eve", payload=UpdateCommentPayload(content="A")),
                      id="Attempt to edit comment that doesn't exist"),
                              ])
     def test_update_comment_not_existed(self, case):

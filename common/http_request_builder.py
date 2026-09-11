@@ -70,6 +70,11 @@ class HttpRequestBuilder:
         return self
 
     def send(self,method: RequestMethodOptions):
+        """
+        Method to collect request data and perform request using provided request method
+        :param method: Allowed request method from list
+        :return:
+        """
         assert method.upper() in ["GET", "POST", "PUT", "PATCH", "DELETE"]
         return getattr(self._session, method.lower())(
             **self._request_data,

@@ -7,14 +7,13 @@ from services.comments.models.model_comment_create import ResponseCommentCreateM
 from services.comments.models.model_comment_update import ResponseCommentUpdateModel
 from services.comments.models.model_comments_list import ResponseCommentsModel
 from services.comments.models.model_reply_create import ResponseCreateReplyModel
-from services.comments.params import GetCommentsParams, GetRepliesParams, GetCommentsQueryParams, GetRepliesQueryParams
-from services.comments.payloads import  CreateCommentPayload, UpdateCommentPayloadQuery
+from services.comments.params import GetCommentsQueryParams, GetRepliesQueryParams
+from services.comments.payloads import  CreateCommentPayload, UpdateCommentPayload
 
 
 class CommentsAPI(BaseAPI):
     def __init__(self):
         super().__init__()
-        # self.payloads = Payloads()
         self.headers = Headers()
         self.endpoints = Endpoints()
 
@@ -37,7 +36,7 @@ class CommentsAPI(BaseAPI):
             return self.validate_response(response, ResponseCommentCreateModel, status_code=status_code, expected_success=expected_success)
 
 
-    def update_comment(self, comment_id:str,  payload: UpdateCommentPayloadQuery, status_code: int = 200, expected_success: bool = True):
+    def update_comment(self, comment_id:str, payload: UpdateCommentPayload, status_code: int = 200, expected_success: bool = True):
         with allure.step(f"API PATCH Request - updated comment({comment_id})"):
             response =  self.request()\
                 .set_url(self.endpoints.update_comment(comment_id)) \

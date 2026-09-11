@@ -1,18 +1,18 @@
 from dataclasses import dataclass
-from typing import Literal, Optional, Annotated
-from common.base_params import PaginationParams, BaseParams
+from common.base_params import PaginationParams, ReadableParams
 
-@dataclass
-class GetBookmarksQueryParams(PaginationParams):
+
+@dataclass(repr=False)
+class GetBookmarksQueryParams(PaginationParams, ReadableParams):
     ...
 
-@dataclass
-class GetBookmarksQueryParamsTestCaseByRole:
+
+@dataclass(repr=False)
+class GetBookmarksQueryParamsTestCaseByRole(ReadableParams):
     role: str
     params: GetBookmarksQueryParams
 
 
-
-@dataclass
-class GetBookmarksParams(PaginationParams):
+@dataclass(repr=False)
+class GetBookmarksParams(PaginationParams, ReadableParams):
     ...

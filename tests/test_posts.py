@@ -261,7 +261,7 @@ class TestPosts(BaseTest):
     @allure.story("As a user i can update only own post in valid time range")
     @allure.description("Attempt to update the post removed before")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdatePostByRoleTestCase(role="user_bob", payload=UpdatePostPayload(content="A"), status_code=404, expected_success=False),
+        pytest.param(UpdatePostByRoleTestCase(role="user_bob", payload=UpdatePostPayload(content="A")),
                      id="Try to update post, that was removed"),
     ])
     def test_update_removed_post(self, get_removed_post, case):
@@ -269,16 +269,15 @@ class TestPosts(BaseTest):
         post_service = self.get_actor(case.role).posts_api
         post_service.update_post(post_id=prepared_post_id,
                                             payload=case.payload,
-                                            expected_success=case.expected_success,
-                                            status_code=case.status_code)
+                                            expected_success=False,
+                                            status_code=404)
 
     @allure.suite("Update post")
     @allure.feature("User can update created post")
     @allure.story("As a user i can update only own post in valid time range")
     @allure.description("Attempt to update the post if allowed period to edit is expired")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A-edited"),
-                                              status_code=400, expected_success=False),
+        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A-edited")),
                      id="As author update the post, that older than 15 minutes"),
     ])
     def test_update_post_expired_to_edit(self, get_expired_to_edit_post, case):
@@ -286,8 +285,8 @@ class TestPosts(BaseTest):
         prepared_post_id = get_expired_to_edit_post(case.role)
         post_service.update_post(post_id=prepared_post_id,
                                             payload=case.payload,
-                                            expected_success=case.expected_success,
-                                            status_code=case.status_code)
+                                            expected_success=False,
+                                            status_code=400)
 
     @allure.suite("Update post")
     @allure.feature("User can update created post")
@@ -295,7 +294,7 @@ class TestPosts(BaseTest):
     @allure.description("Attempt to update the post created by another user")
     @pytest.mark.parametrize("post_builder_user, case", [
         pytest.param("user_bob",
-                     UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A-edited"), status_code=403, expected_success=False),
+                     UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A-edited")),
                      id="Attempt to update the post created by another user"),
     ])
     def test_update_post_created_by_another_user(self, post_builder_user, build_post_remove, case):
@@ -303,15 +302,15 @@ class TestPosts(BaseTest):
         prepared_post_id = build_post_remove(post_builder_user)
         post_service.update_post(post_id=prepared_post_id,
                                             payload=case.payload,
-                                            expected_success=case.expected_success,
-                                            status_code=case.status_code)
+                                            expected_success=False,
+                                            status_code=403)
 
     @allure.suite("Update post")
     @allure.feature("User can update created post")
     @allure.story("As a user i can update only own post in valid time range")
     @allure.description("Test attempt to update post, that doesn't exist")
     @pytest.mark.parametrize("case", [
-        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A-edited"), status_code=404, expected_success=False),
+        pytest.param(UpdatePostByRoleTestCase(role="user_eve", payload=UpdatePostPayload(content="A-edited")),
                      id="Attempt to update post, that doesn't exist"),
     ])
     def test_update_post_not_existed(self, case):
@@ -319,8 +318,8 @@ class TestPosts(BaseTest):
         prepared_post_id = self.data_helper.get_not_existed_uuid()
         post_service.update_post(post_id=prepared_post_id,
                                             payload=case.payload,
-                                            expected_success=case.expected_success,
-                                            status_code=case.status_code)
+                                            expected_success=False,
+                                            status_code=404)
 
     @allure.suite("Update post")
     @allure.story("User can update created post")
@@ -389,30 +388,28 @@ class TestPosts(BaseTest):
     @allure.story("User can remove created post")
     @allure.description("As user attempt to remove the post of another user")
     @pytest.mark.parametrize("post_builder_user, case", [
-        pytest.param("user_bob",DeletePostByRoleTestCase(role="user_eve", params=DeletePostParams(),
-                                 expected_success=False,status_code=403),
+        pytest.param("user_bob",DeletePostByRoleTestCase(role="user_eve", params=DeletePostParams(),),
                      id="Remove post of another user"),
     ])
     def test_delete_post_as_user(self, post_builder_user, build_post_remove, case):
         prepared_post_id = build_post_remove(role=post_builder_user)
         post_service = self.get_actor(case.role).posts_api
         post_service.delete_post(post_id=prepared_post_id,
-                                   expected_success=case.expected_success,
-                                   status_code=case.status_code)
+                                   expected_success=False,
+                                   status_code=403)
 
     @allure.suite("Remove post")
     @allure.story("User can remove created post")
-    @allure.description("Attempt to remove the post - invalid post id")
+    @allure.description("Attempt to remove the post - not existed post id")
     @pytest.mark.parametrize("case", [
-        pytest.param(DeletePostByRoleTestCase(role="user_eve", params=DeletePostParams(), expected_success=False,
-                                              status_code=404), id="Remove post that doesn't exist"),
+        pytest.param(DeletePostByRoleTestCase(role="user_eve", params=DeletePostParams()), id="Remove post that doesn't exist"),
     ])
-    def test_delete_post_invalid(self, case):
+    def test_delete_post_not_existed(self, case):
         prepared_post_id = self.data_helper.get_not_existed_uuid()
         post_service = self.get_actor(case.role).posts_api
         post_service.delete_post(post_id=prepared_post_id,
-                                   expected_success=case.expected_success,
-                                   status_code=case.status_code)
+                                   expected_success=False,
+                                   status_code=404)
 
     @allure.suite("Repost post")
     @allure.story("User can repost existed post")

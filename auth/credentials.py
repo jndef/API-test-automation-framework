@@ -39,7 +39,7 @@ class Credentials:
     def get_user(self, alias: str) -> UserProfile:
         """
         Method gets users credentials and id using provided alias from env file
-        :param alias:
+        :param alias: provided alias of user
         :return: object of UserProfile dataclass
         """
         with allure.step(f"Setup - Get credentials data from .env for user: {alias}"):

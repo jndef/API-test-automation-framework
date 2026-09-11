@@ -1,3 +1,5 @@
+import allure
+
 from common.base_api import BaseAPI
 from config.headers import Headers
 from services.messages.endpoints import Endpoints
@@ -20,73 +22,81 @@ class MessagesAPI(BaseAPI):
 
     def get_conversations_list(self, params: GetConversationsListParams, status_code: int = 200,
                                expected_success: bool = True):
-        response = self.request() \
-            .set_url(self.endpoints.get_conversations_list) \
-            .set_query_params(**(params.to_dict() if params else {})) \
-            .set_headers(self.headers.basic) \
-            .send("GET")
-        return self.validate_response(response, ResponseConversationsListModel, status_code=status_code,
-                                      expected_success=expected_success)
+        with allure.step(f"API Request - get conversation list with params"):
+            response = self.request() \
+                .set_url(self.endpoints.get_conversations_list) \
+                .set_query_params(**(params.to_dict() if params else {})) \
+                .set_headers(self.headers.basic) \
+                .send("GET")
+            return self.validate_response(response, ResponseConversationsListModel, status_code=status_code,
+                                          expected_success=expected_success)
 
     def create_conversation(self, payload: CreateConversationPayload, status_code: int = 201,
                             expected_success: bool = True):
-        response = self.request() \
-            .set_url(self.endpoints.create_conversation) \
-            .set_headers(self.headers.basic) \
-            .set_request_body(payload.model_dump(exclude_none=True)) \
-            .send("POST")
-        return self.validate_response(response, ResponseCreateConversationModel, status_code=status_code,
-                                      expected_success=expected_success)
+        with allure.step(f"API POST Request - create conversation"):
+            response = self.request() \
+                .set_url(self.endpoints.create_conversation) \
+                .set_headers(self.headers.basic) \
+                .set_request_body(payload.model_dump(exclude_none=True)) \
+                .send("POST")
+            return self.validate_response(response, ResponseCreateConversationModel, status_code=status_code,
+                                          expected_success=expected_success)
 
     def find_or_create_dm(self, username: str, status_code: int = 200, expected_success: bool = True):
-        response = self.request() \
-            .set_url(self.endpoints.find_or_create_dm(username)) \
-            .set_headers(self.headers.basic) \
-            .send("POST")
-        return self.validate_response(response, ResponseFindOrCreateConversationModel, status_code=status_code,
-                                      expected_success=expected_success)
+        with allure.step(f"API POST Request - find conversation by username({username}) or create a new one"):
+            response = self.request() \
+                .set_url(self.endpoints.find_or_create_dm(username)) \
+                .set_headers(self.headers.basic) \
+                .send("POST")
+            return self.validate_response(response, ResponseFindOrCreateConversationModel, status_code=status_code,
+                                          expected_success=expected_success)
 
     def get_conversation(self, conversation_id: str, status_code: int = 200, expected_success: bool = True):
-        response = self.request() \
-            .set_url(self.endpoints.get_conversation(conversation_id)) \
-            .set_headers(self.headers.basic) \
-            .send("GET")
-        return self.validate_response(response, ResponseGetConversationModel, status_code=status_code,
-                                      expected_success=expected_success)
+        with allure.step(f"API Request - get existed user's conversation ({conversation_id})"):
+            response = self.request() \
+                .set_url(self.endpoints.get_conversation(conversation_id)) \
+                .set_headers(self.headers.basic) \
+                .send("GET")
+            return self.validate_response(response, ResponseGetConversationModel, status_code=status_code,
+                                          expected_success=expected_success)
 
     def get_conversation_messages(self, conversation_id: str, params: GetConversationMessagesListParams = None,
                                   status_code: int = 200,
                                   expected_success: bool = True):
-        response = self.request() \
-            .set_url(self.endpoints.get_conversation_messages(conversation_id)) \
-            .set_headers(self.headers.basic) \
-            .set_query_params(**(params.to_dict() if params else {})) \
-            .send("GET")
-        return self.validate_response(response, ResponseGetMessagesListModel, status_code=status_code,
-                                      expected_success=expected_success)
+        with allure.step(f"API Request - get messages list of certain conversation ({conversation_id})"):
+            response = self.request() \
+                .set_url(self.endpoints.get_conversation_messages(conversation_id)) \
+                .set_headers(self.headers.basic) \
+                .set_query_params(**(params.to_dict() if params else {})) \
+                .send("GET")
+            return self.validate_response(response, ResponseGetMessagesListModel, status_code=status_code,
+                                          expected_success=expected_success)
 
     def send_message(self, conversation_id: str, payload: CreateMessagePayload, status_code: int = 201,
                      expected_success: bool = True):
-        response = self.request() \
-            .set_url(self.endpoints.create_messages(conversation_id)) \
-            .set_headers(self.headers.basic) \
-            .set_request_body(payload.model_dump(exclude_none=True)) \
-            .send("POST")
-        return self.validate_response(response, ResponseCreateMessageModel, status_code=status_code,
-                                      expected_success=expected_success)
+        with allure.step(f"API POST Request - create a new message at conversation({conversation_id})"):
+            response = self.request() \
+                .set_url(self.endpoints.create_messages(conversation_id)) \
+                .set_headers(self.headers.basic) \
+                .set_request_body(payload.model_dump(exclude_none=True)) \
+                .send("POST")
+            return self.validate_response(response, ResponseCreateMessageModel, status_code=status_code,
+                                          expected_success=expected_success)
 
     def remove_message(self, message_id: str, status_code: int = 204, expected_success: bool = True):
-        response = self.request() \
-            .set_url(self.endpoints.remove_message(message_id)) \
-            .set_headers(self.headers.basic) \
-            .send("DELETE")
-        return self.validate_response(response, None, status_code=status_code,
-                                      expected_success=expected_success)
+        with allure.step(f"API DELETE Request - remove message({message_id})"):
+            response = self.request() \
+                .set_url(self.endpoints.remove_message(message_id)) \
+                .set_headers(self.headers.basic) \
+                .send("DELETE")
+            return self.validate_response(response, None, status_code=status_code,
+                                          expected_success=expected_success)
 
     def read_conversation(self, conversation_id: str, status_code: int = 204, expected_success: bool = True):
-        response = self.request() \
-            .set_url(self.endpoints.mark_conversation_read(conversation_id)) \
-            .set_headers(self.headers.basic) \
-            .send("POST")
-        return self.validate_response(response, None, status_code=status_code,
-                                      expected_success=expected_success)
+        with allure.step(f"API POST Request - read conversation ({conversation_id})"):
+            response = self.request() \
+                .set_url(self.endpoints.mark_conversation_read(conversation_id)) \
+                .set_headers(self.headers.basic) \
+                .send("POST")
+            return self.validate_response(response, None, status_code=status_code,
+                                          expected_success=expected_success)

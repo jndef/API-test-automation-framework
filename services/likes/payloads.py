@@ -4,45 +4,28 @@ from typing import Literal, Union
 from faker import Faker
 from pydantic import BaseModel
 
+from common.base_params import ReadableParams
+
 ReactionsOptionsType = Union[Literal["like", "love", "laugh", "wow", "sad", "angry"], None, str]
 
 fake = Faker()
 
-class LikePostPayload(BaseModel):
+
+class LikePostPayload(BaseModel, ReadableParams):
     reaction: ReactionsOptionsType = None
 
-class LikeCommentPayload(BaseModel):
+
+class LikeCommentPayload(BaseModel, ReadableParams):
     reaction: ReactionsOptionsType = None
 
-@dataclass
-class LikePostByRoleTestCase:
-    role:str
+
+@dataclass(repr=False)
+class LikePostByRoleTestCase(ReadableParams):
+    role: str
     payload: LikePostPayload
-    status_code: int = None
-    expected_success: bool = True
 
-@dataclass
-class LikeCommentByRoleTestCase:
-    role:str
+
+@dataclass(repr=False)
+class LikeCommentByRoleTestCase(ReadableParams):
+    role: str
     payload: LikeCommentPayload
-    status_code: int = None
-    expected_success: bool = True
-
-
-class Payloads:
-
-    def like_post(self, reaction: str=None) -> dict:
-        payload = {}
-        if reaction:
-            return {
-                "reaction": reaction,
-            }
-        return payload
-
-    def like_comment(self, reaction: str=None) -> dict:
-        payload = {}
-        if reaction:
-            return {
-                "reaction": reaction,
-            }
-        return payload

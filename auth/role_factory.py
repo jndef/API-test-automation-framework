@@ -35,6 +35,11 @@ class MultiRoleServiceFactory:
         self._cache = {}
 
     def _get_headers_for_role(self, role:str=None):
+        """
+        Set headers for user with provided alias (role) and returns headers object
+        :param role: provided alias of user
+        :return:
+        """
         headers = Headers()
 
         if role is not None:
@@ -46,7 +51,11 @@ class MultiRoleServiceFactory:
 
 
     def get_services(self, role: str = None) -> ServiceContainer:
-        # role=None — публичные эндпоинты, без токена
+        """
+        Returns a ServiceContainer with all services associated for user with provided alias (role).
+        :param role: provided alias of user. If None --> public endpoints (auth service without access token)
+        :return:
+        """
 
         if role in self._cache:
             return self._cache[role]

@@ -15,7 +15,6 @@ from services.posts.payloads import CreatePostPayload, UpdatePostPayload, Create
 class PostsAPI(BaseAPI):
     def __init__(self):
         super().__init__()
-        # self.payloads = Payloads()
         self.headers = Headers()
         self.endpoints = Endpoints()
 

@@ -1,7 +1,7 @@
 from pydantic import UUID4
 
 from dataclasses import dataclass
-from typing import Literal, Optional, Annotated
+from typing import Optional, Annotated
 from common.base_params import PaginationParams, SortParams, BaseParams, ReadableParams
 
 
@@ -26,21 +26,15 @@ class DeletePostParams(BaseParams, ReadableParams):
 class GetPostsByRoleTestCase(ReadableParams):
     role: str
     params: GetPostsParams
-    status_code: int = 200
-    expected_success: bool = True
 
 
 @dataclass(repr=False)
 class GetFeedByRoleTestCase(ReadableParams):
     role: str
     params: GetFeedParams
-    status_code: int = 200
-    expected_success: bool = True
 
 
 @dataclass(repr=False)
 class DeletePostByRoleTestCase(ReadableParams):
     role: str
     params: DeletePostParams
-    status_code: int = 200
-    expected_success: bool = True

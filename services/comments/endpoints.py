@@ -4,6 +4,7 @@ STAGE = get_stage()
 SERVICE_POSTS_URL = "/api/posts"
 SERVICE_COMMENTS_URL = "/api/comments"
 
+
 class Endpoints:
     get_list_comments = lambda self, post_id: f"{STAGE}{SERVICE_POSTS_URL}/{post_id}/comments"
     create_comment = lambda self, post_id: f"{STAGE}{SERVICE_POSTS_URL}/{post_id}/comments"

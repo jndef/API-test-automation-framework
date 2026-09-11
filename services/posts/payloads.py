@@ -3,46 +3,41 @@ from typing import Literal, Optional, Union
 
 from pydantic import BaseModel
 
+from common.base_params import ReadableParams
 
 RepostOptionsType = Union[Literal["repost", "quote"], None, str]
 
-class CreatePostPayload(BaseModel):
+
+class CreatePostPayload(BaseModel, ReadableParams):
     content: str = "A"
     visibility: str = "public"
     image_url: Optional[str] = None
 
-@dataclass
-class CreatePostByRoleTestCase:
+
+@dataclass(repr=False)
+class CreatePostByRoleTestCase(ReadableParams):
     role: str
     payload: CreatePostPayload
-    status_code: int = None
-    expected_success: bool = True
 
 
-
-class UpdatePostPayload(BaseModel):
+class UpdatePostPayload(BaseModel, ReadableParams):
     content: str | int
     image_url: Optional[str] = None
     visibility: Optional[str] = None
 
-@dataclass
-class UpdatePostByRoleTestCase:
-    role:str
+
+@dataclass(repr=False)
+class UpdatePostByRoleTestCase(ReadableParams):
+    role: str
     payload: UpdatePostPayload
-    status_code: int = None
-    expected_success: bool = True
 
 
-class CreateRepostPayload(BaseModel):
+class CreateRepostPayload(BaseModel, ReadableParams):
     repost_type: RepostOptionsType = None
     content: str = None
 
 
-@dataclass
-class CreateRepostByRoleTestCase:
+@dataclass(repr=False)
+class CreateRepostByRoleTestCase(ReadableParams):
     role: str
     payload: CreateRepostPayload
-    status_code: int = None
-    expected_success: bool = True
-
-
