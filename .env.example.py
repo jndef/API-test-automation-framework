@@ -19,4 +19,4 @@ DB_PASSWORD=
 DB_PORT=
 DB_BASE=
 DB_NAME=
-ROLES=["admin", "moderator", "user_bob", "user_private"]
+ROLES=["admin", "moderator", "user_bob", "user_banned", "user_private"]
