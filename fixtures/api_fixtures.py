@@ -10,7 +10,7 @@ from services.likes.payloads import LikePostPayload
 from services.messages.payloads import CreateMessagePayload
 from services.posts.params import GetPostsParams
 from services.posts.payloads import CreatePostPayload
-from utils.data_helper import DataHelper
+from utilits.data_helper import DataHelper
 from auth.role_factory import MultiRoleServiceFactory, ServiceContainer
 
 creds = Credentials()
@@ -594,7 +594,7 @@ def get_expired_to_edit_post(get_service_by_role):
         own_username = _get_username_by_role(get_service_by_role, role)
         post_id = data_helper.find_not_recent_post(json_posts, own_username)
         if post_id is None:
-            raise BaseException(
+            raise Exception(
                 f"Error on setup. Failed to find post matched to requirements (created later than 15 minutes) for user ({role})")
         return post_id
 

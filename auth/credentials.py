@@ -1,6 +1,6 @@
 import os
 from dataclasses import dataclass
-
+import json
 import allure
 from dotenv import load_dotenv
 
@@ -15,7 +15,8 @@ class UserProfile:
     password: str
 
 
-roles = os.getenv("ROLES")
+# roles = os.getenv("ROLES")
+roles = json.loads(os.getenv("ROLES", "[]"))
 
 
 class Credentials:
@@ -33,7 +34,7 @@ class Credentials:
         if not isinstance(role, str):
             raise Exception("Invalid role - not str")
         if role not in roles:
-            raise BaseException(f"Invalid role: {role}. Not in allowed list")
+            raise Exception(f"Invalid role: {role}. Not in allowed list")
         return role
 
     def get_user(self, alias: str) -> UserProfile:

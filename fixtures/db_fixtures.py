@@ -6,7 +6,7 @@ import pytest
 
 from auth.credentials import Credentials
 from config.db_config import MyLocalDBConfig
-from utils.db_helper import DataBaseHandler
+from utilits.db_helper import DataBaseHandler
 
 creds = Credentials()
 
@@ -73,7 +73,7 @@ def db_get_conversation(db_connect):
         conversation_id = db_connect.get_conversation_id_between_users(user_alias1, user_alias2)
         if conversation_id is not None:
             return conversation_id
-        return None# raise BaseException(f"Conversation is absent")
+        return None
 
     yield _get_conversation
 

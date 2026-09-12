@@ -4,7 +4,7 @@ from faker import Faker
 from pydantic import BaseModel, Field
 
 from common.base_params import ReadableParams
-from utils.data_helper import DataHelper
+from utilits.data_helper import DataHelper
 
 fake = Faker()
 
@@ -22,6 +22,10 @@ class CreateConversationByRoleTestCase(ReadableParams):
     participant_role: str = None
 
 
+class CreateMessagePayload(BaseModel, ReadableParams):
+    content: str = None
+    image_url: str | None = None
+
 @dataclass(repr=False)
 class CreateMessageByRoleTestCase(ReadableParams):
     role: str
@@ -29,6 +33,3 @@ class CreateMessageByRoleTestCase(ReadableParams):
     payload: CreateMessagePayload
 
 
-class CreateMessagePayload(BaseModel, ReadableParams):
-    content: str = None
-    image_url: str | None = None

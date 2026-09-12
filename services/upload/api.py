@@ -4,7 +4,7 @@ from common.base_api import BaseAPI
 from config.headers import Headers
 from services.upload.endpoints import Endpoints
 from services.upload.models.model_upload_image import ResponseUploadImageModel
-from utils.data_helper import DataHelper
+from utilits.data_helper import DataHelper
 
 data_helper = DataHelper()
 

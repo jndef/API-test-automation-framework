@@ -10,10 +10,8 @@ stages={
     
 }
 
-
 def get_stage() -> str:
     """Global setup for test stage. Puts value of the variable from env file """
-    stage_key=os.getenv("STAGE", stages["local"])
+    stage_key = os.getenv("STAGE", "local")
     return stages[stage_key]
-
 

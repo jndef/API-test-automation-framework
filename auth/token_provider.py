@@ -27,15 +27,9 @@ class TokenProvider:
         auth_api_client = AuthAPI()
 
         with allure.step(f"Setup - Authenticate as: {creds.email}"):
-            # response =  auth_api_client.login(creds.email,creds.password)
             payload = LoginToAccountPayload(email=creds.email, password=creds.password)
-            response = auth_api_client.request() \
-                .set_url(auth_api_client.endpoints.login_account) \
-                .set_headers(auth_api_client.headers.basic) \
-                .set_request_body(payload.model_dump(exclude_none=True)) \
-                .send("POST")
-            if response.status_code == 200:
-                token = response.json()["access_token"]
-                self._token_cache[role] = token
-                return token
-            raise BaseException(f"Authentication failed {response.status_code}\nResponse text: {response.text}")
+            response =  auth_api_client.login(payload=payload)
+            token = response.access_token
+            self._token_cache[role] = token
+            return token
+

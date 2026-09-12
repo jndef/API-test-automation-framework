@@ -20,7 +20,7 @@ class TestUsers(BaseTest):
 
     @allure.story("User can see existed users")
     @allure.title("Get List Users - with params ({case.params})")
-    @pytest.mark.parametrize("case ", [
+    @pytest.mark.parametrize("case", [
         pytest.param(GetUsersParamsByRoleTestCase(role="user_bob",
                                             params=GetUsersParams(page=1, per_page=1, search="eve", sort_by="username", sort_order="desc")), id="123"),
         pytest.param(GetUsersParamsByRoleTestCase(role="user_bob",
