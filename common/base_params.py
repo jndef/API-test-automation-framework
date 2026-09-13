@@ -10,7 +10,7 @@ class ReadableParams:
     """
     Class to make readable params at allure reporting
     """
-    def __repr__(self):
+    def __repr_args__(self):
         info =  {}
         for f in fields(self):
             info[f.name] = getattr(self, f.name)

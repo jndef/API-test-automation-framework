@@ -10,11 +10,9 @@ ReactionsOptionsType = Union[Literal["like", "love", "laugh", "wow", "sad", "ang
 
 fake = Faker()
 
-@dataclass(repr=False)
 class LikePostPayload(BaseModel, ReadableParams):
     reaction: ReactionsOptionsType = None
 
-@dataclass(repr=False)
 class LikeCommentPayload(BaseModel, ReadableParams):
     reaction: ReactionsOptionsType = None
 

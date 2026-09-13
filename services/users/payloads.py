@@ -3,13 +3,11 @@ from pydantic import BaseModel
 
 from common.base_params import ReadableParams
 
-@dataclass(repr=False)
 class UpdateMePayload(BaseModel, ReadableParams):
     display_name: str | None = None
     bio: str | None = None
     is_private: bool = None
 
-@dataclass(repr=False)
 class UpdateAvatarFilePayload(BaseModel, ReadableParams):
     file_name: str
 

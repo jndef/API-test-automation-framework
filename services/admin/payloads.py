@@ -7,7 +7,6 @@ from common.base_params import ReadableParams
 
 RoleType = Union[Literal["user", "moderator", "admin"], None, str]
 
-@dataclass(repr=False)
 class UpdateUserByAdminPayload(BaseModel, ReadableParams):
     role: RoleType = None
     is_active: bool | None = None
