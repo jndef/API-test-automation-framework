@@ -5,19 +5,19 @@ from common.base_params import PaginationParams, ReadableParams, BaseParams
 
 PeriodType = Union[Literal["week", "day"], None, str]
 
-
+@dataclass(repr=False)
 class SearchUsersParams(PaginationParams, ReadableParams):
     ...
 
-
+@dataclass(repr=False)
 class SearchPostsParams(PaginationParams, ReadableParams):
     ...
 
-
+@dataclass(repr=False)
 class SearchHashtagsParams(PaginationParams, ReadableParams):
     ...
 
-
+@dataclass(repr=False)
 class SearchTrendingParams(BaseParams, ReadableParams):
     period: PeriodType = None
     limit: int = None

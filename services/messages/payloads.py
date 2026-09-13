@@ -8,13 +8,13 @@ from utils.data_helper import DataHelper
 
 fake = Faker()
 
-
+@dataclass(repr=False)
 class CreateConversationPayload(BaseModel, ReadableParams):
     participant_ids: list[str] = Field(default=[])
     is_group: bool = Field(default=False)
     name: str = Field(default=DataHelper().generate_text(15))
 
-
+@dataclass(repr=False)
 class CreateMessagePayload(BaseModel, ReadableParams):
     content: str = None
     image_url: str | None = None

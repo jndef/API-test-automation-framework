@@ -4,11 +4,11 @@ from dataclasses import dataclass
 from typing import Optional, Annotated
 from common.base_params import PaginationParams, SortParams, BaseParams, ReadableParams
 
-
+@dataclass(repr=False)
 class GetFeedParams(PaginationParams, ReadableParams):
     ...
 
-
+@dataclass(repr=False)
 class DeletePostParams(BaseParams, ReadableParams):
     reason: Optional[str] = None
 

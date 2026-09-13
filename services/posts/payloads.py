@@ -7,19 +7,19 @@ from common.base_params import ReadableParams
 
 RepostOptionsType = Union[Literal["repost", "quote"], None, str]
 
-
+@dataclass(repr=False)
 class CreatePostPayload(BaseModel, ReadableParams):
     content: str = "A"
     visibility: str = "public"
     image_url: Optional[str] = None
 
-
+@dataclass(repr=False)
 class UpdatePostPayload(BaseModel, ReadableParams):
     content: str | int
     image_url: Optional[str] = None
     visibility: Optional[str] = None
 
-
+@dataclass(repr=False)
 class CreateRepostPayload(BaseModel, ReadableParams):
     repost_type: RepostOptionsType = None
     content: str = None
