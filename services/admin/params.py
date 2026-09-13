@@ -7,6 +7,13 @@ RoleOptions = Union[Literal["admin", "moderator", "user"], None, str]
 SortByAdminOptions = Union[Literal["created_at", "username", "email"], None, str]
 
 
+
+class AdminDeletePostParams(BaseParams, ReadableParams):
+    reason: Optional[str] = None
+
+class AdminGetAllPostsParams(PaginationParams, ReadableParams):
+    is_deleted: bool | None = None
+
 @dataclass(repr=False)
 class AdminGetAllUsersParams(PaginationParams, SortParams, ReadableParams):
     role: RoleOptions = None
@@ -22,18 +29,9 @@ class AdminGetAllUsersParamsByRoleTestCase(ReadableParams):
 
 
 @dataclass(repr=False)
-class AdminGetAllPostsParams(PaginationParams, ReadableParams):
-    is_deleted: bool | None = None
-
-
-@dataclass(repr=False)
 class AdminGetAllPostsParamsByRoleTestCase(ReadableParams):
     role: str
     params: AdminGetAllPostsParams
-
-
-class AdminDeletePostParams(BaseParams, ReadableParams):
-    reason: Optional[str] = None
 
 
 @dataclass(repr=False)

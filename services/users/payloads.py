@@ -10,14 +10,14 @@ class UpdateMePayload(BaseModel, ReadableParams):
     is_private: bool = None
 
 
+class UpdateAvatarFilePayload(BaseModel, ReadableParams):
+    file_name: str
+
+
 @dataclass(repr=False)
 class UpdateMePayloadByRoleTestCase(ReadableParams):
     role: str
     payload: UpdateMePayload
-
-
-class UpdateAvatarFilePayload(BaseModel, ReadableParams):
-    file_name: str
 
 
 @dataclass(repr=False)

@@ -1,7 +1,7 @@
 import allure
 from auth.credentials import Credentials, UserProfile
 import pytest
-from utilits.data_helper import DataHelper
+from utils.data_helper import DataHelper
 
 
 class BaseTest:

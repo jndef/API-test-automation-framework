@@ -6,7 +6,7 @@ import pytest
 
 from auth.credentials import Credentials
 from config.db_config import MyLocalDBConfig
-from utilits.db_helper import DataBaseHandler
+from utils.db_helper import DataBaseHandler
 
 creds = Credentials()
 

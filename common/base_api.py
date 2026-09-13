@@ -2,7 +2,7 @@ import allure
 import requests
 from pydantic import BaseModel
 
-from utilits.allure_helper import AllureHelper
+from utils.allure_helper import AllureHelper
 from common.http_request_builder import HttpRequestBuilder as Http_builder
 
 

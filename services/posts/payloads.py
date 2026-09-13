@@ -14,27 +14,27 @@ class CreatePostPayload(BaseModel, ReadableParams):
     image_url: Optional[str] = None
 
 
-@dataclass(repr=False)
-class CreatePostByRoleTestCase(ReadableParams):
-    role: str
-    payload: CreatePostPayload
-
-
 class UpdatePostPayload(BaseModel, ReadableParams):
     content: str | int
     image_url: Optional[str] = None
     visibility: Optional[str] = None
 
 
+class CreateRepostPayload(BaseModel, ReadableParams):
+    repost_type: RepostOptionsType = None
+    content: str = None
+
+
+@dataclass(repr=False)
+class CreatePostByRoleTestCase(ReadableParams):
+    role: str
+    payload: CreatePostPayload
+
+
 @dataclass(repr=False)
 class UpdatePostByRoleTestCase(ReadableParams):
     role: str
     payload: UpdatePostPayload
-
-
-class CreateRepostPayload(BaseModel, ReadableParams):
-    repost_type: RepostOptionsType = None
-    content: str = None
 
 
 @dataclass(repr=False)

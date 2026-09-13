@@ -10,7 +10,7 @@ from services.likes.payloads import LikePostPayload
 from services.messages.payloads import CreateMessagePayload
 from services.posts.params import GetPostsParams
 from services.posts.payloads import CreatePostPayload
-from utilits.data_helper import DataHelper
+from utils.data_helper import DataHelper
 from auth.role_factory import MultiRoleServiceFactory, ServiceContainer
 
 creds = Credentials()
