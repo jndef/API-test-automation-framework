@@ -10,9 +10,11 @@ services:
       env_file:
         - .env
       environment:
-          STAGE: ${STAGE}  # внутри контейнера переменная окружения будет приниматься извне
+          STAGE: ${STAGE:-local_docker} # внутри контейнера переменная окружения будет приниматься извне
           SUITE: ${SUITE:-smoke}
           THREADS: ${THREADS:-1}
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
       tty: true
     report:
       image: api:v1

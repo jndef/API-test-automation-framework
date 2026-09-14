@@ -7,6 +7,12 @@ on:
         description: "Choose environment"
         required: true
         type: environment
+        default: "smoke"
+      STAGE:
+        description: "Choose stage"
+        required: true
+        type: environment
+        default: "local_doker"
 
   #      BROWSER:
   #        description: "Select the browser"
@@ -37,12 +43,26 @@ on:
           - "5"
 jobs:
   api-tests:
+
       runs-on: ubuntu-latest # на базе чего будет работать гитхаб раннер
       environment: ${{ inputs.ENV }} # в environment подставится значение окружения из ENV, что задается выше. Эта переменная отвечает за Environment в гитхаб проекте: т. е. последующая джоба, и все переменные окружения будут тянуться из этого ENV
       steps:
-        - uses: actions/checkout@v2 # uses - использование специальных гитхабовских джоб, которые позволяют совершать действия, в данном случае - клонирование репы, т. е. когда раннер поднимет окружение, он внутрь себя склонит нашу репу
+        - name: Start AUT
+          run: |
+            git clone https://github.com/manikosto/qa-automation-sandbox
+            cd qa-automation-sandbox
+            docker compose up -d --build
 
-        - uses: actions/checkout@v2
+        - name: Wait for AUT
+          run: |
+            curl --fail\ 
+              --retry 30\
+              --retry-delay 2\
+              --retry-connrefused\
+              http://localhost:8000/api/health
+
+        - uses: actions/checkout@v4 # uses - использование специальных гитхабовских джоб, которые позволяют совершать действия, в данном случае - клонирование репы, т. е. когда раннер поднимет окружение, он внутрь себя склонит нашу репу
+        - uses: actions/checkout@v4
           with: # делается клон репозитория, но указание with ref дает выбрать, какую именно
             ref: gh-pages # в данном случае ветку с пейджами
             path: ./.github/gh-pages # куда клонируем эту ветку внутри раннера
@@ -53,13 +73,14 @@ jobs:
             mkdir -p allure-results
             echo "Branch=${{ github.ref_name }}" > allure-results/environment.properties
             echo "Commit=${{ github.sha }}" >> allure-results/environment.properties
-            echo "Browser=${{ inputs.BROWSER }}" >> allure-results/environment.properties
-            echo "Stage=${{ secrets.STAGE }}" >> allure-results/environment.properties
+#           echo "Stage=${{ secrets.STAGE }}" >> allure-results/environment.properties
+            echo "Stage=${{ inputs.STAGE }}" >> allure-results/environment.properties
         - name: Run API tests via docker
           env:  # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
-            STAGE: ${{secrets.STAGE}}  # внутри контейнера переменная окружения будет приниматься извне
+            STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
           run: | # указание многострочности команды
-            docker compose up smoke-api-test 
+#            docker compose up smoke-api-test
+             docker compose up --build --exit-code-from smoke-api-test smoke-api-test
         - name: Copy allure history # шаг для записи скрипта, что сохранит историю прогонов аллюра
           run: |
             mkdir -p allure-results/history 
