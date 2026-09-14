@@ -67,8 +67,7 @@ jobs:
             ref: gh-pages # в данном случае ветку с пейджами
             path: ./.github/gh-pages # куда клонируем эту ветку внутри раннера
 
-        # Подготовка allure-results - environment.properties
-        - name: Prepare Allure environment
+        - name: Prepare Allure environment         # Подготовка allure-results - environment.properties
           run: |
             mkdir -p allure-results
             echo "Branch=${{ github.ref_name }}" > allure-results/environment.properties
