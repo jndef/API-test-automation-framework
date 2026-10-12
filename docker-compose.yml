@@ -1,6 +1,7 @@
 services:
     smoke-api-test:
       image: api:v1
+      pull_policy: build
       build:
         context: .  # текущая директория
         dockerfile: Dockerfile # указание докер файла, на котором создастся образ

@@ -1,30 +1,14 @@
 name: API Tests
-run-name: Test ${{ github.event.inputs.STAGE }} | ${{ github.event.inputs.MARKER }} marker | ${{ github.event.inputs.THREADS }} threads
+run-name: Test ${{ github.event.inputs.STAGE }} | ${{ github.event.inputs.SUITE }} marker | ${{ github.event.inputs.THREADS }} threads
 on:
   workflow_dispatch:
     inputs:
-      ENV:
-        description: "Choose environment"
-        required: true
-        type: environment
-        default: "smoke"
       STAGE:
         description: "Choose stage"
         required: true
         type: environment
         default: "local_doker"
-
-  #      BROWSER:
-  #        description: "Select the browser"
-  #        required: false
-  #        default: "chrome"
-  #        type: choice
-  #        options:
-  #          - chrome
-  #          - firefox
-  #          - safari
-
-      MARKER:
+      SUITE:
         description: "Select pytest marker / Все тесты для сервиса и т. д."
         required: true
         default: "smoke"
@@ -43,16 +27,14 @@ on:
           - "5"
 jobs:
   api-tests:
-
       runs-on: ubuntu-latest # на базе чего будет работать гитхаб раннер
-      environment: ${{ inputs.ENV }} # в environment подставится значение окружения из ENV, что задается выше. Эта переменная отвечает за Environment в гитхаб проекте: т. е. последующая джоба, и все переменные окружения будут тянуться из этого ENV
+      environment: ${{ inputs.STAGE }} # в environment подставится значение окружения из ENV, что задается выше. Эта переменная отвечает за Environment в гитхаб проекте: т. е. последующая джоба, и все переменные окружения будут тянуться из этого ENV
       steps:
         - name: Start AUT
           run: |
             git clone https://github.com/manikosto/qa-automation-sandbox
             cd qa-automation-sandbox
             docker compose up -d --build
-
         - name: Wait for AUT
           run: |
             curl --fail\ 
@@ -60,13 +42,11 @@ jobs:
               --retry-delay 2\
               --retry-connrefused\
               http://localhost:8000/api/health
-
         - uses: actions/checkout@v4 # uses - использование специальных гитхабовских джоб, которые позволяют совершать действия, в данном случае - клонирование репы, т. е. когда раннер поднимет окружение, он внутрь себя склонит нашу репу
         - uses: actions/checkout@v4
           with: # делается клон репозитория, но указание with ref дает выбрать, какую именно
             ref: gh-pages # в данном случае ветку с пейджами
             path: ./.github/gh-pages # куда клонируем эту ветку внутри раннера
-
         - name: Prepare Allure environment         # Подготовка allure-results - environment.properties
           run: |
             mkdir -p allure-results
@@ -86,10 +66,8 @@ jobs:
             if [ -d "./.github/gh-pages/history" ]; then
               cp -R ./.github/gh-pages/history/* allure-results/history/
             fi
-
         - name: Generate Allure-reports
           run: docker compose up report
-
         - name: Deploy to Github Pages
           uses: JamesIves/github-pages-deploy-action@4.1.5
           with:
