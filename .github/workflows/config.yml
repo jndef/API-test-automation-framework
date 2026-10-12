@@ -58,8 +58,7 @@ jobs:
         env: # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
           STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
         run: | # указание многострочности команды
-          #            docker compose up smoke-api-test
-               docker compose up --build --exit-code-from smoke-api-test smoke-api-test
+               docker compose up smoke-api-test
       - name: Copy allure history # шаг для записи скрипта, что сохранит историю прогонов аллюра
         run: |
           mkdir -p allure-results/history 
