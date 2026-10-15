@@ -1,0 +1,26 @@
+{
+    "id": "7b607512-84db-4e39-9a2c-de421929e436",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Ever after peace better finally.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-15T19:23:12.167995Z",
+    "updated_at": "2026-10-15T19:23:12.167997Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

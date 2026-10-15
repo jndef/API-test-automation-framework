@@ -1,0 +1,155 @@
+{
+    "items": [
+        {
+            "id": "10000000-0000-0000-0000-000000000006",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000003",
+                "username": "alice_dev",
+                "display_name": "Alice Developer",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "content": "Coffee count today: \u2615\u2615\u2615\u2615\u2615 (this is fine)",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-10-10T19:22:35.520267Z",
+            "updated_at": "2026-10-10T19:22:35.520267Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000017",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000005",
+                "username": "carol_writes",
+                "display_name": "Carol Writer",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "content": "Unpopular opinion: README files should be updated BEFORE the PR is merged, not after. #devlife",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 2,
+            "comments_count": 2,
+            "reposts_count": 0,
+            "hashtags": [
+                {
+                    "id": "30000000-0000-0000-0000-000000000007",
+                    "name": "devlife",
+                    "posts_count": 4
+                }
+            ],
+            "created_at": "2026-10-09T19:22:35.520267Z",
+            "updated_at": "2026-10-15T19:22:37.927894Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000019",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000006",
+                "username": "dave_quiet",
+                "display_name": "Dave Quiet",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "content": "Sometimes the best code is no code at all.",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "followers_only",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-10-08T19:22:35.520267Z",
+            "updated_at": "2026-10-08T19:22:35.520267Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000012",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "content": "New camera arrived! Can't wait to test it \ud83d\udcf7",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 1,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-10-07T19:22:35.520267Z",
+            "updated_at": "2026-10-15T19:22:37.889627Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000016",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000005",
+                "username": "carol_writes",
+                "display_name": "Carol Writer",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "content": "Started a new blog series on API design patterns. Link in bio! #tech #coding",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [
+                {
+                    "id": "30000000-0000-0000-0000-000000000009",
+                    "name": "tech",
+                    "posts_count": 4
+                },
+                {
+                    "id": "30000000-0000-0000-0000-000000000001",
+                    "name": "coding",
+                    "posts_count": 5
+                }
+            ],
+            "created_at": "2026-10-06T19:22:35.520267Z",
+            "updated_at": "2026-10-06T19:22:35.520267Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        }
+    ],
+    "total": 26,
+    "page": 2,
+    "per_page": 5,
+    "pages": 6
+}

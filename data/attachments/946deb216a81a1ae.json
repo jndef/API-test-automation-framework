@@ -1,0 +1,39 @@
+{
+    "id": "64352429-8153-4601-8f0e-df30a5a538c4",
+    "is_group": false,
+    "name": null,
+    "participants": [
+        {
+            "id": "00000000-0000-0000-0000-000000000004",
+            "username": "bob_photo",
+            "display_name": "Bob Photographer",
+            "avatar_url": null,
+            "is_verified": false
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "username": "admin",
+            "display_name": "Admin",
+            "avatar_url": null,
+            "is_verified": true
+        }
+    ],
+    "last_message": {
+        "id": "67e752b8-8e7c-46f9-a6bb-d1016451ef1d",
+        "conversation_id": "64352429-8153-4601-8f0e-df30a5a538c4",
+        "sender": {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "username": "admin",
+            "display_name": "Admin",
+            "avatar_url": null,
+            "is_verified": true
+        },
+        "content": "Rate anything right.",
+        "image_url": null,
+        "is_deleted": false,
+        "created_at": "2026-10-15T19:23:14.873932Z"
+    },
+    "unread_count": 0,
+    "created_at": "2026-10-15T19:23:14.598931Z",
+    "updated_at": "2026-10-15T19:23:14.873309Z"
+}
