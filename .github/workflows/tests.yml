@@ -46,7 +46,7 @@ jobs:
             --retry 30\
             --retry-delay 2\
             --retry-connrefused\
-            http://host.docker.internal:8000/api/health
+            http://host.docker.internal:5432/api/health
       - name: Create .env
         env:
           SECRETS_JSON: ${{ toJSON(secrets) }}
