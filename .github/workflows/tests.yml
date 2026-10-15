@@ -29,7 +29,8 @@ env: # указываются переменные запуска. !!! Пере�
   STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
   SUITE: ${{ inputs.SUITE }}
   THREADS: ${{ inputs.THREADS }}
-
+  CI_COMMIT_REF_NAME: ${{ github.ref_name }}
+  CI_COMMIT_SHORT_SHA: ${{ github.sha }}
 permissions:
   contents: read
 
@@ -89,8 +90,7 @@ jobs:
                mkdir -p allure-results
                echo "Branch=${{ github.ref_name }}" > allure-results/environment.properties
                echo "Commit=${{ github.sha }}" >> allure-results/environment.properties
-               # echo "Stage=${{ secrets.STAGE }}" >> allure-results/environment.properties
-               echo "Stage=${{ inputs.STAGE }}" >> allure-results/environment.properties
+               echo "Stage=${{ env.STAGE }}" >> allure-results/environment.properties
       - name: Run API tests via docker
         run: docker compose up --build --exit-code-from smoke-api-test smoke-api-test
 
@@ -130,26 +130,9 @@ jobs:
           if [ -d ".github/gh-pages/history" ]; then
             cp -R .github/gh-pages/history/. allure-results/history/
           fi
-      - name: Debug Allure history
-        run: |
-          echo "=== Saved history in gh-pages ==="
-          find .github/gh-pages/history \
-          -maxdepth 1 -type f -print
-          
-          echo "=== History passed to Allure ==="
-          find allure-results/history \
-          -maxdepth 1 -type f -print
 
       - name: Generate Allure report
         run: docker compose run --build --rm report
-
-      - name: Verify Allure trend
-        run: |
-          echo "=== Generated history ==="
-          ls -la allure-report/history
-          
-          echo "=== Number of recorded runs ==="
-          jq 'length' allure-report/history/history-trend.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
