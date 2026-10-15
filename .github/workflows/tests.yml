@@ -25,6 +25,14 @@ on:
           - "1"
           - "3"
           - "5"
+env: # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
+  STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
+  SUITE: ${{ inputs.SUITE }}
+  THREADS: ${{ inputs.THREADS }}
+
+permissions:
+  contents: read
+
 jobs:
   api-tests:
     runs-on: ubuntu-latest # на базе чего будет работать гитхаб раннер
@@ -84,40 +92,94 @@ jobs:
                # echo "Stage=${{ secrets.STAGE }}" >> allure-results/environment.properties
                echo "Stage=${{ inputs.STAGE }}" >> allure-results/environment.properties
       - name: Run API tests via docker
-        env: # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
-          STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
-          SUITE: ${{ inputs.SUITE }}
-          THREADS: ${{ inputs.THREADS }}
         run: docker compose up --build --exit-code-from smoke-api-test smoke-api-test
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: allure-results-{{ inputs.SUITE }}_Suite--${{ inputs.THREADS }}_Threads
+          name: allure-results-${{ inputs.SUITE }}-threads-${{ inputs.THREADS }}
           path: allure-results
   report:
     needs: api-tests
     if: always()
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Checkout automation repository
+        uses: actions/checkout@v4
+
+      - name: Checkout Allure history
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: .github/gh-pages
+
+      - name: Download Allure results
+        uses: actions/download-artifact@v4
         with:
           pattern: allure-results-*
           path: allure-results
           merge-multiple: true
-      - run: ls allure-results
-#      - name: Copy allure history # шаг для записи скрипта, что сохранит историю прогонов аллюра
-#        run: |
-#          mkdir -p allure-results/history
-#          if [ -d "./.github/gh-pages/history" ]; then
-#            cp -R ./.github/gh-pages/history/* allure-results/history/
-#          fi
-#      - name: Generate Allure-reports
-#        run: docker compose up report
-#      - name: Deploy to Github Pages
-#        uses: JamesIves/github-pages-deploy-action@4.1.5
-#        with:
-#          token: ${{ secrets.CI_TOKEN }}
-#          branch: gh-pages
-#          folder: allure-report
-#          clean: false
+
+      - name: Copy Allure history
+        run: |
+          mkdir -p allure-results/history
+
+          if [ -d ".github/gh-pages/history" ]; then
+            cp -R .github/gh-pages/history/. allure-results/history/
+          fi
+
+      - name: Generate Allure report
+        run: docker compose run --build --rm report
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: allure-report
+
+      - name: Persist Allure history
+        continue-on-error: true
+        run: |
+          if [ ! -d "allure-report/history" ]; then
+            echo "Allure history directory was not generated"
+            exit 0
+          fi
+
+          rm -rf .github/gh-pages/history
+          mkdir -p .github/gh-pages/history
+          cp -R allure-report/history/. .github/gh-pages/history/
+
+          git -C .github/gh-pages config user.name "github-actions[bot]"
+          git -C .github/gh-pages config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git -C .github/gh-pages add history
+
+          if git -C .github/gh-pages diff --cached --quiet; then
+            echo "Allure history has no changes"
+          else
+            git -C .github/gh-pages commit -m "Update Allure history"
+            git -C .github/gh-pages push origin HEAD:gh-pages
+          fi
+
+  deploy:
+    needs: report
+    if: always() && needs.report.result == 'success'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      actions: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
