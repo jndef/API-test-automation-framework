@@ -37,7 +37,7 @@ jobs:
           path: ./.github/gh-pages # куда клонируем эту ветку внутри раннера
       - name: Start AUT
         run: |
-          git clone https://github.com/manikosto/qa-sandbox.git
+          git clone https://github.com/manikosto/qa-automation-sandbox.git qa-sandbox
           cd qa-sandbox
           docker compose up -d --build
       - name: Wait for AUT
