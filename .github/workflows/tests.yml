@@ -99,25 +99,41 @@ jobs:
     needs: api-tests
     if: always()
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+
+      - name: Checkout GitHub Pages history
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: .github/gh-pages
+
+      - name: Download Allure results
+        uses: actions/download-artifact@v4
         with:
           pattern: allure-results-*
           path: allure-results
           merge-multiple: true
-      - run: ls allure-results
-#      - name: Copy allure history # шаг для записи скрипта, что сохранит историю прогонов аллюра
-#        run: |
-#          mkdir -p allure-results/history
-#          if [ -d "./.github/gh-pages/history" ]; then
-#            cp -R ./.github/gh-pages/history/* allure-results/history/
-#          fi
-#      - name: Generate Allure-reports
-#        run: docker compose up report
-#      - name: Deploy to Github Pages
-#        uses: JamesIves/github-pages-deploy-action@4.1.5
-#        with:
-#          token: ${{ secrets.CI_TOKEN }}
-#          branch: gh-pages
-#          folder: allure-report
-#          clean: false
+
+      - name: Copy Allure history
+        run: |
+          mkdir -p allure-results/history
+
+          if [ -d ".github/gh-pages/history" ]; then
+            cp -R .github/gh-pages/history/. allure-results/history/
+          fi
+
+      - name: Generate Allure report
+        run: docker compose run --build --rm report
+
+      - name: Verify Allure report
+        run: test -f allure-report/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          token: ${{ secrets.CI_TOKEN }}
+          branch: gh-pages
+          folder: allure-report
+          clean: false
