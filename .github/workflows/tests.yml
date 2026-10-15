@@ -43,10 +43,10 @@ jobs:
       - name: Wait for AUT
         run: |
           curl --fail\
-            --retry 30\
+            --retry 10\
             --retry-delay 2\
             --retry-connrefused\
-            http://localhost:5432/api/health
+            http://localhost:8000/api/health
       - name: Create .env
         env:
           SECRETS_JSON: ${{ toJSON(secrets) }}
