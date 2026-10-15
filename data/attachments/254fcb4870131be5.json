@@ -1,0 +1,26 @@
+{
+    "id": "f03d6b5d-6c9d-4c0e-8b23-21098bd9ec75",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Cell part term budget rich.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 1,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-15T18:53:43.990851Z",
+    "updated_at": "2026-10-15T18:53:44.008569Z",
+    "is_liked": true,
+    "is_bookmarked": false,
+    "user_reaction": "love"
+}

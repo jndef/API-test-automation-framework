@@ -1,0 +1,26 @@
+{
+    "id": "012c4e9c-9fd6-4acf-9f88-5020a34ff297",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Support like travel challenge.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-15T18:53:43.062627Z",
+    "updated_at": "2026-10-15T18:53:43.062631Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}
