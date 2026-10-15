@@ -86,20 +86,36 @@ jobs:
       - name: Run API tests via docker
         env: # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
           STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
-        run: | # указание многострочности команды
-               docker compose up --build --exit-code-from smoke-api-test smoke-api-test
-      - name: Copy allure history # шаг для записи скрипта, что сохранит историю прогонов аллюра
-        run: |
-          mkdir -p allure-results/history 
-          if [ -d "./.github/gh-pages/history" ]; then
-            cp -R ./.github/gh-pages/history/* allure-results/history/
-          fi
-      - name: Generate Allure-reports
-        run: docker compose up report
-      - name: Deploy to Github Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        run: pytest --alluredir=allure-results -n=${{ inputs.THREADS }} -m=${{ inputs.SUITE }}
+
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          token: ${{ secrets.CI_TOKEN }}
-          branch: gh-pages
-          folder: allure-report
-          clean: false
+          name: allure-results-{{ inputs.SUITE }}_Suite--${{ inputs.THREADS }}_Threads
+          path: allure-results
+  report:
+    needs: test
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          path: allure-results
+          merge-multiple: true
+      - run: ls allure-results
+#      - name: Copy allure history # шаг для записи скрипта, что сохранит историю прогонов аллюра
+#        run: |
+#          mkdir -p allure-results/history
+#          if [ -d "./.github/gh-pages/history" ]; then
+#            cp -R ./.github/gh-pages/history/* allure-results/history/
+#          fi
+#      - name: Generate Allure-reports
+#        run: docker compose up report
+#      - name: Deploy to Github Pages
+#        uses: JamesIves/github-pages-deploy-action@4.1.5
+#        with:
+#          token: ${{ secrets.CI_TOKEN }}
+#          branch: gh-pages
+#          folder: allure-report
+#          clean: false
