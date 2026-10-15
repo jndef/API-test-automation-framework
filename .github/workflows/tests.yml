@@ -94,7 +94,7 @@ jobs:
           name: allure-results-{{ inputs.SUITE }}_Suite--${{ inputs.THREADS }}_Threads
           path: allure-results
   report:
-    needs: test
+    needs: api-tests
     if: always()
     runs-on: ubuntu-latest
     steps:
