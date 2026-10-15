@@ -37,16 +37,16 @@ jobs:
           path: ./.github/gh-pages # куда клонируем эту ветку внутри раннера
       - name: Start AUT
         run: |
-          git clone https://github.com/manikosto/qa-automation-sandbox
-          cd qa-automation-sandbox
+          git clone https://github.com/manikosto/qa-sandbox.git
+          cd qa-sandbox
           docker compose up -d --build
       - name: Wait for AUT
         run: |
-          curl --fail\
-            --retry 10\
-            --retry-delay 2\
-            --retry-connrefused\
-            http://localhost:8000/api/health
+          curl --fail \
+            --retry 30 \
+            --retry-delay 2 \
+            --retry-connrefused \
+            http://localhost:8000/docs
       - name: Create .env
         env:
           SECRETS_JSON: ${{ toJSON(secrets) }}
