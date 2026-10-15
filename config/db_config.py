@@ -4,7 +4,7 @@ load_dotenv()
 
 class MyLocalDBConfig:
     db_name = os.getenv("DB_NAME")
-    server = "localhost"
+    server = os.getenv("DB_HOST", "localhost")
     database = os.getenv("DB_BASE")
     user = os.getenv("DB_USER")
     password = os.getenv("DB_PASSWORD")

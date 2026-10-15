@@ -7,7 +7,7 @@ on:
         description: "Choose stage"
         required: true
         type: environment
-        default: "local_doker"
+        default: "local_docker"
       SUITE:
         description: "Select pytest marker / Все тесты для сервиса и т. д."
         required: true
@@ -30,6 +30,11 @@ jobs:
     runs-on: ubuntu-latest # на базе чего будет работать гитхаб раннер
     environment: ${{ inputs.STAGE }} # в environment подставится значение окружения из ENV, что задается выше. Эта переменная отвечает за Environment в гитхаб проекте: т. е. последующая джоба, и все переменные окружения будут тянуться из этого ENV
     steps:
+      - uses: actions/checkout@v4 # uses - использование специальных гитхабовских джоб, которые позволяют совершать действия, в данном случае - клонирование репы, т. е. когда раннер поднимет окружение, он внутрь себя склонит нашу репу
+      - uses: actions/checkout@v4
+        with: # делается клон репозитория, но указание with ref дает выбрать, какую именно
+          ref: gh-pages # в данном случае ветку с пейджами
+          path: ./.github/gh-pages # куда клонируем эту ветку внутри раннера
       - name: Start AUT
         run: |
           git clone https://github.com/manikosto/qa-automation-sandbox
@@ -37,16 +42,20 @@ jobs:
           docker compose up -d --build
       - name: Wait for AUT
         run: |
-          curl --fail\ 
+          curl --fail\
             --retry 30\
             --retry-delay 2\
             --retry-connrefused\
             http://localhost:8000/api/health
-      - uses: actions/checkout@v2 # uses - использование специальных гитхабовских джоб, которые позволяют совершать действия, в данном случае - клонирование репы, т. е. когда раннер поднимет окружение, он внутрь себя склонит нашу репу
-      - uses: actions/checkout@v2
-        with: # делается клон репозитория, но указание with ref дает выбрать, какую именно
-          ref: gh-pages # в данном случае ветку с пейджами
-          path: ./.github/gh-pages # куда клонируем эту ветку внутри раннера
+      - name: Create .env
+        env:
+          SECRETS_JSON: ${{ toJSON(secrets) }}
+          DB_HOST: ${{ vars.DB_HOST }}
+        run: |
+          echo "$SECRETS_JSON" | jq -r 'to_entries[]
+            | select(.key | test("^(ADMIN|MODERATOR|USER|DB|ROLES)"))
+            | "\(.key)=\(.value)"' > .env
+          echo "DB_HOST=$DB_HOST" >> .env
       - name: Prepare Allure environment         # Подготовка allure-results - environment.properties
         run: |
                mkdir -p allure-results
@@ -58,7 +67,7 @@ jobs:
         env: # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
           STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
         run: | # указание многострочности команды
-               docker compose up smoke-api-test
+               docker compose up --build --exit-code-from smoke-api-test smoke-api-test
       - name: Copy allure history # шаг для записи скрипта, что сохранит историю прогонов аллюра
         run: |
           mkdir -p allure-results/history 
