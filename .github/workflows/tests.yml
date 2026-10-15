@@ -156,6 +156,16 @@ jobs:
           if [ -d ".github/gh-pages/history" ]; then
             cp -R .github/gh-pages/history/. allure-results/history/
           fi
+      - name: Verify Allure metadata
+        run: |
+          echo "=== Downloaded files ==="
+          ls -la allure-results
+          
+          echo "=== Environment ==="
+          cat allure-results/environment.properties
+          
+          echo "=== Executor ==="
+          cat allure-results/executor.json
 
       - name: Generate Allure report
         run: docker compose run --build --rm report
