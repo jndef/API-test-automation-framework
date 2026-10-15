@@ -130,9 +130,26 @@ jobs:
           if [ -d ".github/gh-pages/history" ]; then
             cp -R .github/gh-pages/history/. allure-results/history/
           fi
+      - name: Debug Allure history
+        run: |
+          echo "=== Saved history in gh-pages ==="
+          find .github/gh-pages/history \
+          -maxdepth 1 -type f -print
+          
+          echo "=== History passed to Allure ==="
+          find allure-results/history \
+          -maxdepth 1 -type f -print
 
       - name: Generate Allure report
         run: docker compose run --build --rm report
+
+      - name: Verify Allure trend
+        run: |
+          echo "=== Generated history ==="
+          ls -la allure-report/history
+          
+          echo "=== Number of recorded runs ==="
+          jq 'length' allure-report/history/history-trend.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
