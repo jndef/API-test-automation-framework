@@ -1,0 +1,19 @@
+{
+    "id": "0e16ec64-d920-431e-add8-3fd61551059e",
+    "post_id": "10000000-0000-0000-0000-000000000002",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "username": "moderator",
+        "display_name": "Moderator",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Health by store could.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-15T18:53:45.095728Z",
+    "updated_at": "2026-10-15T18:53:45.095730Z",
+    "is_liked": false,
+    "replies_count": 0
+}

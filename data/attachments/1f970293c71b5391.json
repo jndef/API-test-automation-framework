@@ -1,0 +1,19 @@
+{
+    "id": "b62f6aa4-496a-4607-a7e6-01fba67c343b",
+    "post_id": "10000000-0000-0000-0000-000000000003",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "username": "moderator",
+        "display_name": "Moderator",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Small dog throw charge.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-15T19:23:14.199328Z",
+    "updated_at": "2026-10-15T19:23:14.199330Z",
+    "is_liked": false,
+    "replies_count": 0
+}

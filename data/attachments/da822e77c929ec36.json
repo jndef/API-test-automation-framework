@@ -1,0 +1,25 @@
+{
+    "id": "88e9fbc7-87c7-4954-8c7b-9bc323e00a20",
+    "is_group": false,
+    "name": null,
+    "participants": [
+        {
+            "id": "00000000-0000-0000-0000-000000000007",
+            "username": "eve_new",
+            "display_name": "Eve Newbie",
+            "avatar_url": null,
+            "is_verified": false
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000004",
+            "username": "bob_photo",
+            "display_name": "Bob Photographer",
+            "avatar_url": null,
+            "is_verified": false
+        }
+    ],
+    "last_message": null,
+    "unread_count": 0,
+    "created_at": "2026-10-15T18:53:45.336451Z",
+    "updated_at": "2026-10-15T18:53:45.336455Z"
+}

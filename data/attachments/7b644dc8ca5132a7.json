@@ -1,0 +1,26 @@
+{
+    "id": "b2fdf85d-63ea-430b-8446-8f1432442249",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "username": "moderator",
+        "display_name": "Moderator",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Writer food seek.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-15T19:23:12.236981Z",
+    "updated_at": "2026-10-15T19:23:12.236983Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

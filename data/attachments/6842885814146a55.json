@@ -1,0 +1,19 @@
+{
+    "id": "16b9a169-56b5-410c-8ee1-2299de0bf188",
+    "follower": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "following": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "status": "accepted",
+    "created_at": "2026-10-15T18:53:45.701522Z"
+}

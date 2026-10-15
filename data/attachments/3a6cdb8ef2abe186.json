@@ -1,0 +1,12 @@
+{
+    "id": "002bb671-d32b-4c19-a577-e0c0737cb1d5",
+    "user": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "username": "moderator",
+        "display_name": "Moderator",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "reaction": "angry",
+    "created_at": "2026-10-15T18:53:44.854535Z"
+}

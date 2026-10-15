@@ -1,0 +1,15 @@
+{
+    "items": [
+        {
+            "id": "00000000-0000-0000-0000-000000000002",
+            "username": "moderator",
+            "display_name": "Moderator",
+            "avatar_url": null,
+            "is_verified": true
+        }
+    ],
+    "total": 7,
+    "page": 1,
+    "per_page": 1,
+    "pages": 7
+}

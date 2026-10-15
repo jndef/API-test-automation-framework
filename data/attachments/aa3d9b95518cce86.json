@@ -1,0 +1,26 @@
+{
+    "id": "b91108a2-e63a-4f40-8ae0-c4bd4095da45",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "username": "moderator",
+        "display_name": "Moderator",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Face everyone receive shake dog three.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-15T19:23:13.544301Z",
+    "updated_at": "2026-10-15T19:23:13.544303Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

@@ -1,0 +1,19 @@
+{
+    "id": "89aa62e4-149e-4ca3-8ef7-84b9b81823a0",
+    "post_id": "10000000-0000-0000-0000-000000000014",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Last keep bad step ago.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-15T19:23:14.257222Z",
+    "updated_at": "2026-10-15T19:23:14.257223Z",
+    "is_liked": false,
+    "replies_count": 0
+}

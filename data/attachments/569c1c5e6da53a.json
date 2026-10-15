@@ -1,0 +1,15 @@
+{
+    "id": "0473dd4e-0860-48ae-934e-ccff284d7f4f",
+    "conversation_id": "4d349648-e2ed-48ca-a2cd-55ba1188b2b0",
+    "sender": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "M",
+    "image_url": null,
+    "is_deleted": false,
+    "created_at": "2026-10-15T18:53:45.485363Z"
+}

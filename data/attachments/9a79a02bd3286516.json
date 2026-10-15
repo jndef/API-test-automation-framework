@@ -1,0 +1,19 @@
+{
+    "id": "232b9d54-8634-4026-917a-52ffefb701ef",
+    "post_id": "10000000-0000-0000-0000-000000000007",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Help budget build hair.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-15T18:53:45.006267Z",
+    "updated_at": "2026-10-15T18:53:45.006269Z",
+    "is_liked": false,
+    "replies_count": 0
+}

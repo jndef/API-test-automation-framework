@@ -1,0 +1,26 @@
+{
+    "id": "b7aece8d-e7ab-4e5d-85a2-7171a3f0dbc8",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "username": "moderator",
+        "display_name": "Moderator",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Mind part keep begin.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-15T19:23:09.010402Z",
+    "updated_at": "2026-10-15T19:23:09.010404Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}
