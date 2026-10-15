@@ -7,7 +7,7 @@ services:
         dockerfile: Dockerfile # указание докер файла, на котором создастся образ
       volumes:
         - ./:/usr/workspace # <local_folder>:<container_folder>
-      command: /bin/sh -c "STAGE=$$STAGE pytest  --alluredir=allure-results -n=$$THREADS -m=$$SUITE -o log_cli=true"  # переменная будет равна значению из environment
+      command: /bin/sh -c "STAGE=$$STAGE pytest -n=$$THREADS -m=$$SUITE -o log_cli=true"  # переменная будет равна значению из environment
       env_file:
         - .env
       environment:
