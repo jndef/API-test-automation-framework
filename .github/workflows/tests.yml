@@ -88,9 +88,35 @@ jobs:
       - name: Prepare Allure environment         # Подготовка allure-results - environment.properties
         run: |
                mkdir -p allure-results
-               echo "Branch=${{ github.ref_name }}" > allure-results/environment.properties
-               echo "Commit=${{ github.sha }}" >> allure-results/environment.properties
-               echo "Stage=${{ env.STAGE }}" >> allure-results/environment.properties
+               RUN_TIME="$(date -u +'%Y-%m-%d %H:%M UTC')"
+               cat > allure-results/environment.properties <<EOF
+               Stage=${STAGE}
+               Suite=${SUITE}
+               Threads=${THREADS}
+               Branch=${GITHUB_REF_NAME}
+               Commit=${GITHUB_SHA}
+               Run=${GITHUB_RUN_NUMBER}
+               Run time=${RUN_TIME}
+               EOF
+          
+               cat > allure-results/executor.json <<EOF
+               {
+                "reportName": "Run #${GITHUB_RUN_NUMBER} | ${SUITE} | ${THREADS} threads | ${RUN_TIME}",
+                "buildOrder": ${GITHUB_RUN_NUMBER},
+                "reportUrl": "https://jndef.github.io/API-test-automation-framework/",
+                "name": "GitHub Actions",
+                "type": "github",
+                "buildName": "Run #${GITHUB_RUN_NUMBER}, attempt #${GITHUB_RUN_ATTEMPT}",
+                "buildUrl": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+               }
+               EOF
+          
+               echo "=== Environment metadata ==="
+               cat allure-results/environment.properties
+          
+               echo "=== Executor metadata ==="
+               cat allure-results/executor.json
+
       - name: Run API tests via docker
         run: docker compose up --build --exit-code-from smoke-api-test smoke-api-test
 
