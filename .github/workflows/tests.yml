@@ -86,7 +86,9 @@ jobs:
       - name: Run API tests via docker
         env: # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
           STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
-        run: pytest --alluredir=allure-results -n=${{ inputs.THREADS }} -m=${{ inputs.SUITE }}
+          SUITE: ${{ inputs.SUITE }}
+          THREADS: ${{ inputs.THREADS }}
+        run: docker compose up --build --exit-code-from smoke-api-test smoke-api-test
 
       - uses: actions/upload-artifact@v4
         if: always()
