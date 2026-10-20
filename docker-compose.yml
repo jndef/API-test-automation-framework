@@ -18,13 +18,13 @@ services:
         - |
           if [ -n "$$MARK_EXPR" ]; then
             exec pytest --alluredir=allure-results \
-            -n "$$THREADS" \
-            -m "$$MARK_EXPR" \
-            -o log_cli=true  # переменная будет равна значению из environment
+              -n "$$THREADS" \
+              -m "$$MARK_EXPR" \
+              -o log_cli=true  # переменная будет равна значению из environment
           else
             exec pytest  --alluredir=allure-results 
-            -n "$$THREADS" \
-            -o log_cli=true  # переменная будет равна значению из environment
+              -n "$$THREADS" \
+              -o log_cli=true  # переменная будет равна значению из environment
           fi
       env_file:
         - .env
