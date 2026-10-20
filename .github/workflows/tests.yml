@@ -165,7 +165,6 @@ jobs:
           Commit=${GITHUB_SHA}
           RunNumber=${GITHUB_RUN_NUMBER}
           RunTimeStart=${RUN_TIME}
-          Tags=${MARK_EXPR}
           EOF
 
           jq -n \
