@@ -9,13 +9,24 @@ on:
         type: environment
         default: "local_docker"
       SUITE:
-        description: "Select pytest marker / Все тесты для сервиса и т. д."
+        description: "Functional importance lvl"
         required: true
         default: "smoke"
         type: choice
         options:
-          - smoke
           - regression
+          - smoke
+      SERVICES:
+        description: "Choose app service to run: all, admin, auth, bookmarks, comments, follows, likes, messages, notifications, posts, search, upload, users"
+        required: false
+        type: string
+        default: "all"
+      TAGS:
+        description: "Choose tag to filter run: all, flaky, login, register, positive, negative, moderation"
+        required: false
+        type: string
+        default: "all"
+
       THREADS:
         description: "Select threads count"
         required: false
@@ -25,11 +36,27 @@ on:
           - "1"
           - "3"
           - "5"
+env: # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
+  SUITE: ${{ inputs.SUITE }}
+  SERVICES: ${{ inputs.SERVICES }}
+  TAGS: ${{ inputs.TAGS }}
+  THREADS: ${{ inputs.THREADS }}
+  CI_COMMIT_REF_NAME: ${{ github.ref_name }}
+  CI_COMMIT_SHORT_SHA: ${{ github.sha }}
+permissions:
+  contents: read
+
 jobs:
   api-tests:
     runs-on: ubuntu-latest # на базе чего будет работать гитхаб раннер
     environment: ${{ inputs.STAGE }} # в environment подставится значение окружения из ENV, что задается выше. Эта переменная отвечает за Environment в гитхаб проекте: т. е. последующая джоба, и все переменные окружения будут тянуться из этого ENV
     steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Expose GitHub runtime for BuildKit cache
+        uses: crazy-max/ghaction-github-runtime@v4
+
       - uses: actions/checkout@v4 # uses - использование специальных гитхабовских джоб, которые позволяют совершать действия, в данном случае - клонирование репы, т. е. когда раннер поднимет окружение, он внутрь себя склонит нашу репу
       - uses: actions/checkout@v4
         with: # делается клон репозитория, но указание with ref дает выбрать, какую именно
@@ -37,16 +64,36 @@ jobs:
           path: ./.github/gh-pages # куда клонируем эту ветку внутри раннера
       - name: Start AUT
         run: |
-          git clone https://github.com/manikosto/qa-automation-sandbox
-          cd qa-automation-sandbox
+          git clone https://github.com/manikosto/qa-automation-sandbox.git qa-sandbox
+          cd qa-sandbox
           docker compose up -d --build
+
       - name: Wait for AUT
+        shell: bash
         run: |
-          curl --fail\
-            --retry 30\
-            --retry-delay 2\
-            --retry-connrefused\
-            http://host.docker.internal:8000/api/health
+          for i in $(seq 1 60); do
+            if curl -fsS --max-time 3 \
+              http://localhost:8000/docs -o /dev/null; then
+              echo "Backend is ready"
+              exit 0
+            fi
+      
+            echo "Waiting for backend ($i/60)..."
+            sleep 2
+          done
+      
+          echo "=== Container status ==="
+          cd qa-sandbox
+          docker compose ps -a
+      
+          echo "=== Backend logs ==="
+          docker compose logs --no-color --tail=150 backend
+      
+          echo "=== Database logs ==="
+          docker compose logs --no-color --tail=100 db
+      
+          exit 1
+
       - name: Create .env
         env:
           SECRETS_JSON: ${{ toJSON(secrets) }}
@@ -56,30 +103,161 @@ jobs:
             | select(.key | test("^(ADMIN|MODERATOR|USER|DB|ROLES)"))
             | "\(.key)=\(.value)"' > .env
           echo "DB_HOST=$DB_HOST" >> .env
-      - name: Prepare Allure environment         # Подготовка allure-results - environment.properties
-        run: |
-               mkdir -p allure-results
-               echo "Branch=${{ github.ref_name }}" > allure-results/environment.properties
-               echo "Commit=${{ github.sha }}" >> allure-results/environment.properties
-               # echo "Stage=${{ secrets.STAGE }}" >> allure-results/environment.properties
-               echo "Stage=${{ inputs.STAGE }}" >> allure-results/environment.properties
+      - name: Build pytest marker expression
+        id: marker-filter
+        run: python build_pytest_filter.py
+
       - name: Run API tests via docker
-        env: # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
-          STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
-        run: | # указание многострочности команды
-               docker compose up --build --exit-code-from smoke-api-test smoke-api-test
-      - name: Copy allure history # шаг для записи скрипта, что сохранит историю прогонов аллюра
-        run: |
-          mkdir -p allure-results/history 
-          if [ -d "./.github/gh-pages/history" ]; then
-            cp -R ./.github/gh-pages/history/* allure-results/history/
-          fi
-      - name: Generate Allure-reports
-        run: docker compose up report
-      - name: Deploy to Github Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.5
+        env:
+          MARK_EXPR: ${{ steps.marker-filter.outputs.mark_expr }}
+
+        run: docker compose up --build --exit-code-from smoke-api-test smoke-api-test
+
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          token: ${{ secrets.CI_TOKEN }}
-          branch: gh-pages
-          folder: allure-report
-          clean: false
+          name: allure-results-${{ inputs.SUITE }}-threads-${{ inputs.THREADS }}
+          path: allure-results
+          retention-days: 7
+          if-no-files-found: warn
+  report:
+    needs: api-tests
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Expose GitHub runtime for BuildKit cache
+        uses: crazy-max/ghaction-github-runtime@v4
+
+      - name: Checkout automation repository
+        uses: actions/checkout@v4
+
+      - name: Checkout Allure history
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: .github/gh-pages
+
+      - name: Download Allure results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          path: allure-results
+          merge-multiple: true
+
+
+      - name: Prepare Allure metadata
+        env:
+          STAGE: ${{ inputs.STAGE }}
+          SUITE: ${{ inputs.SUITE }}
+          SERVICES: ${{ inputs.SERVICES }}
+          TAGS: ${{ inputs.TAGS }}
+          THREADS: ${{ inputs.THREADS }}
+          BRANCH: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          mkdir -p allure-results
+          RUN_TIME="$(date -u +'%Y-%m-%d %H:%M UTC')"
+
+          cat > allure-results/environment.properties <<EOF
+          Stage=${STAGE}
+          Suite=${SUITE}
+          Services=${SERVICES}
+          Tags=${TAGS}
+          Threads=${THREADS}
+          Branch=${GITHUB_REF_NAME}
+          Commit=${GITHUB_SHA}
+          RunNumber=${GITHUB_RUN_NUMBER}
+          RunTimeStart=${RUN_TIME}
+          EOF
+
+          jq -n \
+            --arg reportName "Run #${GITHUB_RUN_NUMBER} | ${SUITE} | ${THREADS} threads | Services: ${SERVICES} | ${RUN_TIME}" \
+            --arg reportUrl "https://jndef.github.io/API-test-automation-framework/" \
+            --arg buildName "Run #${RUN_NUMBER}, attempt #${RUN_ATTEMPT}" \
+            --arg buildUrl "${RUN_URL}" \
+            --argjson buildOrder "${RUN_NUMBER}" \
+            '{
+              reportName: $reportName,
+              buildOrder: $buildOrder,
+              reportUrl: $reportUrl,
+              name: "GitHub Actions",
+              type: "github",
+              buildName: $buildName,
+              buildUrl: $buildUrl
+            }' > allure-results/executor.json
+
+          echo "=== Environment ==="
+          cat allure-results/environment.properties
+
+          echo "=== Executor ==="
+          cat allure-results/executor.json
+
+      - name: Copy Allure history
+        run: |
+          mkdir -p allure-results/history
+
+          if [ -d ".github/gh-pages/history" ]; then
+            cp -R .github/gh-pages/history/. allure-results/history/
+          fi
+
+      - name: Generate Allure report
+        run: docker compose run --build --rm report
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: allure-report
+
+      - name: Persist Allure history
+        continue-on-error: true
+        run: |
+          if [ ! -d "allure-report/history" ]; then
+            echo "Allure history directory was not generated"
+            exit 0
+          fi
+
+          rm -rf .github/gh-pages/history
+          mkdir -p .github/gh-pages/history
+          cp -R allure-report/history/. .github/gh-pages/history/
+
+          git -C .github/gh-pages config user.name "github-actions[bot]"
+          git -C .github/gh-pages config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git -C .github/gh-pages add history
+
+          if git -C .github/gh-pages diff --cached --quiet; then
+            echo "Allure history has no changes"
+          else
+            git -C .github/gh-pages commit -m "Update Allure history"
+            git -C .github/gh-pages push origin HEAD:gh-pages
+          fi
+
+  deploy:
+    needs: report
+    if: always() && needs.report.result == 'success'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      actions: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
