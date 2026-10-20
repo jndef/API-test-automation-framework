@@ -9,13 +9,24 @@ on:
         type: environment
         default: "local_docker"
       SUITE:
-        description: "Select pytest marker / Все тесты для сервиса и т. д."
+        description: "Functional importance lvl"
         required: true
         default: "smoke"
         type: choice
         options:
-          - smoke
           - regression
+          - smoke
+      SERVICES:
+        description: "Choose app service to run: all, admin, auth, bookmarks, comments, follows, likes, messages, notifications, posts, search, upload, users"
+        required: false
+        type: string
+        default: "all"
+      TAGS:
+        description: "Choose tag to filter run: all, flaky, feed, login, register, positive, negative, moderation"
+        required: false
+        type: string
+        default: "all"
+
       THREADS:
         description: "Select threads count"
         required: false
@@ -26,8 +37,9 @@ on:
           - "3"
           - "5"
 env: # указываются переменные запуска. !!! Переменные docker-compose должны совпадать с тем, что пропишется тут
-  STAGE: ${{ inputs.STAGE }}  # внутри контейнера переменная окружения будет приниматься извне
   SUITE: ${{ inputs.SUITE }}
+  SERVICES: ${{ inputs.SERVICES }}
+  TAGS: ${{ inputs.TAGS }}
   THREADS: ${{ inputs.THREADS }}
   CI_COMMIT_REF_NAME: ${{ github.ref_name }}
   CI_COMMIT_SHORT_SHA: ${{ github.sha }}
@@ -85,8 +97,14 @@ jobs:
             | select(.key | test("^(ADMIN|MODERATOR|USER|DB|ROLES)"))
             | "\(.key)=\(.value)"' > .env
           echo "DB_HOST=$DB_HOST" >> .env
+      - name: Build pytest marker expression
+        id: marker-filter
+        run: python build_pytest_filter.py
 
       - name: Run API tests via docker
+        env:
+          MARK_EXPR: ${{ steps.marker-filter.outputs.mark_expr }}
+
         run: docker compose up --build --exit-code-from smoke-api-test smoke-api-test
 
       - uses: actions/upload-artifact@v4
@@ -94,6 +112,8 @@ jobs:
         with:
           name: allure-results-${{ inputs.SUITE }}-threads-${{ inputs.THREADS }}
           path: allure-results
+          retention-days: 7
+          if-no-files-found: warn
   report:
     needs: api-tests
     if: always()

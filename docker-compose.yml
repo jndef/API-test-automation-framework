@@ -5,15 +5,26 @@ services:
       build:
         context: .  # текущая директория
         dockerfile: Dockerfile # указание докер файла, на котором создастся образ
-      volumes:
-        - ./:/usr/workspace # <local_folder>:<container_folder>
-      command: /bin/sh -c "STAGE=$$STAGE pytest  --alluredir=allure-results -n=$$THREADS -m=$$SUITE -o log_cli=true"  # переменная будет равна значению из environment
-      env_file:
-        - .env
       environment:
           STAGE: ${STAGE:-local_docker} # внутри контейнера переменная окружения будет приниматься извне
           SUITE: ${SUITE:-smoke}
           THREADS: ${THREADS:-1}
+          MARK_EXPR: ${MARK_EXPR:-}
+      volumes:
+        - ./:/usr/workspace # <local_folder>:<container_folder>
+      command: |
+        - /bin/sh
+        - c
+        - |
+        if [ -n "$$MARK_EXPR" ]; then
+          exec pytest  --alluredir=allure-results -n=$$THREADS -m "$$MARK_EXPR" -o log_cli=true"  # переменная будет равна значению из environment
+        else
+        exec pytest  --alluredir=allure-results -n=$$THREADS -o log_cli=true"  # переменная будет равна значению из environment
+        fi
+      env_file:
+        - .env
+
+
       extra_hosts:
         - "host.docker.internal:host-gateway"
       tty: true
