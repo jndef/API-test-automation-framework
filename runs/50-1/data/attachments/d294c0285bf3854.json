@@ -1,0 +1,26 @@
+{
+    "id": "3618dba9-f54d-4a0a-ae37-15ac0b123037",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "A",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-20T17:11:33.777592Z",
+    "updated_at": "2026-10-20T17:11:33.777595Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}
