@@ -51,6 +51,12 @@ jobs:
     runs-on: ubuntu-latest # на базе чего будет работать гитхаб раннер
     environment: ${{ inputs.STAGE }} # в environment подставится значение окружения из ENV, что задается выше. Эта переменная отвечает за Environment в гитхаб проекте: т. е. последующая джоба, и все переменные окружения будут тянуться из этого ENV
     steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Expose GitHub runtime for BuildKit cache
+        uses: crazy-max/ghaction-github-runtime@v4
+
       - uses: actions/checkout@v4 # uses - использование специальных гитхабовских джоб, которые позволяют совершать действия, в данном случае - клонирование репы, т. е. когда раннер поднимет окружение, он внутрь себя склонит нашу репу
       - uses: actions/checkout@v4
         with: # делается клон репозитория, но указание with ref дает выбрать, какую именно
@@ -122,6 +128,12 @@ jobs:
       contents: write
       actions: read
     steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Expose GitHub runtime for BuildKit cache
+        uses: crazy-max/ghaction-github-runtime@v4
+
       - name: Checkout automation repository
         uses: actions/checkout@v4
 
@@ -168,7 +180,7 @@ jobs:
           EOF
 
           jq -n \
-            --arg reportName "Run #${GITHUB_RUN_NUMBER} | ${SUITE} | ${THREADS} threads | Services: ${SERVICES} | Tags: ${TAGS} | ${RUN_TIME}" \
+            --arg reportName "Run #${GITHUB_RUN_NUMBER} | ${SUITE} | ${THREADS} threads | Services: ${SERVICES} | ${RUN_TIME}" \
             --arg reportUrl "https://jndef.github.io/API-test-automation-framework/" \
             --arg buildName "Run #${RUN_NUMBER}, attempt #${RUN_ATTEMPT}" \
             --arg buildUrl "${RUN_URL}" \

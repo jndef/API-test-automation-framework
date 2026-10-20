@@ -10,6 +10,8 @@ RUN apt-get update && \
     rm allure-${ALLURE_VERSION}.tgz && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/workspace
-COPY ./requirements.txt /usr/workspace
-RUN pip install -r requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+
 
