@@ -14,7 +14,7 @@ services:
         - ./:/usr/workspace # <local_folder>:<container_folder>
       command: |
         - /bin/sh
-        - c
+        - -c
         - |
         if [ -n "$$MARK_EXPR" ]; then
           exec pytest  --alluredir=allure-results -n=$$THREADS -m "$$MARK_EXPR" -o log_cli=true"  # переменная будет равна значению из environment
