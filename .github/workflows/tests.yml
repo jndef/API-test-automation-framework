@@ -22,7 +22,7 @@ on:
         type: string
         default: "all"
       TAGS:
-        description: "Choose tag to filter run: all, flaky, feed, login, register, positive, negative, moderation"
+        description: "Choose tag to filter run: all, flaky, login, register, positive, negative, moderation"
         required: false
         type: string
         default: "all"
@@ -144,6 +144,7 @@ jobs:
           STAGE: ${{ inputs.STAGE }}
           SUITE: ${{ inputs.SUITE }}
           THREADS: ${{ inputs.THREADS }}
+          MARK_EXPR: ${{ steps.marker-filter.outputs.mark_expr }}
         run: |
           mkdir -p allure-results
           RUN_TIME="$(date -u +'%Y-%m-%d %H:%M UTC')"
@@ -154,16 +155,19 @@ jobs:
           Threads=${THREADS}
           Branch=${GITHUB_REF_NAME}
           Commit=${GITHUB_SHA}
-          Run=${GITHUB_RUN_NUMBER}
-          RunTime=${RUN_TIME}
+          RunNumber=${GITHUB_RUN_NUMBER}
+          RunTimeStart=${RUN_TIME}
+          Tags=${MARK_EXPR}
           EOF
 
           jq -n \
             --arg reportName "Run #${GITHUB_RUN_NUMBER} | ${SUITE} | ${THREADS} threads | ${RUN_TIME}" \
             --arg reportUrl "https://jndef.github.io/API-test-automation-framework/" \
             --arg buildName "Run #${GITHUB_RUN_NUMBER}, attempt #${GITHUB_RUN_ATTEMPT}" \
+            --arg author "${{ github.actor }} \
             --arg buildUrl "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
             --argjson buildOrder "${GITHUB_RUN_NUMBER}" \
+            --arg tags "${Tags}"
             '{
               reportName: $reportName,
               buildOrder: $buildOrder,
@@ -171,7 +175,9 @@ jobs:
               name: "GitHub Actions",
               type: "github",
               buildName: $buildName,
-              buildUrl: $buildUrl
+              author: $author,
+              buildUrl: $buildUrl,
+              tags: ${tags}
             }' > allure-results/executor.json
 
           echo "=== Environment ==="
