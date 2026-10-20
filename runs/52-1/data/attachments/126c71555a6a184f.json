@@ -1,0 +1,26 @@
+{
+    "id": "bde195d9-92a8-4790-b7b8-6bfd3ea0f73e",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Sell well Mrs while art ever tree line.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-20T17:28:52.723265Z",
+    "updated_at": "2026-10-20T17:28:52.723267Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}
