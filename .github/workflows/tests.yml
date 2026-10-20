@@ -177,7 +177,7 @@ jobs:
               buildName: $buildName,
               author: $author,
               buildUrl: $buildUrl,
-              tags: ${tags}
+              tags: $tags
             }' > allure-results/executor.json
 
           echo "=== Environment ==="
