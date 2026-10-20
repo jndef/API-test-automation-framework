@@ -180,8 +180,8 @@ jobs:
           EOF
 
           jq -n \
-            --arg reportName "Run #${GITHUB_RUN_NUMBER} | ${SUITE} | ${THREADS} threads | Services: ${SERVICES} | ${RUN_TIME}" \
-            --arg reportUrl "https://jndef.github.io/API-test-automation-framework/" \
+            --arg reportName "Run #${GITHUB_RUN_NUMBER} attempt ${RUN_ATTEMPT} | ${SUITE} | ${THREADS} threads | Services: ${SERVICES} | ${RUN_TIME}" \
+            --arg reportUrl "https://jndef.github.io/API-test-automation-framework/runs/${RUN_NUMBER}-${RUN_ATTEMPT}/" \
             --arg buildName "Run #${RUN_NUMBER}, attempt #${RUN_ATTEMPT}" \
             --arg buildUrl "${RUN_URL}" \
             --argjson buildOrder "${RUN_NUMBER}" \
@@ -217,30 +217,53 @@ jobs:
         with:
           path: allure-report
 
-      - name: Persist Allure history
-        continue-on-error: true
+      - name: Persist Allure history and archive report
         run: |
-          if [ ! -d "allure-report/history" ]; then
-            echo "Allure history directory was not generated"
-            exit 0
-          fi
+          test -f allure-report/index.html
 
+          RUN_PATH="runs/${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}"
+
+          # Сохраняем историю для следующего запуска Allure
           rm -rf .github/gh-pages/history
           mkdir -p .github/gh-pages/history
           cp -R allure-report/history/. .github/gh-pages/history/
+
+          # Сохраняем полный отчёт отдельно для перехода из Trends
+          rm -rf ".github/gh-pages/${RUN_PATH}"
+          mkdir -p ".github/gh-pages/${RUN_PATH}"
+          cp -R allure-report/. ".github/gh-pages/${RUN_PATH}/"
 
           git -C .github/gh-pages config user.name "github-actions[bot]"
           git -C .github/gh-pages config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git -C .github/gh-pages add history
+          git -C .github/gh-pages add history "$RUN_PATH"
 
           if git -C .github/gh-pages diff --cached --quiet; then
-            echo "Allure history has no changes"
+            echo "No changes to persist"
           else
-            git -C .github/gh-pages commit -m "Update Allure history"
+            git -C .github/gh-pages commit \
+              -m "Save Allure history and archive run ${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}"
             git -C .github/gh-pages push origin HEAD:gh-pages
           fi
+
+      - name: Assemble Pages site
+        run: |
+          rm -rf site
+          mkdir -p site/runs
+
+          # Добавляем отчёты предыдущих запусков
+          if [ -d ".github/gh-pages/runs" ]; then
+            cp -R .github/gh-pages/runs/. site/runs/
+          fi
+
+          # Корень сайта будет указывать на последний отчёт
+          cp -R allure-report/. site/
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
 
   deploy:
     needs: report
