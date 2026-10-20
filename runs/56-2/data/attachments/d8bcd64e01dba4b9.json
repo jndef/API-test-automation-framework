@@ -1,0 +1,26 @@
+{
+    "id": "df91f0c3-b850-4959-b7ad-f005f96bd6a6",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Minute water tough majority.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-20T18:00:51.508919Z",
+    "updated_at": "2026-10-20T18:00:51.508921Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

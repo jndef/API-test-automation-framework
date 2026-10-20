@@ -1,0 +1,5 @@
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJleHAiOjE3OTI1MjEwNTEsInR5cGUiOiJhY2Nlc3MifQ._jUzuNuCgNTOQgFXkvmSArPvgQ9gbcD496xEpIAgPZA",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJleHAiOjE3OTMxMjQwNTEsInR5cGUiOiJyZWZyZXNoIn0.-j-vqx4DkgUt-gs1f5wtDBwgeoGfyc69vpHgg5fdTBE",
+    "token_type": "bearer"
+}
