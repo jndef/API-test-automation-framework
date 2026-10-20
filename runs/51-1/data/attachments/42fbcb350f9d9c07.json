@@ -1,0 +1,26 @@
+{
+    "id": "dab07055-8ca2-4166-9f20-69271c31d0fa",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Image post",
+    "image_url": "/uploads/images/c5e36cc8-2ce7-42a8-8637-7e5eb1b031cc.jpg",
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-20T17:15:58.999002Z",
+    "updated_at": "2026-10-20T17:15:58.999005Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

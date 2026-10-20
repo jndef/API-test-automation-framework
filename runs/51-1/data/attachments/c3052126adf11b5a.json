@@ -1,0 +1,26 @@
+{
+    "id": "24c6772f-af8a-47ad-9e1e-43d8f4bdab36",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Machine as front action.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-20T17:15:59.757401Z",
+    "updated_at": "2026-10-20T17:15:59.757403Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}
