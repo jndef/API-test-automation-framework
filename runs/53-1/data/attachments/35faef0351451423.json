@@ -1,0 +1,39 @@
+{
+    "id": "1d36f0d6-30f2-4db4-beae-5a60a5ae7bcd",
+    "is_group": false,
+    "name": null,
+    "participants": [
+        {
+            "id": "00000000-0000-0000-0000-000000000004",
+            "username": "bob_photo",
+            "display_name": "Bob Photographer",
+            "avatar_url": null,
+            "is_verified": false
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "username": "admin",
+            "display_name": "Admin",
+            "avatar_url": null,
+            "is_verified": true
+        }
+    ],
+    "last_message": {
+        "id": "60ed5a1e-b332-407b-911d-34e40f8c7e8f",
+        "conversation_id": "1d36f0d6-30f2-4db4-beae-5a60a5ae7bcd",
+        "sender": {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "username": "admin",
+            "display_name": "Admin",
+            "avatar_url": null,
+            "is_verified": true
+        },
+        "content": "Option nation.",
+        "image_url": null,
+        "is_deleted": false,
+        "created_at": "2026-10-20T17:35:34.180339Z"
+    },
+    "unread_count": 1,
+    "created_at": "2026-10-20T17:35:33.678808Z",
+    "updated_at": "2026-10-20T17:35:34.179622Z"
+}
