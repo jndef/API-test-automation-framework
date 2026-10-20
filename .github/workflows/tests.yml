@@ -143,8 +143,14 @@ jobs:
         env:
           STAGE: ${{ inputs.STAGE }}
           SUITE: ${{ inputs.SUITE }}
+          SERVICES: ${{ inputs.SERVICES }}
+          TAGS: ${{ inputs.TAGS }}
           THREADS: ${{ inputs.THREADS }}
-          MARK_EXPR: ${{ steps.marker-filter.outputs.mark_expr }}
+          BRANCH: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           mkdir -p allure-results
           RUN_TIME="$(date -u +'%Y-%m-%d %H:%M UTC')"
@@ -152,6 +158,8 @@ jobs:
           cat > allure-results/environment.properties <<EOF
           Stage=${STAGE}
           Suite=${SUITE}
+          Services=${SERVICES}
+          Tags=${TAGS}
           Threads=${THREADS}
           Branch=${GITHUB_REF_NAME}
           Commit=${GITHUB_SHA}
@@ -161,13 +169,11 @@ jobs:
           EOF
 
           jq -n \
-            --arg reportName "Run #${GITHUB_RUN_NUMBER} | ${SUITE} | ${THREADS} threads | ${RUN_TIME}" \
+            --arg reportName "Run #${GITHUB_RUN_NUMBER} | ${SUITE} | ${THREADS} threads | Services: ${SERVICES} | Tags: ${TAGS} | ${RUN_TIME}" \
             --arg reportUrl "https://jndef.github.io/API-test-automation-framework/" \
-            --arg buildName "Run #${GITHUB_RUN_NUMBER}, attempt #${GITHUB_RUN_ATTEMPT}" \
-            --arg author "${{ github.actor }}" \
-            --arg buildUrl "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
-            --argjson buildOrder "${GITHUB_RUN_NUMBER}" \
-            --arg tags "${Tags}"
+            --arg buildName "Run #${RUN_NUMBER}, attempt #${RUN_ATTEMPT}" \
+            --arg buildUrl "${RUN_URL}" \
+            --argjson buildOrder "${RUN_NUMBER}" \
             '{
               reportName: $reportName,
               buildOrder: $buildOrder,
@@ -175,9 +181,7 @@ jobs:
               name: "GitHub Actions",
               type: "github",
               buildName: $buildName,
-              author: $author,
-              buildUrl: $buildUrl,
-              tags: $tags
+              buildUrl: $buildUrl
             }' > allure-results/executor.json
 
           echo "=== Environment ==="
