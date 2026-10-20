@@ -214,28 +214,6 @@ jobs:
       - name: Generate Allure report
         run: docker compose run --build --rm report
 
-      - name: Verify archived report
-        run: |
-          RUN_PATH="runs/${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}"
-
-          echo "Expected archive: site/${RUN_PATH}/index.html"
-          echo "=== Archived reports in deployment ==="
-          find site/runs -maxdepth 3 -name index.html -print
-
-          if [ ! -f "site/${RUN_PATH}/index.html" ]; then
-            echo "::error::Archive is missing from Pages artifact: ${RUN_PATH}"
-            exit 1
-          fi
-
-          echo "Archive exists in Pages artifact."
-          echo "Expected URL: https://jndef.github.io/API-test-automation-framework/${RUN_PATH}/"
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
-          path: allure-report
-
       - name: Persist Allure history and archive report
         run: |
           test -f allure-report/index.html
@@ -278,6 +256,22 @@ jobs:
 
           # Корень сайта будет указывать на последний отчёт
           cp -R allure-report/. site/
+
+      - name: Verify archived report
+        run: |
+          RUN_PATH="runs/${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}"
+
+          echo "Expected archive: site/${RUN_PATH}/index.html"
+          echo "=== Archived reports in deployment ==="
+          find site/runs -maxdepth 3 -name index.html -print
+
+          if [ ! -f "site/${RUN_PATH}/index.html" ]; then
+            echo "::error::Archive is missing from Pages artifact: ${RUN_PATH}"
+            exit 1
+          fi
+
+          echo "Archive exists in Pages artifact."
+          echo "Expected URL: https://jndef.github.io/API-test-automation-framework/${RUN_PATH}/"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
