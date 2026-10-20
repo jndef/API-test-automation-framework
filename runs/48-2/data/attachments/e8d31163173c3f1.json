@@ -1,0 +1,39 @@
+{
+    "id": "4e3b496a-4505-4c57-abcc-e60076c52fe0",
+    "is_group": false,
+    "name": null,
+    "participants": [
+        {
+            "id": "00000000-0000-0000-0000-000000000004",
+            "username": "bob_photo",
+            "display_name": "Bob Photographer",
+            "avatar_url": null,
+            "is_verified": false
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "username": "admin",
+            "display_name": "Admin",
+            "avatar_url": null,
+            "is_verified": true
+        }
+    ],
+    "last_message": {
+        "id": "95cc8e30-d5fc-402c-9f51-03093862ef0f",
+        "conversation_id": "4e3b496a-4505-4c57-abcc-e60076c52fe0",
+        "sender": {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "username": "admin",
+            "display_name": "Admin",
+            "avatar_url": null,
+            "is_verified": true
+        },
+        "content": "Energy human game.",
+        "image_url": null,
+        "is_deleted": false,
+        "created_at": "2026-10-20T16:57:14.820155Z"
+    },
+    "unread_count": 0,
+    "created_at": "2026-10-20T16:57:14.416415Z",
+    "updated_at": "2026-10-20T16:57:14.819528Z"
+}

@@ -1,0 +1,26 @@
+{
+    "id": "762f54a9-2e06-4b8b-a61a-cd1c1501e296",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Produce beautiful only.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-20T16:57:15.417028Z",
+    "updated_at": "2026-10-20T16:57:15.417031Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

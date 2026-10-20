@@ -1,0 +1,26 @@
+{
+    "id": "aff43ade-92ad-417e-ba63-4b4f15b2f296",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Threat card have performance stop protect.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-20T16:57:15.025214Z",
+    "updated_at": "2026-10-20T16:57:15.025216Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

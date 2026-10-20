@@ -1,0 +1,26 @@
+{
+    "id": "ca179409-86a6-48f8-a47d-f6c72729780a",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "username": "moderator",
+        "display_name": "Moderator",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Deal and hold group offer sure.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-20T16:57:15.311371Z",
+    "updated_at": "2026-10-20T16:57:15.311373Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

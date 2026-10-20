@@ -1,0 +1,25 @@
+{
+    "id": "c6a1f00b-03f0-4264-9a74-030917216fd2",
+    "is_group": false,
+    "name": "Pay light.",
+    "participants": [
+        {
+            "id": "00000000-0000-0000-0000-000000000004",
+            "username": "bob_photo",
+            "display_name": "Bob Photographer",
+            "avatar_url": null,
+            "is_verified": false
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000007",
+            "username": "eve_new",
+            "display_name": "Eve Newbie",
+            "avatar_url": null,
+            "is_verified": false
+        }
+    ],
+    "last_message": null,
+    "unread_count": 0,
+    "created_at": "2026-10-20T16:57:14.356425Z",
+    "updated_at": "2026-10-20T16:57:14.356428Z"
+}
