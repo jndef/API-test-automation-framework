@@ -11,7 +11,7 @@ from services.posts.payloads import CreatePostPayload, CreatePostByRoleTestCase,
 @allure.epic("Posts Service")
 @allure.parent_suite("Posts service API")
 @allure.title("Tests Posts service API")
-@pytest.mark.feed
+@pytest.mark.posts
 class TestPosts(BaseTest):
 
     @allure.suite("Posts")
