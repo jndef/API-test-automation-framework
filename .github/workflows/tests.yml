@@ -164,7 +164,7 @@ jobs:
             --arg reportName "Run #${GITHUB_RUN_NUMBER} | ${SUITE} | ${THREADS} threads | ${RUN_TIME}" \
             --arg reportUrl "https://jndef.github.io/API-test-automation-framework/" \
             --arg buildName "Run #${GITHUB_RUN_NUMBER}, attempt #${GITHUB_RUN_ATTEMPT}" \
-            --arg author "${{ github.actor }} \
+            --arg author "${{ github.actor }}" \
             --arg buildUrl "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}" \
             --argjson buildOrder "${GITHUB_RUN_NUMBER}" \
             --arg tags "${Tags}"
