@@ -5,16 +5,12 @@ services:
       build:
         context: .  # текущая директория
         dockerfile: Dockerfile # указание докер файла, на котором создастся образ
-        cache_from:
-          - "type=gha,scope=api-v1"
-        cache_to:
-          - "type=gha,scope=api-v1,mode=max"
 
       environment:
           STAGE: ${STAGE:-local_docker} # внутри контейнера переменная окружения будет приниматься извне
           SUITE: ${SUITE:-smoke}
           THREADS: ${THREADS:-1}
-          MARK_EXPR: ${MARK_EXPR:-}
+          MARK_EXPR: ${MARK_EXPR:-smoke}
       volumes:
         - ./:/usr/workspace # <local_folder>:<container_folder>
       command:
@@ -27,7 +23,7 @@ services:
               -m "$$MARK_EXPR" \
               -o log_cli=true  # переменная будет равна значению из environment
           else
-            exec pytest  --alluredir=allure-results 
+            exec pytest --alluredir=allure-results \
               -n "$$THREADS" \
               -o log_cli=true  # переменная будет равна значению из environment
           fi

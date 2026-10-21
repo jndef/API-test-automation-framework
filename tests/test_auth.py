@@ -3,8 +3,8 @@ import pytest
 from config.base_test import BaseTest
 from services.auth.payloads import LoginToAccountPayload, RefreshTokenPayload, LogoutPayload
 
-
-@allure.title("Tests Auth service API")
+@allure.parent_suite("Tests Auth service API")
+@allure.title("Auth service API")
 @allure.epic("Authentication service")
 @pytest.mark.auth
 class TestUsers(BaseTest):

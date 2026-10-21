@@ -14,6 +14,7 @@ on:
         default: "smoke"
         type: choice
         options:
+          - all
           - regression
           - smoke
       SERVICES:
@@ -51,11 +52,6 @@ jobs:
     runs-on: ubuntu-latest # на базе чего будет работать гитхаб раннер
     environment: ${{ inputs.STAGE }} # в environment подставится значение окружения из ENV, что задается выше. Эта переменная отвечает за Environment в гитхаб проекте: т. е. последующая джоба, и все переменные окружения будут тянуться из этого ENV
     steps:
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Expose GitHub runtime for BuildKit cache
-        uses: crazy-max/ghaction-github-runtime@v4
 
       - uses: actions/checkout@v4 # uses - использование специальных гитхабовских джоб, которые позволяют совершать действия, в данном случае - клонирование репы, т. е. когда раннер поднимет окружение, он внутрь себя склонит нашу репу
       - uses: actions/checkout@v4
@@ -130,12 +126,6 @@ jobs:
       contents: write
       actions: read
     steps:
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: Expose GitHub runtime for BuildKit cache
-        uses: crazy-max/ghaction-github-runtime@v4
-
       - name: Checkout automation repository
         uses: actions/checkout@v4
 
@@ -215,6 +205,7 @@ jobs:
         run: docker compose run --build --rm report
 
       - name: Persist Allure history and archive report
+        if: github.ref == 'refs/heads/main'
         run: |
           test -f allure-report/index.html
 
@@ -265,7 +256,7 @@ jobs:
 
   deploy:
     needs: report
-    if: always() && needs.report.result == 'success'
+    if: always() && needs.report.result == 'success' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     permissions:

@@ -41,8 +41,8 @@ class TestUpload(BaseTest):
     @allure.feature("Upload image")
     @allure.story("User can upload image to attach it to post/comment/message")
     @allure.title("Upload image - invalid file")
-    @pytest.mark.smoke
-    @pytest.mark.positive
+    @pytest.mark.negative
+    @pytest.mark.regression
     @pytest.mark.parametrize("case", [
         pytest.param(UploadImageByRoleTestCase(role="admin", file="test.txt"),
                      id="Upload image, not allowed - txt"),
