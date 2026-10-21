@@ -3,8 +3,8 @@ import os
 import sys
 
 ALLOWED_SUITES = {"smoke", "regression"}
-ALLOWED_SERVICES = {"admin", "auth", "bookmarks", "comments", "follows", "likes", "messages", "notifications", "posts", "search", "upload", "users"}
-ALLOWED_TAGS = {"flaky", "login", "register", "positive", "negative", "moderation"}
+ALLOWED_SERVICES = {"all","admin", "auth", "bookmarks", "comments", "follows", "likes", "messages", "notifications", "posts", "search", "upload", "users"}
+ALLOWED_TAGS = {"all", "flaky", "login", "register", "positive", "negative", "moderation"}
 
 
 def parse_csv(name, allowed):
@@ -34,14 +34,22 @@ tags = parse_csv("TAGS", ALLOWED_TAGS)
 
 parts = []
 
-if suite != "all":
+if suite == "all":
+  parts.append("(" + " or ".join(ALLOWED_SUITES) + ")")
+elif suite != "all":
     parts.append(suite)
 
 if services:
-    parts.append("(" + " or ".join(services) + ")")
+    if "all" in services:
+        ...
+    else:
+        parts.append("(" + " or ".join(services) + ")")
 
 if tags:
-    parts.append("(" + " or ".join(tags) + ")")
+    if "all" in tags:
+        ...
+    else:
+        parts.append("(" + " or ".join(tags) + ")")
 
 expression = " and ".join(parts)
 
@@ -49,3 +57,4 @@ print(f"Pytest marker expression: {expression or '(no filter)'}")
 
 with open(os.environ["GITHUB_OUTPUT"], "a") as output:
     output.write(f"mark_expr={expression}\n")
+
