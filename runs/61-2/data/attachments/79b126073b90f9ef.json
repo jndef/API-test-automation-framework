@@ -1,0 +1,15 @@
+{
+    "id": "d82abd5b-9921-410a-a358-0944e76e6721",
+    "conversation_id": "a81985dd-c4b3-4c0a-88ff-3d9f1a49bc3d",
+    "sender": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Series him specific.",
+    "image_url": null,
+    "is_deleted": false,
+    "created_at": "2026-10-21T13:45:10.764665Z"
+}

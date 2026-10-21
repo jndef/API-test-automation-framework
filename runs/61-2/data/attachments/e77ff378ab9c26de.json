@@ -1,0 +1,26 @@
+{
+    "id": "35757e3d-66cf-436e-9ebd-6a0daaff7f0a",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Laugh us himself base nothing western.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T13:45:07.894043Z",
+    "updated_at": "2026-10-21T13:45:07.894045Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

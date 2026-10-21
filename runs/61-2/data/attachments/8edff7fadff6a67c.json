@@ -1,0 +1,26 @@
+{
+    "id": "c4941c31-a4f8-4864-89bc-9448e1791064",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Entire trip amount feel.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T13:45:11.762739Z",
+    "updated_at": "2026-10-21T13:45:11.762742Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

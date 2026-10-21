@@ -1,0 +1,26 @@
+{
+    "id": "c1f59a00-eaab-4636-a45d-6afc3d294ae7",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Produce whom front.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T13:45:12.061582Z",
+    "updated_at": "2026-10-21T13:45:12.061584Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

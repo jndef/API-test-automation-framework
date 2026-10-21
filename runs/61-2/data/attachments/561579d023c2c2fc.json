@@ -1,0 +1,19 @@
+{
+    "id": "9b89a0a6-db89-44f7-a59d-8f6a7a40fa09",
+    "post_id": "10000000-0000-0000-0000-000000000015",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Attention say thus the.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T13:45:09.854432Z",
+    "updated_at": "2026-10-21T13:45:09.854435Z",
+    "is_liked": false,
+    "replies_count": 0
+}

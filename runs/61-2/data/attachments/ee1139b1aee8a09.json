@@ -1,0 +1,19 @@
+{
+    "id": "413007c2-fa07-4a0f-9b76-9a053938333f",
+    "post_id": "10000000-0000-0000-0000-000000000015",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Sort its that.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T13:45:10.432937Z",
+    "updated_at": "2026-10-21T13:45:10.432939Z",
+    "is_liked": false,
+    "replies_count": 0
+}

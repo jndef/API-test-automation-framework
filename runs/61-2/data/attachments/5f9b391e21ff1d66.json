@@ -1,0 +1,19 @@
+{
+    "id": "77ddd3f7-ef60-46a0-ba93-cb23da89d00d",
+    "post_id": "10000000-0000-0000-0000-000000000013",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Blood move make.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T13:45:07.596234Z",
+    "updated_at": "2026-10-21T13:45:07.596236Z",
+    "is_liked": false,
+    "replies_count": 0
+}

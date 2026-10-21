@@ -1,0 +1,19 @@
+{
+    "id": "41fc03e8-18bc-4566-8bb2-f26152d0802d",
+    "follower": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "following": {
+        "id": "00000000-0000-0000-0000-000000000006",
+        "username": "dave_quiet",
+        "display_name": "Dave Quiet",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "status": "pending",
+    "created_at": "2026-10-21T13:45:08.083770Z"
+}

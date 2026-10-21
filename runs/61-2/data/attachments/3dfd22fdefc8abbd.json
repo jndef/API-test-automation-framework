@@ -1,0 +1,19 @@
+{
+    "id": "652350db-292a-46bc-a8bd-d54be96603a1",
+    "post_id": "10000000-0000-0000-0000-000000000017",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Address position thing.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T13:45:09.615586Z",
+    "updated_at": "2026-10-21T13:45:09.615588Z",
+    "is_liked": false,
+    "replies_count": 0
+}

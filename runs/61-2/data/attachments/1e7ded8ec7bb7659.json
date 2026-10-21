@@ -1,0 +1,25 @@
+{
+    "id": "18650170-9c3a-454f-9aad-2d5a106eadb4",
+    "is_group": false,
+    "name": null,
+    "participants": [
+        {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "username": "admin",
+            "display_name": "Admin",
+            "avatar_url": null,
+            "is_verified": true
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000007",
+            "username": "eve_new",
+            "display_name": "Eve Newbie",
+            "avatar_url": null,
+            "is_verified": false
+        }
+    ],
+    "last_message": null,
+    "unread_count": 0,
+    "created_at": "2026-10-21T13:45:10.673461Z",
+    "updated_at": "2026-10-21T13:45:10.673464Z"
+}

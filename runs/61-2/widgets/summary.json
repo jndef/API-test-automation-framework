@@ -1,0 +1,1 @@
+{"reportName":"Run #61 attempt 2 | regression | 3 threads | Services: all | 2026-10-21 13:45 UTC","testRuns":[],"statistic":{"failed":0,"broken":20,"skipped":0,"passed":274,"unknown":0,"total":294},"time":{"start":1792590301430,"stop":1792590312795,"duration":11365,"minDuration":5,"maxDuration":1968,"sumDuration":29735}}

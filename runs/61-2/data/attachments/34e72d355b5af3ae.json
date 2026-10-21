@@ -1,0 +1,19 @@
+{
+    "id": "43133c9f-e509-4a58-b710-59fbf1bb17c2",
+    "post_id": "10000000-0000-0000-0000-000000000008",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Fly current must small.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T13:45:09.413729Z",
+    "updated_at": "2026-10-21T13:45:09.413731Z",
+    "is_liked": false,
+    "replies_count": 0
+}

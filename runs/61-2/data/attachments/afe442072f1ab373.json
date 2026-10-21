@@ -1,0 +1,26 @@
+{
+    "id": "42f2bf8f-06ca-4437-8305-4fa08debe8e8",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Over town draw general hold executive.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T13:45:09.675911Z",
+    "updated_at": "2026-10-21T13:45:09.675913Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

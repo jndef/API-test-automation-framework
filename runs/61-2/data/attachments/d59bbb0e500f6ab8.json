@@ -1,0 +1,80 @@
+{
+    "items": [
+        {
+            "id": "88abfdb0-42ba-4a97-97e3-a96b3d2dbec8",
+            "user": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "reaction": "like",
+            "created_at": "2026-10-11T13:44:35.434787Z"
+        },
+        {
+            "id": "b3fc9c51-decc-4d50-b35c-dccefcba0f23",
+            "user": {
+                "id": "00000000-0000-0000-0000-000000000005",
+                "username": "carol_writes",
+                "display_name": "Carol Writer",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "reaction": "love",
+            "created_at": "2026-10-11T13:44:35.434787Z"
+        },
+        {
+            "id": "6972f4d9-4363-4d6d-9572-3892e9193eee",
+            "user": {
+                "id": "00000000-0000-0000-0000-000000000001",
+                "username": "admin",
+                "display_name": "Admin",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "reaction": "like",
+            "created_at": "2026-10-11T13:44:35.434787Z"
+        },
+        {
+            "id": "e3588d88-d040-481b-9c15-6c1ccd59125b",
+            "user": {
+                "id": "00000000-0000-0000-0000-000000000002",
+                "username": "moderator",
+                "display_name": "Moderator",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "reaction": "like",
+            "created_at": "2026-10-11T13:44:35.434787Z"
+        },
+        {
+            "id": "0b101a85-0302-4758-80e3-1c5e3d3f30cb",
+            "user": {
+                "id": "00000000-0000-0000-0000-000000000007",
+                "username": "eve_new",
+                "display_name": "Eve Newbie",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "reaction": "wow",
+            "created_at": "2026-10-11T13:44:35.434787Z"
+        },
+        {
+            "id": "334ab0ec-7bf1-4bcb-9eff-04dfde53c49e",
+            "user": {
+                "id": "00000000-0000-0000-0000-000000000006",
+                "username": "dave_quiet",
+                "display_name": "Dave Quiet",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "reaction": "like",
+            "created_at": "2026-10-11T13:44:35.434787Z"
+        }
+    ],
+    "total": 6,
+    "page": 1,
+    "per_page": 20,
+    "pages": 1
+}

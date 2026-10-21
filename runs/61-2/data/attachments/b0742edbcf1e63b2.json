@@ -1,0 +1,15 @@
+{
+    "id": "df319a98-753f-439c-8fa4-d08400c4e80c",
+    "conversation_id": "6e5b4d5d-b9a6-48bd-af60-70d161b7e814",
+    "sender": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "M",
+    "image_url": null,
+    "is_deleted": false,
+    "created_at": "2026-10-21T13:45:11.281765Z"
+}

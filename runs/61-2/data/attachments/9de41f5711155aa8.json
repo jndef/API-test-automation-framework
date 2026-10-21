@@ -1,0 +1,19 @@
+{
+    "id": "01fb3406-fd73-4608-960b-2ed92d7d1e49",
+    "post_id": "10000000-0000-0000-0000-000000000005",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Care only create me.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T13:45:08.522899Z",
+    "updated_at": "2026-10-21T13:45:08.522901Z",
+    "is_liked": false,
+    "replies_count": 0
+}

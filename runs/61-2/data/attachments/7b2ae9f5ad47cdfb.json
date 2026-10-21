@@ -1,0 +1,15 @@
+{
+    "items": [
+        {
+            "id": "00000000-0000-0000-0000-000000000003",
+            "username": "alice_dev",
+            "display_name": "Alice Developer",
+            "avatar_url": null,
+            "is_verified": true
+        }
+    ],
+    "total": 1,
+    "page": 1,
+    "per_page": 20,
+    "pages": 1
+}

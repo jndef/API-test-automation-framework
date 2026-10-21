@@ -1,0 +1,19 @@
+{
+    "id": "787c2c2c-4348-412b-a9cc-5fe26ff13f09",
+    "post_id": "10000000-0000-0000-0000-000000000004",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Impact painting vote by.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T13:45:10.267158Z",
+    "updated_at": "2026-10-21T13:45:10.267160Z",
+    "is_liked": false,
+    "replies_count": 0
+}

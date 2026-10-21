@@ -1,0 +1,1 @@
+b'{"participant_ids": ["43dda610-d74d-4ecf-a10c-33d557247ecb", "00000000-0000-0000-0000-000000000004"], "is_group": false, "name": "System role."}'

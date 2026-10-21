@@ -1,0 +1,19 @@
+{
+    "id": "68042461-c65e-4a9a-a23a-2cb8b0c9d925",
+    "post_id": "10000000-0000-0000-0000-000000000022",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Enter well back blue.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T13:45:11.181966Z",
+    "updated_at": "2026-10-21T13:45:11.181969Z",
+    "is_liked": false,
+    "replies_count": 0
+}
