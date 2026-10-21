@@ -1,0 +1,1 @@
+b'{"participant_ids": ["6f92e9b0-4f33-4581-830e-53463c9458cc", "00000000-0000-0000-0000-000000000004"], "is_group": false, "name": "Market two."}'

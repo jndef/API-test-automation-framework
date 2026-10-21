@@ -1,0 +1,19 @@
+{
+    "id": "36aa4e2c-e3bb-4d2b-bfb2-c20069f93b6e",
+    "post_id": "10000000-0000-0000-0000-000000000017",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Lawyer water quite kid.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:03.953012Z",
+    "updated_at": "2026-10-21T12:19:03.953015Z",
+    "is_liked": false,
+    "replies_count": 0
+}

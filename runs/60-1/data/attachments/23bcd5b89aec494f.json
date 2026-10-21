@@ -1,0 +1,20 @@
+{
+    "id": "4e73c79c-eb84-4fc2-82f3-83e7f541f6c0",
+    "email": "ivanjndef+24487@gmail.com",
+    "username": "deniserobertson",
+    "display_name": "Rose Davis",
+    "bio": null,
+    "avatar_url": null,
+    "cover_url": null,
+    "role": "user",
+    "is_active": true,
+    "is_verified": false,
+    "is_private": false,
+    "created_at": "2026-10-21T12:19:01.118170Z",
+    "updated_at": "2026-10-21T12:19:01.118177Z",
+    "followers_count": 0,
+    "following_count": 0,
+    "posts_count": 0,
+    "is_following": false,
+    "is_followed_by": false
+}

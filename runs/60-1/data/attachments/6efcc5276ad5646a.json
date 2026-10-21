@@ -1,0 +1,19 @@
+{
+    "id": "544b37cb-2633-43f6-bffb-8df3d4b2cb6d",
+    "post_id": "10000000-0000-0000-0000-000000000012",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Forward keep fast talk.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:06.254044Z",
+    "updated_at": "2026-10-21T12:19:06.254046Z",
+    "is_liked": false,
+    "replies_count": 0
+}

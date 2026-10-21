@@ -1,0 +1,112 @@
+{
+    "items": [
+        {
+            "id": "02df2bf8-11c7-4890-965c-1c368ba374af",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000001",
+                "username": "admin",
+                "display_name": "Admin",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "content": "True fill career every.",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": true,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-10-21T12:18:59.158084Z",
+            "updated_at": "2026-10-21T12:18:59.175418Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "6d6fa958-80f5-464d-8882-679d755ab165",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "content": "Suddenly enough ground.",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": true,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-10-21T12:18:58.886168Z",
+            "updated_at": "2026-10-21T12:18:58.906839Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "a7e275d0-4804-4bc5-8e95-ca87f6956a8b",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000007",
+                "username": "eve_new",
+                "display_name": "Eve Newbie",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "content": "Strategy cultural story.",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": true,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-10-21T12:18:56.851827Z",
+            "updated_at": "2026-10-21T12:18:57.712077Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000026",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000008",
+                "username": "frank_banned",
+                "display_name": "Frank Banned",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "content": "This post was deleted by moderator for violating guidelines",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": true,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-08-27T12:18:23.798617Z",
+            "updated_at": "2026-08-27T12:18:23.798617Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        }
+    ],
+    "total": 4,
+    "page": 1,
+    "per_page": 20,
+    "pages": 1
+}

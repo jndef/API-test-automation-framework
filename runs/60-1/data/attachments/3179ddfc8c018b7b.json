@@ -1,0 +1,19 @@
+{
+    "id": "39e2060a-9016-48af-a6e0-0d2f57ffabd9",
+    "post_id": "10000000-0000-0000-0000-000000000006",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Human side fast while.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:18:58.414892Z",
+    "updated_at": "2026-10-21T12:18:58.414894Z",
+    "is_liked": false,
+    "replies_count": 0
+}

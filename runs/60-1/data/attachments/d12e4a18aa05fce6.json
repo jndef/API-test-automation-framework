@@ -1,0 +1,20 @@
+{
+    "id": "1d89df34-f8fd-4373-a633-e64f0cad5782",
+    "email": "ivanjndef+54842@gmail.com",
+    "username": "guzmanmarilyn",
+    "display_name": "Anna Brewer",
+    "bio": null,
+    "avatar_url": null,
+    "cover_url": null,
+    "role": "user",
+    "is_active": true,
+    "is_verified": false,
+    "is_private": false,
+    "created_at": "2026-10-21T12:18:58.147246Z",
+    "updated_at": "2026-10-21T12:18:58.147253Z",
+    "followers_count": 0,
+    "following_count": 0,
+    "posts_count": 0,
+    "is_following": false,
+    "is_followed_by": false
+}

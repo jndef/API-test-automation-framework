@@ -1,0 +1,26 @@
+{
+    "id": "1ca6c7a7-c6f4-43fe-8b0a-0044951883e2",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Author feeling line that.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:19:04.506738Z",
+    "updated_at": "2026-10-21T12:19:04.506743Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

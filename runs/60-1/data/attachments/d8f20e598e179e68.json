@@ -1,0 +1,20 @@
+{
+    "id": "d305c71c-dce9-4e71-b040-17d1cc573a54",
+    "email": "ivanjndef+70224@gmail.com",
+    "username": "yadams",
+    "display_name": "Andrew Herrera",
+    "bio": null,
+    "avatar_url": null,
+    "cover_url": null,
+    "role": "user",
+    "is_active": true,
+    "is_verified": false,
+    "is_private": false,
+    "created_at": "2026-10-21T12:19:02.490523Z",
+    "updated_at": "2026-10-21T12:19:02.490529Z",
+    "followers_count": 0,
+    "following_count": 0,
+    "posts_count": 0,
+    "is_following": false,
+    "is_followed_by": false
+}

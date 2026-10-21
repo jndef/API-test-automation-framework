@@ -1,0 +1,20 @@
+{
+    "id": "7e61a300-c674-42ff-a353-6057d560a6af",
+    "email": "ivanjndef+18832@gmail.com",
+    "username": "strongmichelle",
+    "display_name": "Christopher Smith",
+    "bio": null,
+    "avatar_url": null,
+    "cover_url": null,
+    "role": "user",
+    "is_active": true,
+    "is_verified": false,
+    "is_private": false,
+    "created_at": "2026-10-21T12:18:56.618784Z",
+    "updated_at": "2026-10-21T12:18:56.618790Z",
+    "followers_count": 0,
+    "following_count": 0,
+    "posts_count": 0,
+    "is_following": false,
+    "is_followed_by": false
+}

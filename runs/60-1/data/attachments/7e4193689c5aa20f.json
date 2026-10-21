@@ -1,0 +1,19 @@
+{
+    "id": "5ad39d26-5796-4799-b82c-6716d54e3d56",
+    "post_id": "10000000-0000-0000-0000-000000000005",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "For open join yet.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:05.789861Z",
+    "updated_at": "2026-10-21T12:19:05.789864Z",
+    "is_liked": false,
+    "replies_count": 0
+}

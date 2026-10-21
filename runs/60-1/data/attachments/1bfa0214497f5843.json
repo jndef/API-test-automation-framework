@@ -1,0 +1,19 @@
+{
+    "id": "1b38470e-b03d-4ad9-8710-5b283dae8b8c",
+    "post_id": "10000000-0000-0000-0000-000000000013",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Card fear like.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:01.573505Z",
+    "updated_at": "2026-10-21T12:19:01.573508Z",
+    "is_liked": false,
+    "replies_count": 0
+}

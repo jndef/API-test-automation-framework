@@ -1,0 +1,229 @@
+{
+    "items": [
+        {
+            "id": "c7e08fcc-9b10-4200-af07-926cc5324d23",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": "/uploads/avatars/c22fd6f9-94f7-4012-bb0c-b793a0d8be69.png",
+                "is_verified": false
+            },
+            "content": "Me study.",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": "fc9f18d0-c2d3-4f08-a542-6ad0f3570193",
+            "repost_type": "repost",
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-10-21T12:19:06.055620Z",
+            "updated_at": "2026-10-21T12:19:06.055622Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000025",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": "/uploads/avatars/c22fd6f9-94f7-4012-bb0c-b793a0d8be69.png",
+                "is_verified": false
+            },
+            "content": "Unicode test: \u4f60\u597d\u4e16\u754c \ud83c\udf0d \u0645\u0631\u062d\u0628\u0627 \u0627\u0644\u0639\u0627\u0644\u0645 \u041f\u0440\u0438\u0432\u0435\u0442 \u043c\u0438\u0440 \ud83c\uddef\ud83c\uddf5\ud83c\uddeb\ud83c\uddf7\ud83c\udde7\ud83c\uddf7 Emojis: \ud83d\ude00\ud83d\ude02\ud83e\udd23\ud83d\ude0d\ud83e\udd14\ud83d\ude44\ud83d\ude34\ud83d\udc80\ud83d\udc7b\ud83e\udd16 Special: <script>alert('xss')</script> SQL: '; DROP TABLE posts; -- End of test.",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 1,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-10-20T00:18:23.798617Z",
+            "updated_at": "2026-10-21T12:19:06.756778Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000013",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": "/uploads/avatars/c22fd6f9-94f7-4012-bb0c-b793a0d8be69.png",
+                "is_verified": false
+            },
+            "content": "Macro lens world is incredible #photography #nature",
+            "image_url": "/uploads/images/sample4.jpg",
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 1,
+            "reposts_count": 0,
+            "hashtags": [
+                {
+                    "id": "30000000-0000-0000-0000-000000000002",
+                    "name": "photography",
+                    "posts_count": 4
+                },
+                {
+                    "id": "30000000-0000-0000-0000-000000000008",
+                    "name": "nature",
+                    "posts_count": 3
+                }
+            ],
+            "created_at": "2026-10-17T12:18:23.798617Z",
+            "updated_at": "2026-10-21T12:19:05.112714Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000012",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": "/uploads/avatars/c22fd6f9-94f7-4012-bb0c-b793a0d8be69.png",
+                "is_verified": false
+            },
+            "content": "New camera arrived! Can't wait to test it \ud83d\udcf7",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [],
+            "created_at": "2026-10-13T12:18:23.798617Z",
+            "updated_at": "2026-10-21T12:19:06.321768Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000011",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": "/uploads/avatars/c22fd6f9-94f7-4012-bb0c-b793a0d8be69.png",
+                "is_verified": false
+            },
+            "content": "Street photography is underrated #photography",
+            "image_url": "/uploads/images/sample3.jpg",
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "reposts_count": 0,
+            "hashtags": [
+                {
+                    "id": "30000000-0000-0000-0000-000000000002",
+                    "name": "photography",
+                    "posts_count": 4
+                }
+            ],
+            "created_at": "2026-10-03T12:18:23.798617Z",
+            "updated_at": "2026-10-21T12:19:05.627286Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000010",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": "/uploads/avatars/c22fd6f9-94f7-4012-bb0c-b793a0d8be69.png",
+                "is_verified": false
+            },
+            "content": "Mountain sunrise this morning \ud83c\udfd4\ufe0f #photography #nature",
+            "image_url": "/uploads/images/sample2.jpg",
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 2,
+            "comments_count": 2,
+            "reposts_count": 0,
+            "hashtags": [
+                {
+                    "id": "30000000-0000-0000-0000-000000000002",
+                    "name": "photography",
+                    "posts_count": 4
+                },
+                {
+                    "id": "30000000-0000-0000-0000-000000000008",
+                    "name": "nature",
+                    "posts_count": 3
+                }
+            ],
+            "created_at": "2026-09-29T12:18:23.798617Z",
+            "updated_at": "2026-10-21T12:19:05.910062Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        },
+        {
+            "id": "10000000-0000-0000-0000-000000000009",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": "/uploads/avatars/c22fd6f9-94f7-4012-bb0c-b793a0d8be69.png",
+                "is_verified": false
+            },
+            "content": "Golden hour magic \u2728 #photography #nature",
+            "image_url": "/uploads/images/sample1.jpg",
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 3,
+            "comments_count": 1,
+            "reposts_count": 0,
+            "hashtags": [
+                {
+                    "id": "30000000-0000-0000-0000-000000000002",
+                    "name": "photography",
+                    "posts_count": 4
+                },
+                {
+                    "id": "30000000-0000-0000-0000-000000000008",
+                    "name": "nature",
+                    "posts_count": 3
+                }
+            ],
+            "created_at": "2026-09-23T12:18:23.798617Z",
+            "updated_at": "2026-10-21T12:19:05.750737Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        }
+    ],
+    "total": 7,
+    "page": 1,
+    "per_page": 10,
+    "pages": 1
+}

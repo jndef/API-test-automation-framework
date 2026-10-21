@@ -1,0 +1,19 @@
+{
+    "id": "1e4cd7fc-1170-422f-be02-e220c12b7136",
+    "post_id": "10000000-0000-0000-0000-000000000011",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Home school simple.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:05.590137Z",
+    "updated_at": "2026-10-21T12:19:05.590139Z",
+    "is_liked": false,
+    "replies_count": 0
+}

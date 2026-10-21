@@ -1,0 +1,19 @@
+{
+    "id": "80af094c-d24b-4f2d-8788-e2b413e95a16",
+    "post_id": "10000000-0000-0000-0000-000000000005",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Already today become.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:04.693477Z",
+    "updated_at": "2026-10-21T12:19:04.693479Z",
+    "is_liked": false,
+    "replies_count": 0
+}

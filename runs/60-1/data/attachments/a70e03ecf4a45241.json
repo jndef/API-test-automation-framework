@@ -1,0 +1,45 @@
+{
+    "items": [
+        {
+            "id": "10000000-0000-0000-0000-000000000020",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000001",
+                "username": "admin",
+                "display_name": "Admin",
+                "avatar_url": "/uploads/avatars/6d8f3572-7843-4145-ac54-bec7e3c0daf2.jpg",
+                "is_verified": true
+            },
+            "content": "Welcome to BuzzHive! \ud83d\udc1d This is a QA sandbox \u2014 feel free to test everything! #buzzhive #hello",
+            "image_url": null,
+            "is_pinned": true,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 3,
+            "comments_count": 3,
+            "reposts_count": 0,
+            "hashtags": [
+                {
+                    "id": "30000000-0000-0000-0000-000000000005",
+                    "name": "buzzhive",
+                    "posts_count": 5
+                },
+                {
+                    "id": "30000000-0000-0000-0000-000000000010",
+                    "name": "hello",
+                    "posts_count": 2
+                }
+            ],
+            "created_at": "2026-07-24T12:18:23.798617Z",
+            "updated_at": "2026-10-21T12:18:25.803815Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        }
+    ],
+    "total": 3,
+    "page": 1,
+    "per_page": 1,
+    "pages": 3
+}

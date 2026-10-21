@@ -1,0 +1,26 @@
+{
+    "id": "61c46e9a-02d3-4739-a913-d67f0c0d012d",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Song always wear open computer want myself.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:19:07.618566Z",
+    "updated_at": "2026-10-21T12:19:07.618569Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

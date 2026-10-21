@@ -1,0 +1,20 @@
+{
+    "id": "00000000-0000-0000-0000-000000000007",
+    "email": "eve@buzzhive.com",
+    "username": "eve_new",
+    "display_name": "Eve Newbie",
+    "bio": "Just joined! Excited to be here \ud83c\udf89",
+    "avatar_url": "/uploads/avatars/650f1355-bb15-40d9-8211-cdefa7516804.jpg",
+    "cover_url": null,
+    "role": "user",
+    "is_active": true,
+    "is_verified": false,
+    "is_private": false,
+    "created_at": "2026-10-19T12:18:23.798617Z",
+    "updated_at": "2026-10-21T12:19:08.474218Z",
+    "followers_count": 0,
+    "following_count": 0,
+    "posts_count": 0,
+    "is_following": false,
+    "is_followed_by": false
+}
