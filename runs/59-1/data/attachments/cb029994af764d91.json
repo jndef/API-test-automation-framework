@@ -1,0 +1,45 @@
+{
+    "items": [
+        {
+            "id": "10000000-0000-0000-0000-000000000008",
+            "author": {
+                "id": "00000000-0000-0000-0000-000000000003",
+                "username": "alice_dev",
+                "display_name": "Alice Developer",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "content": "Test automation tip: always use data-testid attributes for stable selectors! #testing #automation",
+            "image_url": null,
+            "is_pinned": false,
+            "is_deleted": false,
+            "parent_id": null,
+            "repost_type": null,
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 1,
+            "reposts_count": 0,
+            "hashtags": [
+                {
+                    "id": "30000000-0000-0000-0000-000000000003",
+                    "name": "testing",
+                    "posts_count": 2
+                },
+                {
+                    "id": "30000000-0000-0000-0000-000000000004",
+                    "name": "automation",
+                    "posts_count": 2
+                }
+            ],
+            "created_at": "2026-10-20T12:10:37.848437Z",
+            "updated_at": "2026-10-21T12:11:09.043118Z",
+            "is_liked": false,
+            "is_bookmarked": false,
+            "user_reaction": null
+        }
+    ],
+    "total": 9,
+    "page": 1,
+    "per_page": 1,
+    "pages": 9
+}

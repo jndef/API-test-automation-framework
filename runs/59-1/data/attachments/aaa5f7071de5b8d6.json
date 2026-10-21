@@ -1,0 +1,26 @@
+{
+    "id": "ba215d7c-100d-4eff-ab7d-13b51634bb36",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Specific conference call stage.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:11:06.838487Z",
+    "updated_at": "2026-10-21T12:11:06.838489Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

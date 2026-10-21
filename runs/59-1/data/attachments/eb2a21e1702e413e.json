@@ -1,0 +1,26 @@
+{
+    "id": "73cdd51e-a399-48be-9e04-5e786644695f",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Center rich bar.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:11:08.016715Z",
+    "updated_at": "2026-10-21T12:11:08.016717Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

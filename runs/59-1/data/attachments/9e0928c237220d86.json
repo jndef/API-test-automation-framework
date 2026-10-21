@@ -1,0 +1,19 @@
+{
+    "id": "ee796593-2b00-4eb0-85f4-ff60f44ffc78",
+    "post_id": "10000000-0000-0000-0000-000000000002",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Pay camera decision.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:11:08.615589Z",
+    "updated_at": "2026-10-21T12:11:08.615590Z",
+    "is_liked": false,
+    "replies_count": 0
+}

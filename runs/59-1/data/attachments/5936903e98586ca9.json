@@ -1,0 +1,26 @@
+{
+    "id": "db4b4cfb-98d5-4af3-a372-8084f3752f46",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "username": "moderator",
+        "display_name": "Moderator",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "If different dream morning Congress month.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:11:09.695110Z",
+    "updated_at": "2026-10-21T12:11:09.695112Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

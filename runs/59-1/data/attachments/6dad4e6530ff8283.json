@@ -1,0 +1,26 @@
+{
+    "id": "2bd69ccc-e975-446c-a34e-988d978c02b7",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Hold Congress organization view employee house.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:11:10.298234Z",
+    "updated_at": "2026-10-21T12:11:10.298237Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

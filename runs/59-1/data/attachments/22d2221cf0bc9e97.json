@@ -1,0 +1,26 @@
+{
+    "id": "ff43b7f8-d85c-4674-83c0-81014d42780e",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Newspaper share they race describe produce air.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:11:09.881226Z",
+    "updated_at": "2026-10-21T12:11:09.881228Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

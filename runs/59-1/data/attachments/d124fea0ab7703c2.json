@@ -1,0 +1,19 @@
+{
+    "id": "3c079dee-6c10-4004-abe8-5ffe1fef309f",
+    "post_id": "10000000-0000-0000-0000-000000000002",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Life trip staff drop.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:11:08.569153Z",
+    "updated_at": "2026-10-21T12:11:08.569154Z",
+    "is_liked": false,
+    "replies_count": 0
+}
