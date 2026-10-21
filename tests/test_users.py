@@ -20,6 +20,9 @@ class TestUsers(BaseTest):
 
     @allure.story("User can see existed users")
     @allure.title("Get List Users - with params ({case.params})")
+    @pytest.mark.smoke
+    @pytest.mark.positive
+
     @pytest.mark.parametrize("case", [
         pytest.param(GetUsersParamsByRoleTestCase(role="user_bob",
                                             params=GetUsersParams(page=1, per_page=1, search="eve", sort_by="username", sort_order="desc")), id="123"),
@@ -36,7 +39,6 @@ class TestUsers(BaseTest):
         pytest.param(GetUsersParamsByRoleTestCase(role="user_bob",
                                             params=GetUsersParams(page=1, search="eve",  per_page=1, sort_by="display_name", sort_order="asc")))
     ])
-    @pytest.mark.smoke
     def test_get_users(self, case):
         user_service = self.get_actor(case.role).users_api
         user_service.get_list_users(params=case.params)
@@ -48,6 +50,9 @@ class TestUsers(BaseTest):
 
     @allure.story("User can see existed users")
     @allure.title("Get List Users - with invalid params ({case.params})")
+    @pytest.mark.regression
+    @pytest.mark.negative
+
     @pytest.mark.parametrize("case", [
         pytest.param(GetUsersParamsByRoleTestCase(role="user_bob",
                                             params=GetUsersParams(page=0)), id="Page, below allowed minimum"),
@@ -77,6 +82,8 @@ class TestUsers(BaseTest):
     @allure.title("Get user suggestions as - {case}")
 
     @allure.description("Return up to 5 active users that the current user does not follow yet.")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param("admin", id="get suggestions as admin"),
         pytest.param("user_bob", id="get suggestions as user"),
@@ -93,6 +100,9 @@ class TestUsers(BaseTest):
     @allure.sub_suite("Get user profile")
 
     @allure.title("Get user profile with provided username: {username}")
+    @pytest.mark.smoke
+    @pytest.mark.positive
+
     @pytest.mark.parametrize("username", ["admin", "dave_quiet", "bob_photo"])
     def test_get_user_profile(self, username):
         user_service = self.get_actor("user_eve").users_api
@@ -102,8 +112,9 @@ class TestUsers(BaseTest):
     @allure.feature("Get user profile")
     @allure.suite("Get user profile")
     @allure.sub_suite("Get user profile")
-
     @allure.title("Get user profile with provided incorrect username:")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case_role, username", [
         pytest.param("user_bob","", id="Empty string"),
         pytest.param("user_bob","A"*1000, id="Too long user_name"),
@@ -117,8 +128,9 @@ class TestUsers(BaseTest):
     @allure.feature("Update user profile")
     @allure.suite("Update user profile")
     @allure.sub_suite("Update user profile")
-
     @allure.title("Update me using payload ({case.payload})")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(UpdateMePayloadByRoleTestCase(role="user_bob",
                                             payload=UpdateMePayload(display_name="a")),
@@ -170,8 +182,9 @@ class TestUsers(BaseTest):
     @allure.feature("Upload Avatar")
     @allure.suite("Upload Avatar")
     @allure.sub_suite("Upload Avatar")
-
     @allure.title("Upload Avatar")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(UpdateAvatarByRoleTestCase(role="admin", file=UpdateAvatarFilePayload(file_name="image.jpg")),
                      id="Upload image, allowed - jpg"),
@@ -208,8 +221,9 @@ class TestUsers(BaseTest):
     @allure.feature("Upload Avatar")
     @allure.suite("Upload Avatar")
     @allure.sub_suite("Upload Avatar")
-
     @allure.title("Upload Avatar, incorrect file")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(UpdateAvatarByRoleTestCase(role="admin", file=UpdateAvatarFilePayload(file_name="test.txt")),
                      id="Upload image, not allowed - txt"),
@@ -232,8 +246,9 @@ class TestUsers(BaseTest):
     @allure.feature("Delete  avatar")
     @allure.suite("Delete Avatar")
     @allure.sub_suite("Delete Avatar")
-
     @allure.title("Delete existed avatar")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", ["user_bob"])
     def test_delete_avatar(self, case, add_avatar_to_profile):
         # Precondition - add avatar
@@ -253,8 +268,9 @@ class TestUsers(BaseTest):
     @allure.feature("Delete  avatar")
     @allure.suite("Delete Avatar")
     @allure.sub_suite("Delete Avatar")
-
     @allure.title("Delete avatar - no avatar before")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", ["user_bob"])
     def test_delete_avatar(self, case, add_avatar_to_profile):
         # Precondition - add avatar
@@ -276,6 +292,8 @@ class TestUsers(BaseTest):
     @allure.suite("Get users post")
     @allure.sub_suite("Get users post")
     @allure.title("Get users post - with params ({case.params})")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(GetUserPostsParamsByRoleTestCase(role="user_bob", requested_user="admin",
                                             params=GetUserPostsParams(page=1, per_page=1)), id="per_page, min allowed value"),
@@ -297,6 +315,8 @@ class TestUsers(BaseTest):
     @allure.sub_suite("Get users post")
 
     @allure.title("Get users post - with invalid params ({case.params})")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(GetUserPostsParamsByRoleTestCase(role="user_bob",params=GetUserPostsParams(page=0, per_page=10)),
                      id="page, below min allowed value"),
@@ -319,8 +339,9 @@ class TestUsers(BaseTest):
     @allure.feature("Get users post")
     @allure.suite("Get users post")
     @allure.sub_suite("Get users post")
-
     @allure.title("Get users post - not existed user_name ({case.params})")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(GetUserPostsParamsByRoleTestCase(role="user_bob", requested_user="testtesttest", params=GetUserPostsParams(page=1, per_page=10)),
                      id="request post of user with not existed user_name"),
@@ -333,8 +354,10 @@ class TestUsers(BaseTest):
     @allure.feature("Get user followers")
     @allure.suite("Get user followers")
     @allure.sub_suite("Get user followers")
-
     @allure.title("Return followers of user ({case.requested_user}) with query params ({case.params})")
+    @pytest.mark.smoke
+    @pytest.mark.positive
+
     @pytest.mark.parametrize("case", [
         pytest.param(GetFollowersParamsByRoleTestCase(role="user_bob", requested_user="admin",
                                                       params=GetFollowersParams(page=1, per_page=1)),
@@ -360,6 +383,8 @@ class TestUsers(BaseTest):
     @allure.suite("Get user followers")
     @allure.sub_suite("Get user followers")
     @allure.title("Return followers with invalid params ({case.params})")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(GetFollowersParamsByRoleTestCase(role="user_bob", requested_user="admin",
                                                       params=GetFollowersParams(page=0)),
@@ -385,8 +410,9 @@ class TestUsers(BaseTest):
     @allure.feature("Get user followers")
     @allure.suite("Get user followers")
     @allure.sub_suite("Get user followers")
-
     @allure.title("Return followers list of user with unexisted user_name ({case.requested_user})")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(GetFollowersParamsByRoleTestCase(role="user_bob", requested_user="testtesttest",
                                                       params=GetFollowersParams(page=1, per_page=10)),
@@ -404,6 +430,8 @@ class TestUsers(BaseTest):
     @allure.suite("Get user following list")
     @allure.sub_suite("Get user following list")
     @allure.title("Return following list of user ({case.requested_user}) with query params ({case.params})")
+    @pytest.mark.smoke
+    @pytest.mark.positive
     @pytest.mark.parametrize("case", [
         pytest.param(GetFollowingParamsByRoleTestCase(role="user_bob", requested_user="admin",
                                                       params=GetFollowingParams(page=1, per_page=1)),
@@ -429,6 +457,8 @@ class TestUsers(BaseTest):
     @allure.sub_suite("Get user following list")
 
     @allure.title("Return following with invalid params ({case.params})")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(GetFollowingParamsByRoleTestCase(role="user_bob", requested_user="admin",
                                                       params=GetFollowingParams(page=0)),
@@ -457,6 +487,8 @@ class TestUsers(BaseTest):
     @allure.sub_suite("Get user following list")
 
     @allure.title("Return following list list of user with unexisted user_name ({case.requested_user})")
+    @pytest.mark.regression
+    @pytest.mark.negative
     @pytest.mark.parametrize("case", [
         pytest.param(GetFollowingParamsByRoleTestCase(role="user_bob", requested_user="testtesttest",
                                                       params=GetFollowingParams(page=1, per_page=10)),
