@@ -1,0 +1,19 @@
+{
+    "id": "39a63c6f-182b-4a41-a3ce-c846e5869245",
+    "post_id": "10000000-0000-0000-0000-000000000005",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Well body follow where.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T11:24:08.286717Z",
+    "updated_at": "2026-10-21T11:24:08.286719Z",
+    "is_liked": false,
+    "replies_count": 0
+}

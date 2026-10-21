@@ -1,0 +1,19 @@
+{
+    "id": "1af07bce-e6ea-4a38-9109-8241c1a9525d",
+    "post_id": "10000000-0000-0000-0000-000000000001",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "A a experience inside.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T11:24:08.587549Z",
+    "updated_at": "2026-10-21T11:24:08.587551Z",
+    "is_liked": false,
+    "replies_count": 0
+}

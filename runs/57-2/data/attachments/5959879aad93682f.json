@@ -1,0 +1,19 @@
+{
+    "id": "f637cd84-12c6-42ea-bc5d-5e98d51fe4bf",
+    "post_id": "10000000-0000-0000-0000-000000000022",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Little hospital pay.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T11:24:08.199333Z",
+    "updated_at": "2026-10-21T11:24:08.199335Z",
+    "is_liked": false,
+    "replies_count": 0
+}
