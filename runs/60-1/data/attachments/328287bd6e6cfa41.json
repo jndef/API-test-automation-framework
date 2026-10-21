@@ -1,0 +1,26 @@
+{
+    "id": "4ea1ab65-0d04-45ca-8dca-9cc42bb7b945",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Bed right probably type eat election.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:19:06.556594Z",
+    "updated_at": "2026-10-21T12:19:06.556598Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

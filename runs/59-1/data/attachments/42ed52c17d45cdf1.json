@@ -1,0 +1,19 @@
+{
+    "id": "3e3c408e-326f-4a3b-8f27-893d29baec7a",
+    "post_id": "10000000-0000-0000-0000-000000000015",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Pressure figure prepare.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:11:09.257030Z",
+    "updated_at": "2026-10-21T12:11:09.257032Z",
+    "is_liked": false,
+    "replies_count": 0
+}

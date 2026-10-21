@@ -1,0 +1,19 @@
+{
+    "id": "69ec2747-70c5-44ba-b71c-3827b9b924c3",
+    "post_id": "10000000-0000-0000-0000-000000000024",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000002",
+        "username": "moderator",
+        "display_name": "Moderator",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Nor know head growth.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:11:08.810506Z",
+    "updated_at": "2026-10-21T12:11:08.810508Z",
+    "is_liked": false,
+    "replies_count": 0
+}

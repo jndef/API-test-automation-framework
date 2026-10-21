@@ -1,0 +1,19 @@
+{
+    "id": "e2b15509-499b-461f-8af3-8491f50d0c46",
+    "post_id": "10000000-0000-0000-0000-000000000006",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Black next pretty.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:11:07.615547Z",
+    "updated_at": "2026-10-21T12:11:07.615548Z",
+    "is_liked": false,
+    "replies_count": 0
+}

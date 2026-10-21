@@ -1,0 +1,19 @@
+{
+    "id": "98d3ef55-b464-4a46-bfdc-abf7a55228b8",
+    "post_id": "46e2c9bc-b5b3-45e4-b348-ca800edb51e4",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Prepare.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:05.934638Z",
+    "updated_at": "2026-10-21T12:19:05.934640Z",
+    "is_liked": false,
+    "replies_count": 0
+}

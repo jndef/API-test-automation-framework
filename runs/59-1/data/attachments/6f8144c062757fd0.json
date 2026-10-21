@@ -1,0 +1,26 @@
+{
+    "id": "ecb954ee-39fb-4a4a-826b-c9d48f290c51",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Bit security yourself.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:11:08.114157Z",
+    "updated_at": "2026-10-21T12:11:08.114159Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

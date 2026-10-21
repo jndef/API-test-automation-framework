@@ -1,0 +1,26 @@
+{
+    "id": "7f676c25-9a01-4136-b5b3-caafd83e198e",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Join body such learn program.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:18:59.423074Z",
+    "updated_at": "2026-10-21T12:18:59.423077Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

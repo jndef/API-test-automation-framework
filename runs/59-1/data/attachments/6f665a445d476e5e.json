@@ -1,0 +1,20 @@
+{
+    "items": [
+        {
+            "id": "d86fbecf-52fc-4f20-929a-a3cb60419a07",
+            "user": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "reaction": "like",
+            "created_at": "2026-10-11T12:10:37.848437Z"
+        }
+    ],
+    "total": 6,
+    "page": 1,
+    "per_page": 1,
+    "pages": 6
+}

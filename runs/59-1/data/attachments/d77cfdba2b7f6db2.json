@@ -1,0 +1,19 @@
+{
+    "id": "fbf6c445-8185-4a9e-bb8e-b9f166746d8a",
+    "post_id": "10000000-0000-0000-0000-000000000016",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Personal stay huge.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:11:07.161027Z",
+    "updated_at": "2026-10-21T12:11:07.161029Z",
+    "is_liked": false,
+    "replies_count": 0
+}

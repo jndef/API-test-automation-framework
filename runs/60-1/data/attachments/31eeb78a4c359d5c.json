@@ -1,0 +1,19 @@
+{
+    "id": "b68dddcf-5fa3-449c-b38b-65edbc3a8429",
+    "follower": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "following": {
+        "id": "00000000-0000-0000-0000-000000000006",
+        "username": "dave_quiet",
+        "display_name": "Dave Quiet",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "status": "pending",
+    "created_at": "2026-10-21T12:19:03.362807Z"
+}

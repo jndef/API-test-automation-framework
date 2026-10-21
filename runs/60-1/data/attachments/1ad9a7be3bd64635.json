@@ -1,0 +1,19 @@
+{
+    "id": "f2ec142b-cd0d-4987-ab96-2de5841bcb4e",
+    "post_id": "10000000-0000-0000-0000-000000000025",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Goal push Republican.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:05.204196Z",
+    "updated_at": "2026-10-21T12:19:05.204199Z",
+    "is_liked": false,
+    "replies_count": 0
+}

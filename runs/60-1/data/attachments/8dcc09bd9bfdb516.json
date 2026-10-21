@@ -1,0 +1,233 @@
+{
+    "items": [
+        {
+            "id": "7db7184a-696a-4091-924e-157438bf8624",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000007",
+                "username": "eve_new",
+                "display_name": "Eve Newbie",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "like",
+            "target_type": "post",
+            "target_id": "77d5be53-af4e-4cc2-8ab1-7dd537c473f5",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:05.855635Z"
+        },
+        {
+            "id": "2266da68-f080-4eab-990e-e9bce6d83b8f",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000007",
+                "username": "eve_new",
+                "display_name": "Eve Newbie",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000010",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:05.595222Z"
+        },
+        {
+            "id": "5f835fc6-e18b-42ad-a593-f10ba74e6bea",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000001",
+                "username": "admin",
+                "display_name": "Admin",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000011",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:05.588224Z"
+        },
+        {
+            "id": "86330e6b-8fc8-436f-9e06-2942c81e54fd",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000002",
+                "username": "moderator",
+                "display_name": "Moderator",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000009",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:05.469707Z"
+        },
+        {
+            "id": "52e9238b-cef8-4f50-9194-218db55141ad",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000007",
+                "username": "eve_new",
+                "display_name": "Eve Newbie",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000013",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:04.980593Z"
+        },
+        {
+            "id": "1935fc1c-44ad-4a3c-a861-faacb9633406",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000007",
+                "username": "eve_new",
+                "display_name": "Eve Newbie",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000009",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:04.410198Z"
+        },
+        {
+            "id": "d4a634b3-e9e1-4e2d-8e2a-b7db15aecfeb",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000001",
+                "username": "admin",
+                "display_name": "Admin",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000013",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:04.311184Z"
+        },
+        {
+            "id": "ef773cf3-304a-4e3f-b5f0-14d4dec06382",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000006",
+                "username": "dave_quiet",
+                "display_name": "Dave Quiet",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "follow",
+            "target_type": null,
+            "target_id": null,
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:03.935955Z"
+        },
+        {
+            "id": "eb544204-7394-40d5-948e-a61ca2b86fa8",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000007",
+                "username": "eve_new",
+                "display_name": "Eve Newbie",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000009",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:03.475321Z"
+        },
+        {
+            "id": "44d7ed1a-8086-4db1-be10-760e7a4b3eec",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000007",
+                "username": "eve_new",
+                "display_name": "Eve Newbie",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000009",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:03.168810Z"
+        },
+        {
+            "id": "cb477ab7-d8bf-41ff-b879-9c969b8a746a",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000007",
+                "username": "eve_new",
+                "display_name": "Eve Newbie",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000013",
+            "is_read": false,
+            "created_at": "2026-10-21T12:19:01.569585Z"
+        },
+        {
+            "id": "9cfdd7d8-1c43-4d38-b4f5-696e2c1ca9c4",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000003",
+                "username": "alice_dev",
+                "display_name": "Alice Developer",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "type": "like",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000009",
+            "is_read": true,
+            "created_at": "2026-10-11T12:18:23.798617Z"
+        },
+        {
+            "id": "ab2a8b68-4688-47e2-905f-e6ae765c0143",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000005",
+                "username": "carol_writes",
+                "display_name": "Carol Writer",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "like",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000009",
+            "is_read": false,
+            "created_at": "2026-10-11T12:18:23.798617Z"
+        },
+        {
+            "id": "0a14772e-557b-4c10-a476-699081557331",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000005",
+                "username": "carol_writes",
+                "display_name": "Carol Writer",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000009",
+            "is_read": true,
+            "created_at": "2026-09-24T04:18:23.798617Z"
+        },
+        {
+            "id": "947c9cd1-3cbe-41ca-9f41-b9186b7f9698",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000003",
+                "username": "alice_dev",
+                "display_name": "Alice Developer",
+                "avatar_url": null,
+                "is_verified": true
+            },
+            "type": "comment",
+            "target_type": "post",
+            "target_id": "10000000-0000-0000-0000-000000000009",
+            "is_read": true,
+            "created_at": "2026-09-24T02:18:23.798617Z"
+        }
+    ],
+    "total": 15,
+    "page": 1,
+    "per_page": 20,
+    "pages": 1
+}

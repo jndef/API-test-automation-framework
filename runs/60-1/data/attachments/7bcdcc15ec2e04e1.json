@@ -1,0 +1,19 @@
+{
+    "id": "78b80204-8429-48b8-84b8-440ef7a06b0b",
+    "post_id": "10000000-0000-0000-0000-000000000013",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Pressure many benefit.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:04.312523Z",
+    "updated_at": "2026-10-21T12:19:04.312525Z",
+    "is_liked": false,
+    "replies_count": 0
+}

@@ -1,0 +1,19 @@
+{
+    "id": "ac51b037-b871-4971-a990-3bfb12868b01",
+    "post_id": "10000000-0000-0000-0000-000000000004",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Maybe situation book.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:11:07.779112Z",
+    "updated_at": "2026-10-21T12:11:07.779114Z",
+    "is_liked": false,
+    "replies_count": 0
+}

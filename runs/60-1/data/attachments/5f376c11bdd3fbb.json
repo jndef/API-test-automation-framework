@@ -1,0 +1,26 @@
+{
+    "id": "4a795767-daba-4556-a6cc-0d4c0d63410c",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000001",
+        "username": "admin",
+        "display_name": "Admin",
+        "avatar_url": null,
+        "is_verified": true
+    },
+    "content": "Early choose improve. But language there.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 1,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:19:04.254164Z",
+    "updated_at": "2026-10-21T12:19:04.291577Z",
+    "is_liked": true,
+    "is_bookmarked": false,
+    "user_reaction": "like"
+}

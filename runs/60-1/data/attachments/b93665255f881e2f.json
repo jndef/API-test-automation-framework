@@ -1,0 +1,25 @@
+{
+    "id": "c894d700-e4b8-48fa-9cb8-4a7ea53e66ea",
+    "is_group": false,
+    "name": "Market two.",
+    "participants": [
+        {
+            "id": "00000000-0000-0000-0000-000000000004",
+            "username": "bob_photo",
+            "display_name": "Bob Photographer",
+            "avatar_url": null,
+            "is_verified": false
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000007",
+            "username": "eve_new",
+            "display_name": "Eve Newbie",
+            "avatar_url": null,
+            "is_verified": false
+        }
+    ],
+    "last_message": null,
+    "unread_count": 0,
+    "created_at": "2026-10-21T12:19:05.184363Z",
+    "updated_at": "2026-10-21T12:19:05.184367Z"
+}

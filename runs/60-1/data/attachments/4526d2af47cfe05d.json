@@ -1,0 +1,26 @@
+{
+    "id": "6d8bfc0d-b839-4bf9-a353-6cc63561c87c",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Involve dog agree board sign realize.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:19:07.688238Z",
+    "updated_at": "2026-10-21T12:19:07.688240Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

@@ -1,0 +1,19 @@
+{
+    "id": "a642370b-e259-4227-9e97-3b51984bb0a3",
+    "post_id": "10000000-0000-0000-0000-000000000010",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Either seat matter.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:19:05.883488Z",
+    "updated_at": "2026-10-21T12:19:05.883490Z",
+    "is_liked": false,
+    "replies_count": 0
+}

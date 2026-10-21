@@ -1,0 +1,23 @@
+{
+    "items": [
+        {
+            "id": "9c916d55-64a9-46f6-bef5-5b31bbdaa6ab",
+            "actor": {
+                "id": "00000000-0000-0000-0000-000000000004",
+                "username": "bob_photo",
+                "display_name": "Bob Photographer",
+                "avatar_url": null,
+                "is_verified": false
+            },
+            "type": "follow",
+            "target_type": null,
+            "target_id": null,
+            "is_read": true,
+            "created_at": "2026-10-21T12:19:06.300030Z"
+        }
+    ],
+    "total": 1,
+    "page": 1,
+    "per_page": 20,
+    "pages": 1
+}

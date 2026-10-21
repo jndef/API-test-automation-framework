@@ -1,0 +1,26 @@
+{
+    "id": "de53298b-4e44-4a09-975d-0dc33c17daeb",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Wife already task be.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:19:07.151601Z",
+    "updated_at": "2026-10-21T12:19:07.151605Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

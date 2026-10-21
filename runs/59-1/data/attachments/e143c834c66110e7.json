@@ -1,0 +1,19 @@
+{
+    "id": "bc01ff2b-b9b8-45eb-b5c0-52d087229e68",
+    "post_id": "09b992fb-9c24-437f-808c-c52161724295",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "A",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:11:06.816347Z",
+    "updated_at": "2026-10-21T12:11:06.816349Z",
+    "is_liked": false,
+    "replies_count": 0
+}

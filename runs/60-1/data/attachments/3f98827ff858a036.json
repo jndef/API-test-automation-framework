@@ -1,0 +1,26 @@
+{
+    "id": "6905f3ad-a8dd-4213-896f-5f9c7c5b89e3",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Require store key behavior spring prove author.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:19:07.406439Z",
+    "updated_at": "2026-10-21T12:19:07.406442Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

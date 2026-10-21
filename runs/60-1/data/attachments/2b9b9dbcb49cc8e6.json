@@ -1,0 +1,15 @@
+{
+    "id": "5cf8e7e0-bd19-4cd3-bb3d-ae560e235b3d",
+    "conversation_id": "c6dfe305-d841-4702-9f78-890255cb2af7",
+    "sender": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Message",
+    "image_url": "/uploads/images/e890c056-98fb-4a3a-89eb-5c80524e03bf.jpg",
+    "is_deleted": false,
+    "created_at": "2026-10-21T12:19:05.722164Z"
+}

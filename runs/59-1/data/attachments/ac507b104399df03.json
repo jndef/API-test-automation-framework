@@ -1,0 +1,19 @@
+{
+    "id": "19db045c-d7b8-4a26-8f3c-644c00f2e5f8",
+    "post_id": "10000000-0000-0000-0000-000000000025",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Heavy pull watch.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T12:11:07.503888Z",
+    "updated_at": "2026-10-21T12:11:07.503890Z",
+    "is_liked": false,
+    "replies_count": 0
+}

@@ -1,0 +1,196 @@
+{
+    "items": [
+        {
+            "id": "ea36345a-f420-45cb-9917-187800a377f5",
+            "is_group": false,
+            "name": null,
+            "participants": [
+                {
+                    "id": "00000000-0000-0000-0000-000000000001",
+                    "username": "admin",
+                    "display_name": "Admin",
+                    "avatar_url": null,
+                    "is_verified": true
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000004",
+                    "username": "bob_photo",
+                    "display_name": "Bob Photographer",
+                    "avatar_url": null,
+                    "is_verified": false
+                }
+            ],
+            "last_message": {
+                "id": "6de35766-71c8-4703-9a1c-bbd19851edf9",
+                "conversation_id": "ea36345a-f420-45cb-9917-187800a377f5",
+                "sender": {
+                    "id": "00000000-0000-0000-0000-000000000001",
+                    "username": "admin",
+                    "display_name": "Admin",
+                    "avatar_url": null,
+                    "is_verified": true
+                },
+                "content": "Bed base center.",
+                "image_url": null,
+                "is_deleted": false,
+                "created_at": "2026-10-21T12:19:06.752382Z"
+            },
+            "unread_count": 0,
+            "created_at": "2026-10-21T12:19:05.445160Z",
+            "updated_at": "2026-10-21T12:19:06.750750Z"
+        },
+        {
+            "id": "b5da8ff1-770d-48ad-8758-fd0fc4957e0d",
+            "is_group": false,
+            "name": null,
+            "participants": [
+                {
+                    "id": "00000000-0000-0000-0000-000000000002",
+                    "username": "moderator",
+                    "display_name": "Moderator",
+                    "avatar_url": null,
+                    "is_verified": true
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000004",
+                    "username": "bob_photo",
+                    "display_name": "Bob Photographer",
+                    "avatar_url": null,
+                    "is_verified": false
+                }
+            ],
+            "last_message": null,
+            "unread_count": 0,
+            "created_at": "2026-10-21T12:19:06.344333Z",
+            "updated_at": "2026-10-21T12:19:06.366355Z"
+        },
+        {
+            "id": "c6dfe305-d841-4702-9f78-890255cb2af7",
+            "is_group": false,
+            "name": null,
+            "participants": [
+                {
+                    "id": "00000000-0000-0000-0000-000000000007",
+                    "username": "eve_new",
+                    "display_name": "Eve Newbie",
+                    "avatar_url": null,
+                    "is_verified": false
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000004",
+                    "username": "bob_photo",
+                    "display_name": "Bob Photographer",
+                    "avatar_url": null,
+                    "is_verified": false
+                }
+            ],
+            "last_message": {
+                "id": "24c03190-e46f-4a29-ac9a-0539b193a00f",
+                "conversation_id": "c6dfe305-d841-4702-9f78-890255cb2af7",
+                "sender": {
+                    "id": "00000000-0000-0000-0000-000000000007",
+                    "username": "eve_new",
+                    "display_name": "Eve Newbie",
+                    "avatar_url": null,
+                    "is_verified": false
+                },
+                "content": "Message",
+                "image_url": "//",
+                "is_deleted": false,
+                "created_at": "2026-10-21T12:19:06.058661Z"
+            },
+            "unread_count": 1,
+            "created_at": "2026-10-21T12:19:05.590494Z",
+            "updated_at": "2026-10-21T12:19:06.199647Z"
+        },
+        {
+            "id": "40000000-0000-0000-0000-000000000001",
+            "is_group": false,
+            "name": null,
+            "participants": [
+                {
+                    "id": "00000000-0000-0000-0000-000000000003",
+                    "username": "alice_dev",
+                    "display_name": "Alice Developer",
+                    "avatar_url": null,
+                    "is_verified": true
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000004",
+                    "username": "bob_photo",
+                    "display_name": "Bob Photographer",
+                    "avatar_url": null,
+                    "is_verified": false
+                }
+            ],
+            "last_message": {
+                "id": "ac1a74e6-07c6-4404-b21c-9fd4210085b1",
+                "conversation_id": "40000000-0000-0000-0000-000000000001",
+                "sender": {
+                    "id": "00000000-0000-0000-0000-000000000003",
+                    "username": "alice_dev",
+                    "display_name": "Alice Developer",
+                    "avatar_url": null,
+                    "is_verified": true
+                },
+                "content": "And 800x400 for blog headers",
+                "image_url": null,
+                "is_deleted": false,
+                "created_at": "2026-10-21T10:18:23.798617Z"
+            },
+            "unread_count": 1,
+            "created_at": "2026-10-01T12:18:23.798617Z",
+            "updated_at": "2026-10-21T10:18:23.798617Z"
+        },
+        {
+            "id": "40000000-0000-0000-0000-000000000003",
+            "is_group": true,
+            "name": "Tech Squad \ud83d\ude80",
+            "participants": [
+                {
+                    "id": "00000000-0000-0000-0000-000000000003",
+                    "username": "alice_dev",
+                    "display_name": "Alice Developer",
+                    "avatar_url": null,
+                    "is_verified": true
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000004",
+                    "username": "bob_photo",
+                    "display_name": "Bob Photographer",
+                    "avatar_url": null,
+                    "is_verified": false
+                },
+                {
+                    "id": "00000000-0000-0000-0000-000000000005",
+                    "username": "carol_writes",
+                    "display_name": "Carol Writer",
+                    "avatar_url": null,
+                    "is_verified": false
+                }
+            ],
+            "last_message": {
+                "id": "6b2b15fa-1592-4406-903f-0c0738903af8",
+                "conversation_id": "40000000-0000-0000-0000-000000000003",
+                "sender": {
+                    "id": "00000000-0000-0000-0000-000000000004",
+                    "username": "bob_photo",
+                    "display_name": "Bob Photographer",
+                    "avatar_url": null,
+                    "is_verified": false
+                },
+                "content": "Works for me! \ud83d\udc4d",
+                "image_url": null,
+                "is_deleted": false,
+                "created_at": "2026-10-20T12:18:23.798617Z"
+            },
+            "unread_count": 5,
+            "created_at": "2026-10-11T12:18:23.798617Z",
+            "updated_at": "2026-10-20T12:18:23.798617Z"
+        }
+    ],
+    "total": 5,
+    "page": 1,
+    "per_page": 20,
+    "pages": 1
+}

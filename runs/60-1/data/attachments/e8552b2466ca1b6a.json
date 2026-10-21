@@ -1,0 +1,26 @@
+{
+    "id": "53a029d6-a6f4-4f00-8ad7-4fc73f0080c9",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Natural other wear.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:19:01.832246Z",
+    "updated_at": "2026-10-21T12:19:01.832250Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}

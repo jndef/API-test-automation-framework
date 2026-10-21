@@ -1,0 +1,26 @@
+{
+    "id": "a4e5abb5-b415-423a-8d1e-1378fc85886c",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000004",
+        "username": "bob_photo",
+        "display_name": "Bob Photographer",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Cut nation leg after television bar body about.",
+    "image_url": null,
+    "is_pinned": false,
+    "is_deleted": false,
+    "parent_id": null,
+    "repost_type": null,
+    "visibility": "public",
+    "likes_count": 0,
+    "comments_count": 0,
+    "reposts_count": 0,
+    "hashtags": [],
+    "created_at": "2026-10-21T12:11:10.070756Z",
+    "updated_at": "2026-10-21T12:11:10.070758Z",
+    "is_liked": false,
+    "is_bookmarked": false,
+    "user_reaction": null
+}
