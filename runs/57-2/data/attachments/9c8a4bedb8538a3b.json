@@ -1,0 +1,19 @@
+{
+    "id": "e82f02f3-d506-4a62-b9c5-a9e312adf8ea",
+    "post_id": "10000000-0000-0000-0000-000000000007",
+    "author": {
+        "id": "00000000-0000-0000-0000-000000000007",
+        "username": "eve_new",
+        "display_name": "Eve Newbie",
+        "avatar_url": null,
+        "is_verified": false
+    },
+    "content": "Rise manager city maybe.",
+    "parent_comment_id": null,
+    "is_deleted": false,
+    "likes_count": 0,
+    "created_at": "2026-10-21T11:24:08.490572Z",
+    "updated_at": "2026-10-21T11:24:08.490574Z",
+    "is_liked": false,
+    "replies_count": 0
+}

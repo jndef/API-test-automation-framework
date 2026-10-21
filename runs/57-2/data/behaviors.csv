@@ -1,0 +1,7 @@
+"BROKEN","EPIC","FAILED","FEATURE","PASSED","SKIPPED","STORY","UNKNOWN"
+"0","Comments Service","0","Update existed comment","2","0","User can update existed comment","0"
+"0","Comments Service","0","Delete existed comment","1","0","User can remove existed comment","0"
+"0","Comments Service","0","Get comments","4","0","User can read existed comments to post","0"
+"0","Comments Service","0","Get replies list","3","0","User can read existed replies to comment","0"
+"0","Comments Service","0","Create reply to comment","2","0","User can create a reply to existed comment","0"
+"0","Comments Service","0","Create new comment","2","0","User can create new comment to the post","0"
