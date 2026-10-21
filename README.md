@@ -73,10 +73,22 @@ Runs the suite in a container against `STAGE`/`SUITE`/`THREADS` from `.env`. Gen
 docker-compose up report
 ```
 
-### CI
-`.github/workflows/tests.yml` runs the suite on demand (`workflow_dispatch`) with a
-selectable marker and thread count, and publishes the Allure report to GitHub Pages
-with history preserved across runs.
+### CI & Test Reporting
+
+`.github/workflows/tests.yml` runs on demand via `workflow_dispatch`, with configurable test selection and parallel execution.
+
+- **`SUITE`** — `all`, `smoke` or `regression`.
+- **`SERVICES`** — `all` or comma-separated service markers, e.g. `posts,users`.
+- **`TAGS`** — `all` or comma-separated tags, e.g. `negative,moderation`.
+- **`THREADS`** — 1, 3, or 5 pytest-xdist workers.
+- **`STAGE`** — target GitHub Environment.
+
+Filters are combined with `AND` across categories and `OR` within `SERVICES` and `TAGS`.
+
+The workflow starts the application with Docker Compose, runs the selected API tests, generates an Allure report, preserves trend history, and publishes the report to GitHub Pages. Raw test results are retained as GitHub Actions artifacts for 7 days.
+
+**[View the live Allure report](https://jndef.github.io/API-test-automation-framework/)**
+
 
 ## Features
 - Multi-role service factory with per-role token caching

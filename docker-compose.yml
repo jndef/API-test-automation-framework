@@ -5,10 +5,6 @@ services:
       build:
         context: .  # текущая директория
         dockerfile: Dockerfile # указание докер файла, на котором создастся образ
-        cache_from:
-          - "type=gha,scope=api-v1"
-        cache_to:
-          - "type=gha,scope=api-v1,mode=max"
 
       environment:
           STAGE: ${STAGE:-local_docker} # внутри контейнера переменная окружения будет приниматься извне
